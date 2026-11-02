@@ -1,83 +1,463 @@
 {
-  "fl_min_wage": {"now": 15.00, "since": "September 30, 2026", "url": "https://www.floridajobs.org/business-growth-and-partnerships/for-employers/display-posters-and-required-notices"},
-  "wages": {
-    "maids": {"label": "Maids and housekeeping cleaners", "area": "Orlando-Kissimmee-Sanford metro area", "median": 16.90, "mean": 17.84, "emp": 17810, "period": "May 2025", "url": "https://www.bls.gov/oes/current/oes_36740.htm"},
-    "childcare": {"label": "Childcare workers", "area": "Orlando-Kissimmee-Sanford metro area", "median": 15.00, "mean": 15.81, "emp": 3380, "period": "May 2025", "url": "https://www.bls.gov/oes/current/oes_36740.htm"},
-    "animal": {"label": "Animal caretakers", "area": "Orlando-Kissimmee-Sanford metro area", "median": 16.74, "mean": 17.67, "emp": 3020, "period": "May 2025", "url": "https://www.bls.gov/oes/current/oes_36740.htm"},
-    "cook": {"label": "Private household cooks", "area": "state of Florida", "median": 17.43, "mean": null, "emp": null, "period": "May 2025", "url": "https://www.bls.gov/oes/current/oes352012.htm"}
+ "fl_min_wage": {
+  "now": 15.0,
+  "since": "September 30, 2026",
+  "url": "https://www.floridajobs.org/business-growth-and-partnerships/for-employers/display-posters-and-required-notices"
+ },
+ "wages": {
+  "maids": {
+   "label": "Maids and housekeeping cleaners",
+   "area": "Orlando-Kissimmee-Sanford metro area",
+   "median": 16.9,
+   "mean": 17.84,
+   "emp": 17810,
+   "period": "May 2025",
+   "url": "https://www.bls.gov/oes/current/oes_36740.htm"
   },
-  "market": {
-    "babysitter": {"lo": 18.78, "hi": 27.63, "asof": "November 2026", "url": "https://www.care.com/cost/babysitters/orlando-fl"},
-    "nanny": {"lo": 20.79, "hi": 26.36, "asof": "November 2026", "url": "https://www.care.com/cost/nannies/orlando-fl"},
-    "housekeeping": {"lo": 19.69, "hi": 26.17, "asof": "November 2026", "url": "https://www.care.com/cost/housekeeping/orlando-fl"},
-    "cleaning": {"lo": 20.25, "hi": 25.07, "asof": "November 2026", "url": "https://www.care.com/cost/house-cleaning/orlando-fl"},
-    "pet": {"lo": 16.37, "hi": 21.83, "asof": "November 2026", "url": "https://www.care.com/cost/pet-sitters/orlando-fl"}
+  "childcare": {
+   "label": "Childcare workers",
+   "area": "Orlando-Kissimmee-Sanford metro area",
+   "median": 15.0,
+   "mean": 15.81,
+   "emp": 3380,
+   "period": "May 2025",
+   "url": "https://www.bls.gov/oes/current/oes_36740.htm"
   },
-  "categories": [
-    {"slug": "housekeeper", "label": "Housekeeper", "bls": "maids", "market": "housekeeping",
-     "intro": "Find a reliable housekeeper in {city} for regular cleaning, laundry and keeping your home running. Post your job for free and hire directly.",
-     "cities": [{"slug": "orlando", "name": "Orlando"}],
-     "duties": ["Regular cleaning of the whole home: kitchen, bathrooms, bedrooms, floors", "Laundry, ironing and changing bed linens", "Tidying and organizing", "Some families also ask for grocery runs or simple meal prep — agree on this upfront"],
-     "ask": ["Which days and hours you need, and whether it's live-out or live-in", "Experience with homes like yours (size, pets, children)", "References from other families you can call", "Which cleaning products they prefer, and who buys them", "How they want to be paid and how often"],
-     "legal": "A housekeeper who works in your home on a schedule you set is usually your household employee. In 2026, if you pay one household employee $3,000 or more in cash wages in the year, you owe Social Security and Medicare taxes (IRS Publication 926). Florida has no state income tax.",
-     "faq": [["Is a housekeeper the same as a house cleaner?", "Not quite. A house cleaner usually comes for a few hours to clean, often every week or two. A housekeeper typically works more regular hours and may also handle laundry, organizing and errands."], ["Do I need to pay at least minimum wage?", "If the housekeeper is your employee, yes: the Florida minimum wage is $15.00/hour since September 30, 2026."]],
-     "families_want": ["Reliability: showing up on the agreed days and times", "Attention to detail in kitchens and bathrooms", "References from other families", "Respect for the family's routine and privacy", "Bilingual professionals are a plus for many Orlando families"]},
-    {"slug": "house-cleaner", "label": "House Cleaner", "bls": "maids", "market": "cleaning",
-     "intro": "Find an independent house cleaner in {city} for weekly, biweekly or one-time cleanings. Post your job for free and hire directly, without a cleaning company's markup.",
-     "cities": [{"slug": "orlando", "name": "Orlando"},
-                {"slug": "kissimmee", "name": "Kissimmee", "note": "Kissimmee, in Osceola County just south of Orlando, has one of the area's largest communities of Spanish- and Portuguese-speaking professionals — a good fit if you want a bilingual cleaner."},
-                {"slug": "clermont", "name": "Clermont", "note": "Clermont, in Lake County west of Orlando, has many growing family neighborhoods; independent cleaners from Orlando and Winter Garden often serve the area."},
-                {"slug": "winter-garden", "name": "Winter Garden", "note": "Winter Garden, in west Orange County, sits between Orlando and Clermont, close to Windermere and Horizon West, where many families look for regular cleaning."}],
-     "duties": ["Kitchen: counters, appliances outside and in, sink", "Bathrooms: toilets, showers, tubs, mirrors", "Dusting, vacuuming and mopping all rooms", "Changing bed linens", "Deep cleaning or move-in/move-out cleaning, if you agree on it"],
-     "ask": ["Hourly rate or flat price per visit, and how long a visit takes for a home your size", "Whether they bring their own supplies and equipment", "References from current clients", "What happens if they can't come on a scheduled day", "Whether they work independently (their own business) or for a company"],
-     "legal": "Who counts as your employee depends on control. A cleaner from a company, or an independent cleaner who runs their own business, brings their own supplies and serves the public, is generally not your household employee (IRS Publication 926). A cleaner who works on your schedule under your direction may be.",
-     "faq": [["How often should I book a house cleaner?", "Most families book every week or every two weeks. A first visit usually takes longer because it's a deeper clean."], ["Should I hire an independent cleaner or a cleaning company?", "An independent cleaner usually costs less and you get the same person every time. A company handles insurance and replacements. On Famyle you hire independent cleaners directly."]],
-     "families_want": ["Consistency: the same quality every visit", "Punctuality and reliable communication", "Bringing their own supplies (some families prefer to provide them)", "References from other clients", "Speaking English, Spanish or Portuguese"]},
-    {"slug": "nanny", "label": "Nanny", "bls": "childcare", "market": "nanny",
-     "intro": "Find a trusted nanny in {city} for full-time or part-time childcare in your home. Post your job for free, watch each nanny's video interview and hire directly.",
-     "cities": [{"slug": "orlando", "name": "Orlando"}],
-     "duties": ["Caring for your children in your home on a regular schedule", "Meals, naps, bathing and daily routines", "School and activity pick-ups (agree on driving and car seats)", "Play, homework help and age-appropriate activities", "Light housekeeping related to the children"],
-     "ask": ["Experience with children the same age as yours", "CPR and first-aid certification", "How they handle discipline, screens and naps", "References from families they worked for", "Whether they can drive and have a clean driving record, if needed", "If you want a bilingual nanny: which language they'll speak with your children"],
-     "legal": "A nanny who works in your home on your schedule is your household employee. In 2026, if you pay them $3,000 or more in cash wages in the year, you owe Social Security and Medicare taxes and file Schedule H with your tax return (IRS Publication 926). Florida has no state income tax; Florida reemployment tax applies if you pay $1,000 or more in a calendar quarter.",
-     "faq": [["What's the difference between a nanny and a babysitter?", "A nanny works a regular, ongoing schedule (often full-time) and becomes part of your routine. A babysitter is usually occasional: evenings, weekends or a few hours."], ["Can I find a bilingual nanny in Orlando?", "Yes. 36.4% of Orlando-area residents speak a language other than English at home (Census ACS 2024), and many nannies speak Spanish or Portuguese."]],
-     "families_want": ["Experience with children of the same age", "CPR and first-aid certification", "References from previous families", "Reliability and a long-term commitment", "Speaking Spanish or Portuguese with the children"]},
-    {"slug": "babysitter", "label": "Babysitter", "bls": "childcare", "market": "babysitter",
-     "intro": "Find a babysitter in {city} for date nights, weekends, school breaks or occasional help. Post your job for free and hire directly.",
-     "cities": [{"slug": "orlando", "name": "Orlando"}],
-     "duties": ["Watching your children for a few hours", "Dinner, bath and bedtime routines", "Play and supervised activities", "Occasional school pick-up"],
-     "ask": ["Experience with children the same age as yours", "CPR and first-aid certification", "Availability on the days you usually need help", "References from other families", "How they'd handle an emergency"],
-     "legal": "Occasional babysitting can still count as household employment. In 2026 Social Security and Medicare taxes apply only if you pay one person $3,000 or more in the year, and wages paid to babysitters under 18 generally don't count unless babysitting is their main job (IRS Publication 926).",
-     "faq": [["How much should I pay a babysitter for more than one child?", "Families usually add $1–$2 per hour for each additional child. Agree on the rate before the first booking."], ["Is it safe to hire a babysitter online?", "Meet first, check references, and watch the babysitter's video interview on Famyle. Every professional verifies their ID before applying."]],
-     "families_want": ["Availability for evenings and weekends", "CPR and first-aid", "Patience and creativity with kids", "References from other families", "Being reachable and on time"]},
-    {"slug": "pet-sitter", "label": "Pet Sitter", "bls": "animal", "market": "pet",
-     "intro": "Find a pet sitter in {city} for dog walks, drop-in visits or overnight care while you travel. Post your job for free and hire directly.",
-     "cities": [{"slug": "orlando", "name": "Orlando"}],
-     "duties": ["Feeding, fresh water and medication", "Dog walks and playtime", "Litter boxes and cleanup", "Overnight stays in your home while you travel", "Sending updates and photos"],
-     "ask": ["Experience with your type of pet and its size or breed", "How many visits per day and how long each one lasts", "How they handle medications or special needs", "What they'd do in a vet emergency", "References from other pet owners"],
-     "legal": "Many pet sitters work independently and serve several clients, so they're usually not your household employee. Agree on rates, keys and emergency contacts in writing.",
-     "faq": [["Pet sitter or boarding?", "A pet sitter keeps your pet at home, in its routine, which is usually less stressful for the animal. Boarding is a facility with many animals."], ["How much is a pet sitter in Orlando?", "Care.com reports an average of $16.37 to $21.83 per hour in Orlando (November 2026). Overnight stays are usually priced per night."]],
-     "families_want": ["Love for animals and experience with the same breed or size", "Reliability: never missing a visit", "Updates and photos during visits", "Comfort giving medication if needed", "References from other pet owners"]},
-    {"slug": "cook", "label": "Private Cook", "bls": "cook", "market": null,
-     "intro": "Find a private cook in {city} to plan and prepare your family's meals at home, weekly or on a regular schedule. Post your job for free and hire directly.",
-     "cities": [{"slug": "orlando", "name": "Orlando"}],
-     "duties": ["Planning weekly menus with the family", "Grocery shopping", "Preparing meals in your kitchen, including meal prep for the week", "Following dietary needs: allergies, kids' meals, low-carb, vegetarian", "Cleaning the kitchen after cooking"],
-     "ask": ["Which cuisines they cook (Brazilian, Latin, American, other)", "Experience with your dietary needs or allergies", "Whether they shop for groceries and how they'll be reimbursed", "How many meals per visit and how many hours", "References and, ideally, a trial meal"],
-     "legal": "A cook who works in your home on your schedule is usually your household employee. In 2026 Social Security and Medicare taxes apply if you pay $3,000 or more in cash wages in the year (IRS Publication 926).",
-     "faq": [["Is a private cook expensive?", "The BLS median wage for private household cooks in Florida is $17.43/hour (May 2025); the total depends on hours, number of meals and groceries."], ["Can I find a cook for Brazilian or Latin food in Orlando?", "Yes. Many professionals in the Orlando area cook Brazilian and Latin American food."]],
-     "families_want": ["Variety and planning of healthy meals", "Respecting allergies and food preferences", "A clean, organized kitchen", "References from other families", "Cooking the family's home cuisine"]}
-  ],
-  "guides": [
-    {"slug": "nanny-cost-orlando", "title": "How Much Does a Nanny Cost in Orlando, FL? (2026)",
-     "desc": "Hourly rates for nannies and babysitters in Orlando, what drives the price, and the taxes families owe when they hire a nanny.",
-     "html": "<h2>Typical rates</h2><table><tr><th>Who</th><th>Typical rate in Orlando</th><th>Source</th></tr><tr><td>Nanny</td><td>$20.79–$26.36/hr</td><td><a href=\"https://www.care.com/cost/nannies/orlando-fl\">Care.com, Nov 2026</a></td></tr><tr><td>Babysitter</td><td>$18.78–$27.63/hr</td><td><a href=\"https://www.care.com/cost/babysitters/orlando-fl\">Care.com, Nov 2026</a></td></tr><tr><td>Childcare workers (all settings), median wage</td><td>$15.00/hr (mean $15.81)</td><td><a href=\"https://www.bls.gov/oes/current/oes_36740.htm\">BLS OEWS, May 2025</a></td></tr><tr><td>Florida minimum wage</td><td>$15.00/hr since Sep 30, 2026</td><td>Florida Constitution, Art. X §24</td></tr></table><h2>What changes the price</h2><ul><li>Number and ages of children: families usually add $1–$2/hour per extra child.</li><li>Experience, CPR/first-aid and education in early childhood.</li><li>Driving: a nanny who drives the kids usually costs more.</li><li>Languages: bilingual nannies are in demand in Orlando.</li><li>Full-time vs. occasional: full-time nannies often agree on a weekly salary.</li></ul><h2>A simple monthly estimate</h2><p>A full-time nanny at $22/hour for 40 hours a week costs about $3,800 a month before taxes ($22 × 40 × 52 ÷ 12).</p><h2>Taxes families owe</h2><p>In 2026, if you pay a nanny $3,000 or more in cash wages in the year, you withhold 7.65% (Social Security and Medicare) from their pay and pay the same 7.65% yourself. If you pay $1,000 or more in a calendar quarter, federal unemployment tax (FUTA) and Florida reemployment tax also apply. You report it all on Schedule H. Florida has no state income tax. See <a href=\"/guides/hire-household-employee-florida/\">how to hire a household employee in Florida</a>.</p><p><a class=\"btn\" href=\"/nanny/fl/orlando/\">Find a nanny in Orlando</a></p>",
-     "faq": [["How much is a full-time nanny in Orlando per month?", "About $3,600 to $4,600 a month for 40 hours a week at the typical Orlando range of $20.79–$26.36/hour (Care.com, November 2026), before employer taxes."], ["Do I have to pay taxes for my nanny in Florida?", "If you pay them $3,000 or more in 2026, yes: Social Security and Medicare (7.65% each side). Florida has no state income tax, but Florida reemployment tax applies if you pay $1,000 or more in a quarter."]]},
-    {"slug": "house-cleaning-cost-orlando", "title": "How Much Does House Cleaning Cost in Orlando, FL? (2026)",
-     "desc": "Hourly rates for house cleaners and housekeepers in Orlando, independent cleaner vs. cleaning company, and how often to book.",
-     "html": "<h2>Typical rates</h2><table><tr><th>Who</th><th>Typical rate in Orlando</th><th>Source</th></tr><tr><td>House cleaning</td><td>$20.25–$25.07/hr</td><td><a href=\"https://www.care.com/cost/house-cleaning/orlando-fl\">Care.com, Nov 2026</a></td></tr><tr><td>Housekeeping</td><td>$19.69–$26.17/hr</td><td><a href=\"https://www.care.com/cost/housekeeping/orlando-fl\">Care.com, Nov 2026</a></td></tr><tr><td>Maids and housekeeping cleaners, median wage</td><td>$16.90/hr (mean $17.84); 17,810 people employed</td><td><a href=\"https://www.bls.gov/oes/current/oes_36740.htm\">BLS OEWS, May 2025</a></td></tr></table><h2>Independent cleaner or cleaning company?</h2><ul><li><b>Independent cleaner:</b> usually costs less, and you get the same person every visit.</li><li><b>Cleaning company:</b> handles insurance and sends a replacement if someone is sick, but adds its margin and may send different people.</li></ul><h2>How long a cleaning takes</h2><p>A regular cleaning of a 3-bedroom home typically takes 3 to 4 hours; the first visit or a deep clean takes longer. At $22/hour, a 3.5-hour visit is about $77.</p><h2>Is my house cleaner my employee?</h2><p>An independent cleaner who runs their own business, brings their own supplies and serves other clients is generally not your household employee (IRS Publication 926). A cleaner who works on your schedule under your direction may be.</p><p><a class=\"btn\" href=\"/house-cleaner/fl/orlando/\">Find a house cleaner in Orlando</a></p>",
-     "faq": [["How much should I tip my house cleaner?", "Tips aren't required for a regular cleaner you hire directly; many families give a holiday bonus of about one visit's pay."], ["How often do Orlando families book a cleaner?", "Most book every week or every two weeks."]]},
-    {"slug": "hire-household-employee-florida", "title": "How to Hire a Household Employee in Florida (2026 Guide)",
-     "desc": "Nanny tax, minimum wage, Florida reemployment tax and the paperwork families need when they hire a nanny, housekeeper or cook in Florida.",
-     "html": "<h2>1. Is the worker your employee?</h2><p>If you control what work is done and how it's done, the worker is generally your household employee — a nanny or housekeeper on your schedule, for example. If the worker runs their own business, brings their own tools and offers services to the public, they're generally self-employed (IRS Publication 926).</p><h2>2. Pay at least minimum wage</h2><p>The Florida minimum wage is <b>$15.00/hour</b> since September 30, 2026, and will be adjusted for inflation every year from 2027.</p><h2>3. Federal taxes (the \"nanny tax\")</h2><ul><li><b>Social Security and Medicare:</b> if you pay one household employee <b>$3,000 or more</b> in cash wages in 2026, you withhold 6.2% + 1.45% from their pay and pay the same amount yourself.</li><li><b>FUTA:</b> if you pay <b>$1,000 or more</b> to household employees in any calendar quarter, you owe federal unemployment tax (6% on the first $7,000 per employee, usually reduced by state credit).</li><li>You report these on <b>Schedule H</b> with your Form 1040 and give the employee a <b>Form W-2</b>.</li><li>Wages paid to workers under 18 don't count for Social Security and Medicare unless household work is their main occupation.</li></ul><h2>4. Florida taxes</h2><ul><li><b>No state income tax</b> to withhold.</li><li><b>Florida reemployment tax:</b> applies if you pay <b>$1,000 or more in a calendar quarter</b> for domestic services; it's charged on the first $7,000 per employee per year, at 2.7% for new employers (Florida Department of Revenue).</li></ul><h2>5. Put it in writing</h2><p>Agree in writing on hours, duties, pay, overtime, paid time off and how either side ends the arrangement.</p><p class=\"src\">Sources: <a href=\"https://www.irs.gov/publications/p926\">IRS Publication 926 (2026)</a> · <a href=\"https://floridarevenue.com/taxes/taxesfees/Pages/reemployment.aspx\">Florida Department of Revenue — reemployment tax</a> · Florida Constitution, Art. X §24.</p>",
-     "faq": [["What is the nanny tax threshold for 2026?", "$3,000 in cash wages paid to one household employee in the year (IRS Publication 926)."], ["Do I need to withhold Florida income tax?", "No. Florida has no state income tax."]]}
-  ]
+  "animal": {
+   "label": "Animal caretakers",
+   "area": "Orlando-Kissimmee-Sanford metro area",
+   "median": 16.74,
+   "mean": 17.67,
+   "emp": 3020,
+   "period": "May 2025",
+   "url": "https://www.bls.gov/oes/current/oes_36740.htm"
+  },
+  "cook": {
+   "label": "Private household cooks",
+   "area": "state of Florida",
+   "median": 17.43,
+   "mean": null,
+   "emp": null,
+   "period": "May 2025",
+   "url": "https://www.bls.gov/oes/current/oes352012.htm"
+  }
+ },
+ "market": {
+  "babysitter": {
+   "lo": 18.78,
+   "hi": 27.63,
+   "asof": "November 2026",
+   "url": "https://www.care.com/cost/babysitters/orlando-fl"
+  },
+  "nanny": {
+   "lo": 20.79,
+   "hi": 26.36,
+   "asof": "November 2026",
+   "url": "https://www.care.com/cost/nannies/orlando-fl"
+  },
+  "housekeeping": {
+   "lo": 19.69,
+   "hi": 26.17,
+   "asof": "November 2026",
+   "url": "https://www.care.com/cost/housekeeping/orlando-fl"
+  },
+  "cleaning": {
+   "lo": 20.25,
+   "hi": 25.07,
+   "asof": "November 2026",
+   "url": "https://www.care.com/cost/house-cleaning/orlando-fl"
+  },
+  "pet": {
+   "lo": 16.37,
+   "hi": 21.83,
+   "asof": "November 2026",
+   "url": "https://www.care.com/cost/pet-sitters/orlando-fl"
+  }
+ },
+ "categories": [
+  {
+   "slug": "housekeeper",
+   "label": "Housekeeper",
+   "bls": "maids",
+   "market": "housekeeping",
+   "intro": "Find a reliable housekeeper in {city} for regular cleaning, laundry and keeping your home running. Post your job for free and hire directly.",
+   "cities": [
+    {
+     "slug": "orlando",
+     "name": "Orlando"
+    }
+   ],
+   "duties": [
+    "Regular cleaning of the whole home: kitchen, bathrooms, bedrooms, floors",
+    "Laundry, ironing and changing bed linens",
+    "Tidying and organizing",
+    "Some families also ask for grocery runs or simple meal prep — agree on this upfront"
+   ],
+   "ask": [
+    "Which days and hours you need, and whether it's live-out or live-in",
+    "Experience with homes like yours (size, pets, children)",
+    "References from other families you can call",
+    "Which cleaning products they prefer, and who buys them",
+    "How they want to be paid and how often"
+   ],
+   "legal": "A housekeeper who works in your home on a schedule you set is usually your household employee. In 2026, if you pay one household employee $3,000 or more in cash wages in the year, you owe Social Security and Medicare taxes (IRS Publication 926). Florida has no state income tax.",
+   "faq": [
+    [
+     "Is a housekeeper the same as a house cleaner?",
+     "Not quite. A house cleaner usually comes for a few hours to clean, often every week or two. A housekeeper typically works more regular hours and may also handle laundry, organizing and errands."
+    ],
+    [
+     "Do I need to pay at least minimum wage?",
+     "If the housekeeper is your employee, yes: the Florida minimum wage is $15.00/hour since September 30, 2026."
+    ]
+   ],
+   "families_want": [
+    "Reliability: showing up on the agreed days and times",
+    "Attention to detail in kitchens and bathrooms",
+    "References from other families",
+    "Respect for the family's routine and privacy",
+    "Bilingual professionals are a plus for many Orlando families"
+   ]
+  },
+  {
+   "slug": "house-cleaner",
+   "label": "House Cleaner",
+   "bls": "maids",
+   "market": "cleaning",
+   "intro": "Find an independent house cleaner in {city} for weekly, biweekly or one-time cleanings. Post your job for free and hire directly, without a cleaning company's markup.",
+   "cities": [
+    {
+     "slug": "orlando",
+     "name": "Orlando"
+    },
+    {
+     "slug": "kissimmee",
+     "name": "Kissimmee",
+     "note": "Kissimmee, in Osceola County just south of Orlando, has one of the area's largest communities of Spanish- and Portuguese-speaking professionals — a good fit if you want a bilingual cleaner."
+    },
+    {
+     "slug": "clermont",
+     "name": "Clermont",
+     "note": "Clermont, in Lake County west of Orlando, has many growing family neighborhoods; independent cleaners from Orlando and Winter Garden often serve the area."
+    },
+    {
+     "slug": "winter-garden",
+     "name": "Winter Garden",
+     "note": "Winter Garden, in west Orange County, sits between Orlando and Clermont, close to Windermere and Horizon West, where many families look for regular cleaning."
+    }
+   ],
+   "duties": [
+    "Kitchen: counters, appliances outside and in, sink",
+    "Bathrooms: toilets, showers, tubs, mirrors",
+    "Dusting, vacuuming and mopping all rooms",
+    "Changing bed linens",
+    "Deep cleaning or move-in/move-out cleaning, if you agree on it"
+   ],
+   "ask": [
+    "Hourly rate or flat price per visit, and how long a visit takes for a home your size",
+    "Whether they bring their own supplies and equipment",
+    "References from current clients",
+    "What happens if they can't come on a scheduled day",
+    "Whether they work independently (their own business) or for a company"
+   ],
+   "legal": "Who counts as your employee depends on control. A cleaner from a company, or an independent cleaner who runs their own business, brings their own supplies and serves the public, is generally not your household employee (IRS Publication 926). A cleaner who works on your schedule under your direction may be.",
+   "faq": [
+    [
+     "How often should I book a house cleaner?",
+     "Most families book every week or every two weeks. A first visit usually takes longer because it's a deeper clean."
+    ],
+    [
+     "Should I hire an independent cleaner or a cleaning company?",
+     "An independent cleaner usually costs less and you get the same person every time. A company handles insurance and replacements. On Famyle you hire independent cleaners directly."
+    ]
+   ],
+   "families_want": [
+    "Consistency: the same quality every visit",
+    "Punctuality and reliable communication",
+    "Bringing their own supplies (some families prefer to provide them)",
+    "References from other clients",
+    "Speaking English, Spanish or Portuguese"
+   ]
+  },
+  {
+   "slug": "nanny",
+   "label": "Nanny",
+   "bls": "childcare",
+   "market": "nanny",
+   "intro": "Find a trusted nanny in {city} for full-time or part-time childcare in your home. Post your job for free, watch each nanny's video interview and hire directly.",
+   "cities": [
+    {
+     "slug": "orlando",
+     "name": "Orlando"
+    }
+   ],
+   "duties": [
+    "Caring for your children in your home on a regular schedule",
+    "Meals, naps, bathing and daily routines",
+    "School and activity pick-ups (agree on driving and car seats)",
+    "Play, homework help and age-appropriate activities",
+    "Light housekeeping related to the children"
+   ],
+   "ask": [
+    "Experience with children the same age as yours",
+    "CPR and first-aid certification",
+    "How they handle discipline, screens and naps",
+    "References from families they worked for",
+    "Whether they can drive and have a clean driving record, if needed",
+    "If you want a bilingual nanny: which language they'll speak with your children"
+   ],
+   "legal": "A nanny who works in your home on your schedule is your household employee. In 2026, if you pay them $3,000 or more in cash wages in the year, you owe Social Security and Medicare taxes and file Schedule H with your tax return (IRS Publication 926). Florida has no state income tax; Florida reemployment tax applies if you pay $1,000 or more in a calendar quarter.",
+   "faq": [
+    [
+     "What's the difference between a nanny and a babysitter?",
+     "A nanny works a regular, ongoing schedule (often full-time) and becomes part of your routine. A babysitter is usually occasional: evenings, weekends or a few hours."
+    ],
+    [
+     "Can I find a bilingual nanny in Orlando?",
+     "Yes. 36.4% of Orlando-area residents speak a language other than English at home (Census ACS 2024), and many nannies speak Spanish or Portuguese."
+    ]
+   ],
+   "families_want": [
+    "Experience with children of the same age",
+    "CPR and first-aid certification",
+    "References from previous families",
+    "Reliability and a long-term commitment",
+    "Speaking Spanish or Portuguese with the children"
+   ]
+  },
+  {
+   "slug": "babysitter",
+   "label": "Babysitter",
+   "bls": "childcare",
+   "market": "babysitter",
+   "intro": "Find a babysitter in {city} for date nights, weekends, school breaks or occasional help. Post your job for free and hire directly.",
+   "cities": [
+    {
+     "slug": "orlando",
+     "name": "Orlando"
+    }
+   ],
+   "duties": [
+    "Watching your children for a few hours",
+    "Dinner, bath and bedtime routines",
+    "Play and supervised activities",
+    "Occasional school pick-up"
+   ],
+   "ask": [
+    "Experience with children the same age as yours",
+    "CPR and first-aid certification",
+    "Availability on the days you usually need help",
+    "References from other families",
+    "How they'd handle an emergency"
+   ],
+   "legal": "Occasional babysitting can still count as household employment. In 2026 Social Security and Medicare taxes apply only if you pay one person $3,000 or more in the year, and wages paid to babysitters under 18 generally don't count unless babysitting is their main job (IRS Publication 926).",
+   "faq": [
+    [
+     "How much should I pay a babysitter for more than one child?",
+     "Families usually add $1–$2 per hour for each additional child. Agree on the rate before the first booking."
+    ],
+    [
+     "Is it safe to hire a babysitter online?",
+     "Meet first, check references, and watch the babysitter's video interview on Famyle. Every professional verifies their ID before applying."
+    ]
+   ],
+   "families_want": [
+    "Availability for evenings and weekends",
+    "CPR and first-aid",
+    "Patience and creativity with kids",
+    "References from other families",
+    "Being reachable and on time"
+   ]
+  },
+  {
+   "slug": "pet-sitter",
+   "label": "Pet Sitter",
+   "bls": "animal",
+   "market": "pet",
+   "intro": "Find a pet sitter in {city} for dog walks, drop-in visits or overnight care while you travel. Post your job for free and hire directly.",
+   "cities": [
+    {
+     "slug": "orlando",
+     "name": "Orlando"
+    }
+   ],
+   "duties": [
+    "Feeding, fresh water and medication",
+    "Dog walks and playtime",
+    "Litter boxes and cleanup",
+    "Overnight stays in your home while you travel",
+    "Sending updates and photos"
+   ],
+   "ask": [
+    "Experience with your type of pet and its size or breed",
+    "How many visits per day and how long each one lasts",
+    "How they handle medications or special needs",
+    "What they'd do in a vet emergency",
+    "References from other pet owners"
+   ],
+   "legal": "Many pet sitters work independently and serve several clients, so they're usually not your household employee. Agree on rates, keys and emergency contacts in writing.",
+   "faq": [
+    [
+     "Pet sitter or boarding?",
+     "A pet sitter keeps your pet at home, in its routine, which is usually less stressful for the animal. Boarding is a facility with many animals."
+    ],
+    [
+     "How much is a pet sitter in Orlando?",
+     "Care.com reports an average of $16.37 to $21.83 per hour in Orlando (November 2026). Overnight stays are usually priced per night."
+    ]
+   ],
+   "families_want": [
+    "Love for animals and experience with the same breed or size",
+    "Reliability: never missing a visit",
+    "Updates and photos during visits",
+    "Comfort giving medication if needed",
+    "References from other pet owners"
+   ]
+  },
+  {
+   "slug": "cook",
+   "label": "Private Cook",
+   "bls": "cook",
+   "market": null,
+   "intro": "Find a private cook in {city} to plan and prepare your family's meals at home, weekly or on a regular schedule. Post your job for free and hire directly.",
+   "cities": [
+    {
+     "slug": "orlando",
+     "name": "Orlando"
+    }
+   ],
+   "duties": [
+    "Planning weekly menus with the family",
+    "Grocery shopping",
+    "Preparing meals in your kitchen, including meal prep for the week",
+    "Following dietary needs: allergies, kids' meals, low-carb, vegetarian",
+    "Cleaning the kitchen after cooking"
+   ],
+   "ask": [
+    "Which cuisines they cook (Brazilian, Latin, American, other)",
+    "Experience with your dietary needs or allergies",
+    "Whether they shop for groceries and how they'll be reimbursed",
+    "How many meals per visit and how many hours",
+    "References and, ideally, a trial meal"
+   ],
+   "legal": "A cook who works in your home on your schedule is usually your household employee. In 2026 Social Security and Medicare taxes apply if you pay $3,000 or more in cash wages in the year (IRS Publication 926).",
+   "faq": [
+    [
+     "Is a private cook expensive?",
+     "The BLS median wage for private household cooks in Florida is $17.43/hour (May 2025); the total depends on hours, number of meals and groceries."
+    ],
+    [
+     "Can I find a cook for Brazilian or Latin food in Orlando?",
+     "Yes. Many professionals in the Orlando area cook Brazilian and Latin American food."
+    ]
+   ],
+   "families_want": [
+    "Variety and planning of healthy meals",
+    "Respecting allergies and food preferences",
+    "A clean, organized kitchen",
+    "References from other families",
+    "Cooking the family's home cuisine"
+   ]
+  }
+ ],
+ "guides": [
+  {
+   "slug": "nanny-cost-orlando",
+   "title": "How Much Does a Nanny Cost in Orlando, FL? (2026)",
+   "desc": "Hourly rates for nannies and babysitters in Orlando, what drives the price, and the taxes families owe when they hire a nanny.",
+   "html": "<h2>Typical rates</h2><table><tr><th>Who</th><th>Typical rate in Orlando</th><th>Source</th></tr><tr><td>Nanny</td><td>$20.79–$26.36/hr</td><td><a href=\"https://www.care.com/cost/nannies/orlando-fl\">Care.com, Nov 2026</a></td></tr><tr><td>Babysitter</td><td>$18.78–$27.63/hr</td><td><a href=\"https://www.care.com/cost/babysitters/orlando-fl\">Care.com, Nov 2026</a></td></tr><tr><td>Childcare workers (all settings), median wage</td><td>$15.00/hr (mean $15.81)</td><td><a href=\"https://www.bls.gov/oes/current/oes_36740.htm\">BLS OEWS, May 2025</a></td></tr><tr><td>Florida minimum wage</td><td>$15.00/hr since Sep 30, 2026</td><td>Florida Constitution, Art. X §24</td></tr></table><h2>What changes the price</h2><ul><li>Number and ages of children: families usually add $1–$2/hour per extra child.</li><li>Experience, CPR/first-aid and education in early childhood.</li><li>Driving: a nanny who drives the kids usually costs more.</li><li>Languages: bilingual nannies are in demand in Orlando.</li><li>Full-time vs. occasional: full-time nannies often agree on a weekly salary.</li></ul><h2>A simple monthly estimate</h2><p>A full-time nanny at $22/hour for 40 hours a week costs about $3,800 a month before taxes ($22 × 40 × 52 ÷ 12).</p><h2>Taxes families owe</h2><p>In 2026, if you pay a nanny $3,000 or more in cash wages in the year, you withhold 7.65% (Social Security and Medicare) from their pay and pay the same 7.65% yourself. If you pay $1,000 or more in a calendar quarter, federal unemployment tax (FUTA) and Florida reemployment tax also apply. You report it all on Schedule H. Florida has no state income tax. See <a href=\"/guides/hire-household-employee-florida/\">how to hire a household employee in Florida</a>.</p><p><a class=\"btn\" href=\"/nanny/fl/orlando/\">Find a nanny in Orlando</a></p>",
+   "faq": [
+    [
+     "How much is a full-time nanny in Orlando per month?",
+     "About $3,600 to $4,600 a month for 40 hours a week at the typical Orlando range of $20.79–$26.36/hour (Care.com, November 2026), before employer taxes."
+    ],
+    [
+     "Do I have to pay taxes for my nanny in Florida?",
+     "If you pay them $3,000 or more in 2026, yes: Social Security and Medicare (7.65% each side). Florida has no state income tax, but Florida reemployment tax applies if you pay $1,000 or more in a quarter."
+    ]
+   ]
+  },
+  {
+   "slug": "house-cleaning-cost-orlando",
+   "title": "How Much Does House Cleaning Cost in Orlando, FL? (2026)",
+   "desc": "Hourly rates for house cleaners and housekeepers in Orlando, independent cleaner vs. cleaning company, and how often to book.",
+   "html": "<h2>Typical rates</h2><table><tr><th>Who</th><th>Typical rate in Orlando</th><th>Source</th></tr><tr><td>House cleaning</td><td>$20.25–$25.07/hr</td><td><a href=\"https://www.care.com/cost/house-cleaning/orlando-fl\">Care.com, Nov 2026</a></td></tr><tr><td>Housekeeping</td><td>$19.69–$26.17/hr</td><td><a href=\"https://www.care.com/cost/housekeeping/orlando-fl\">Care.com, Nov 2026</a></td></tr><tr><td>Maids and housekeeping cleaners, median wage</td><td>$16.90/hr (mean $17.84); 17,810 people employed</td><td><a href=\"https://www.bls.gov/oes/current/oes_36740.htm\">BLS OEWS, May 2025</a></td></tr></table><h2>Independent cleaner or cleaning company?</h2><ul><li><b>Independent cleaner:</b> usually costs less, and you get the same person every visit.</li><li><b>Cleaning company:</b> handles insurance and sends a replacement if someone is sick, but adds its margin and may send different people.</li></ul><h2>How long a cleaning takes</h2><p>A regular cleaning of a 3-bedroom home typically takes 3 to 4 hours; the first visit or a deep clean takes longer. At $22/hour, a 3.5-hour visit is about $77.</p><h2>Is my house cleaner my employee?</h2><p>An independent cleaner who runs their own business, brings their own supplies and serves other clients is generally not your household employee (IRS Publication 926). A cleaner who works on your schedule under your direction may be.</p><p><a class=\"btn\" href=\"/house-cleaner/fl/orlando/\">Find a house cleaner in Orlando</a></p>",
+   "faq": [
+    [
+     "How much should I tip my house cleaner?",
+     "Tips aren't required for a regular cleaner you hire directly; many families give a holiday bonus of about one visit's pay."
+    ],
+    [
+     "How often do Orlando families book a cleaner?",
+     "Most book every week or every two weeks."
+    ]
+   ]
+  },
+  {
+   "slug": "hire-household-employee-florida",
+   "title": "How to Hire a Household Employee in Florida (2026 Guide)",
+   "desc": "Nanny tax, minimum wage, Florida reemployment tax and the paperwork families need when they hire a nanny, housekeeper or cook in Florida.",
+   "html": "<h2>1. Is the worker your employee?</h2><p>If you control what work is done and how it's done, the worker is generally your household employee — a nanny or housekeeper on your schedule, for example. If the worker runs their own business, brings their own tools and offers services to the public, they're generally self-employed (IRS Publication 926).</p><h2>2. Pay at least minimum wage</h2><p>The Florida minimum wage is <b>$15.00/hour</b> since September 30, 2026, and will be adjusted for inflation every year from 2027.</p><h2>3. Federal taxes (the \"nanny tax\")</h2><ul><li><b>Social Security and Medicare:</b> if you pay one household employee <b>$3,000 or more</b> in cash wages in 2026, you withhold 6.2% + 1.45% from their pay and pay the same amount yourself.</li><li><b>FUTA:</b> if you pay <b>$1,000 or more</b> to household employees in any calendar quarter, you owe federal unemployment tax (6% on the first $7,000 per employee, usually reduced by state credit).</li><li>You report these on <b>Schedule H</b> with your Form 1040 and give the employee a <b>Form W-2</b>.</li><li>Wages paid to workers under 18 don't count for Social Security and Medicare unless household work is their main occupation.</li></ul><h2>4. Florida taxes</h2><ul><li><b>No state income tax</b> to withhold.</li><li><b>Florida reemployment tax:</b> applies if you pay <b>$1,000 or more in a calendar quarter</b> for domestic services; it's charged on the first $7,000 per employee per year, at 2.7% for new employers (Florida Department of Revenue).</li></ul><h2>5. Put it in writing</h2><p>Agree in writing on hours, duties, pay, overtime, paid time off and how either side ends the arrangement.</p><p class=\"src\">Sources: <a href=\"https://www.irs.gov/publications/p926\">IRS Publication 926 (2026)</a> · <a href=\"https://floridarevenue.com/taxes/taxesfees/Pages/reemployment.aspx\">Florida Department of Revenue — reemployment tax</a> · Florida Constitution, Art. X §24.</p>",
+   "faq": [
+    [
+     "What is the nanny tax threshold for 2026?",
+     "$3,000 in cash wages paid to one household employee in the year (IRS Publication 926)."
+    ],
+    [
+     "Do I need to withhold Florida income tax?",
+     "No. Florida has no state income tax."
+    ]
+   ]
+  }
+ ],
+ "neighborhoods": [
+  {
+   "slug": "winter-garden-horizon-west",
+   "name": "Winter Garden & Horizon West",
+   "zips": "34787",
+   "area": "west Orange County",
+   "desc": "Winter Garden and the master-planned communities of Horizon West are among the fastest-growing family areas in the Orlando region, between Windermere and Clermont.",
+   "near": [
+    "Windermere",
+    "Dr. Phillips",
+    "MetroWest"
+   ]
+  },
+  {
+   "slug": "windermere",
+   "name": "Windermere",
+   "zips": "34786",
+   "area": "west Orange County",
+   "desc": "Windermere, around the Butler Chain of Lakes, is home to many families who look for nannies, housekeepers and regular house cleaning.",
+   "near": [
+    "Winter Garden & Horizon West",
+    "Dr. Phillips",
+    "MetroWest"
+   ]
+  },
+  {
+   "slug": "dr-phillips",
+   "name": "Dr. Phillips",
+   "zips": "32819 and 32836",
+   "area": "southwest Orlando",
+   "desc": "Dr. Phillips, including Bay Hill and the Sand Lake Road area, is a family neighborhood in southwest Orlando, minutes from Windermere and MetroWest.",
+   "near": [
+    "Windermere",
+    "MetroWest",
+    "Winter Garden & Horizon West"
+   ]
+  },
+  {
+   "slug": "metrowest",
+   "name": "MetroWest",
+   "zips": "32835",
+   "area": "west Orlando",
+   "desc": "MetroWest, in west Orlando, has one of the largest Brazilian communities in Florida — many local professionals speak Portuguese, Spanish and English.",
+   "near": [
+    "Dr. Phillips",
+    "Windermere",
+    "Winter Garden & Horizon West"
+   ]
+  }
+ ]
 }

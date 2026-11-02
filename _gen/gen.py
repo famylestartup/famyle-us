@@ -60,6 +60,13 @@ def faq_ld(qas):
 def crumbs_ld(items):
     return {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": n, "item": BASE + p} for i, (n, p) in enumerate(items)]}
 
+WHY_HTML = """<h2>Why families choose Famyle</h2><ul>
+<li><b>Free.</b> No subscription to see or contact professionals.</li>
+<li><b>Real jobs only.</b> Every job on Famyle is posted by a real family — no filler listings.</li>
+<li><b>Meet them before you call.</b> Every professional records a short video interview.</li>
+<li><b>Verified ID</b> on every profile, and the closest professionals show first.</li>
+<li><b>English, Spanish and Portuguese.</b> Find a bilingual nanny or cleaner.</li>
+<li><b>A small team that listens.</b> Tell us what's missing and we fix it fast — usually the same week.</li></ul>"""
 ORG = {"@type": "Organization", "name": "Famyle", "url": BASE + "/", "description": "Online platform connecting families with housekeepers, house cleaners, nannies, babysitters, pet sitters and cooks. Operating in Brazil for over 10 years; now in Orlando, Florida."}
 
 def write(path, body):
@@ -145,6 +152,28 @@ for c in F["categories"]:
 <h2>Frequently asked questions</h2>{''.join('<h3>'+e(q)+'</h3><p>'+e(a)+'</p>' for q,a in qas)}
 <h2>Other jobs in Orlando</h2><ul class="links">{''.join(f'<li><a href="/jobs/{o["slug"]}/fl/orlando/">{e(o["label"])} jobs</a></li>' for o in F["categories"] if o["slug"]!=c["slug"])}</ul>
 <p class="src">Last updated {TODAY}. Looking to hire? <a href="/{c['slug']}/fl/orlando/">Find a {e(c['label'].lower())} in Orlando</a>.</p></div>{FOOT}</body></html>"""
+    write(path, body); pages.append((path, title))
+
+# ---------- bairros (1 pagina por bairro, todas as categorias) ----------
+for nb in F["neighborhoods"]:
+    path = f"/orlando/{nb['slug']}/"
+    title = f"Nannies, Housekeepers & House Cleaners in {nb['name']}, FL | Famyle"
+    desc = f"Find a nanny, babysitter, housekeeper, house cleaner, pet sitter or private cook in {nb['name']} (ZIP {nb['zips']}). Free on Famyle."
+    qas = [(f"Does Famyle serve {nb['name']}?", f"Yes. Famyle serves {nb['name']} (ZIP {nb['zips']}) and nearby {', '.join(nb['near'])}. Post your job for free; if we don't have enough professionals near you yet, we'll find them and contact you first."),
+           ("Is Famyle free?", "Yes. Posting a job, receiving applications and contacting professionals is free. No subscription, no fees.")]
+    ld = {"@context": "https://schema.org", "@graph": [ORG, {"@type": "Service", "name": f"Household help in {nb['name']}, FL", "provider": {"@type": "Organization", "name": "Famyle"}, "areaServed": {"@type": "Place", "name": f"{nb['name']}, FL"}}, faq_ld(qas), crumbs_ld([("Famyle", "/"), ("Orlando", "/"), (nb["name"], path)])]}
+    cats = "".join(f'<li><a href="/{c["slug"]}/fl/orlando/">{e(c["label"])}</a> — typical Orlando rate ' + (f'${F["market"][c["market"]]["lo"]:.0f}–${F["market"][c["market"]]["hi"]:.0f}/hr' if c["market"] else f'BLS median ${F["wages"][c["bls"]]["median"]:.2f}/hr (Florida)') + '</li>' for c in F["categories"])
+    nears = "".join(f'<li><a href="/orlando/{x["slug"]}/">{e(x["name"])}</a></li>' for x in F["neighborhoods"] if x["slug"] != nb["slug"])
+    body = head(title, desc, path, ld) + f"""
+<div class="hero"><div class="wrap"><div class="crumbs"><a href="/">Famyle</a> › Orlando › {e(nb['name'])}</div>
+<h1>Household help in {e(nb['name'])}, FL</h1><p class="lead">{e(nb['desc'])}</p><a class="btn" href="#join">Post your job — free</a></div></div>
+<div class="wrap"><p>Famyle serves {e(nb['name'])} (ZIP {e(nb['zips'])}) in {e(nb['area'])}, and nearby {e(', '.join(nb['near']))}. Professionals close to you show first, so they spend less time driving and are more likely to stay.</p>
+<h2>What you can find in {e(nb['name'])}</h2><ul>{cats}</ul><p class="src">Rates: <a href="https://www.care.com/cost/nannies/orlando-fl">Care.com Orlando cost data, Nov 2026</a> · BLS OEWS May 2025.</p>
+{WHY_HTML}
+{form_family("Professional", nb["name"])}
+<h2>Frequently asked questions</h2>{''.join('<h3>'+e(q)+'</h3><p>'+e(a)+'</p>' for q,a in qas)}
+<h2>Nearby neighborhoods</h2><ul class="links">{nears}</ul>
+<p class="src">Last updated {TODAY}. Are you a nanny, housekeeper or pet sitter in {e(nb['name'])}? <a href="/pro.html">Join free</a>.</p></div>{FOOT}</body></html>"""
     write(path, body); pages.append((path, title))
 
 # hub de vagas
