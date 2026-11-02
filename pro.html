@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Famyle Orlando — Work as a housekeeper, nanny or pet sitter</title>
+<meta name="description" content="Famyle is coming to Orlando. Housekeepers, house cleaners, nannies, babysitters, pet sitters and cooks: join for free and get job offers from local families.">
+<style>
+:root{--ink:#1d1d2b;--muted:#5d5f73;--brand:#6b3fd6;--brand-2:#f4efff;--line:#e7e5ef;--ok:#1f8a5b}
+*{box-sizing:border-box}html,body{margin:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:#fff;line-height:1.5}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px}
+header{padding:16px 0}header .wrap{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.logo{font-weight:800;font-size:22px;color:var(--brand)}
+.lang{display:flex;gap:6px}.lang button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 10px;font-size:14px;cursor:pointer}
+.lang button.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+.hero{background:linear-gradient(180deg,var(--brand-2),#fff);padding:36px 0 30px}
+h1{font-size:clamp(28px,6vw,40px);line-height:1.15;margin:0 0 12px;letter-spacing:-.5px}
+.lead{font-size:18px;color:var(--muted);margin:0 0 20px}
+ul.pts{padding-left:20px;margin:0 0 8px}ul.pts li{margin:6px 0}
+.free{color:var(--ok);font-weight:700}
+form{border:1px solid var(--line);border-radius:16px;padding:22px;margin:24px 0 40px}
+label{display:block;font-size:14px;font-weight:600;margin:12px 0 4px}
+input,select{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;font-size:16px;background:#fff}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.chk{display:flex;gap:8px;align-items:flex-start;font-size:14px;color:var(--muted);margin-top:14px}.chk input{width:auto;margin-top:3px}
+.btn{width:100%;background:var(--brand);color:#fff;border:0;border-radius:12px;padding:16px;font-size:18px;font-weight:700;cursor:pointer;margin-top:16px}
+.thanks{display:none;border:1px solid var(--line);border-radius:16px;padding:22px;margin:24px 0 40px}.thanks h3{color:var(--ok);margin-top:0}
+footer{border-top:1px solid var(--line);padding:22px 0;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="logo">famyle</div>
+<div class="lang"><button data-l="en" class="on">EN</button><button data-l="pt">PT</button><button data-l="es">ES</button></div></div></header>
+
+<div class="hero"><div class="wrap">
+  <h1 data-t="h1"></h1>
+  <p class="lead" data-t="lead"></p>
+  <ul class="pts"><li data-t="p1"></li><li data-t="p2"></li><li data-t="p3"></li><li data-t="p4"></li></ul>
+</div></div>
+
+<div class="wrap">
+  <form id="f" onsubmit="return send(event)">
+    <label for="nm" data-t="name"></label><input id="nm" required autocomplete="name">
+    <label for="ph" data-t="phone"></label><input id="ph" type="tel" required autocomplete="tel" placeholder="(407) 555-0123">
+    <div class="row">
+      <div><label for="zip" data-t="zip"></label><input id="zip" inputmode="numeric" pattern="[0-9]{5}" required></div>
+      <div><label for="cat" data-t="work"></label><select id="cat">
+        <option value="Housekeeper" data-t="c1"></option><option value="House cleaner" data-t="c2"></option>
+        <option value="Nanny" data-t="c3"></option><option value="Babysitter" data-t="c4"></option>
+        <option value="Pet sitter" data-t="c5"></option><option value="Cook" data-t="c6"></option></select></div>
+    </div>
+    <label for="em" data-t="email"></label><input id="em" type="email" autocomplete="email">
+    <label class="chk"><input type="checkbox" id="ok" required><span data-t="consent"></span></label>
+    <button class="btn" data-t="cta"></button>
+  </form>
+  <div id="t" class="thanks"><h3 data-t="th"></h3><p data-t="tx"></p></div>
+</div>
+
+<footer><div class="wrap">© Famyle · Orlando, Florida · <a href="mailto:suporte@famyle.com">suporte@famyle.com</a> · <a href="/" data-t="fam"></a></div></footer>
+
+<script>
+var T={
+en:{h1:"Work as a housekeeper, nanny or pet sitter in Orlando",lead:"Famyle opens in Orlando in early 2027. Families post jobs and you apply to the ones near you.",
+p1:"<span class='free'>Free</span> to join",p2:"Jobs from real families near you",p3:"You set your rate and schedule with the family",p4:"Over 10 years connecting families and professionals in Brazil",
+name:"Your name",phone:"Phone (WhatsApp or text)",zip:"ZIP code",work:"I work as",email:"Email (optional)",
+c1:"Housekeeper",c2:"House cleaner",c3:"Nanny",c4:"Babysitter",c5:"Pet sitter",c6:"Cook",
+consent:"I agree that Famyle may contact me by WhatsApp, text or email about jobs in Orlando. I can reply STOP anytime.",
+cta:"Join for free",th:"You're on the list ✓",tx:"Thank you! We'll contact you when Famyle opens in Orlando.",fam:"For families"},
+pt:{h1:"Trabalhe como diarista, babá ou pet sitter em Orlando",lead:"A Famyle chega em Orlando no começo de 2027. As famílias publicam vagas e você se candidata às que ficam perto de você.",
+p1:"Cadastro <span class='free'>grátis</span>",p2:"Vagas de famílias reais perto de você",p3:"Você combina valor e horário direto com a família",p4:"Mais de 10 anos ligando famílias e profissionais no Brasil",
+name:"Seu nome",phone:"Telefone (WhatsApp ou SMS)",zip:"ZIP code",work:"Eu trabalho como",email:"E-mail (opcional)",
+c1:"Empregada doméstica (housekeeper)",c2:"Diarista (house cleaner)",c3:"Babá (nanny)",c4:"Babá eventual (babysitter)",c5:"Pet sitter",c6:"Cozinheira (cook)",
+consent:"Aceito que a Famyle me contate por WhatsApp, SMS ou e-mail sobre vagas em Orlando. Posso responder PARAR a qualquer momento.",
+cta:"Quero me cadastrar grátis",th:"Você está na lista ✓",tx:"Obrigado! Vamos te chamar quando a Famyle abrir em Orlando.",fam:"Para famílias"},
+es:{h1:"Trabaja como limpiadora, niñera o cuidadora de mascotas en Orlando",lead:"Famyle llega a Orlando a inicios de 2027. Las familias publican empleos y tú aplicas a los que están cerca de ti.",
+p1:"Registro <span class='free'>gratis</span>",p2:"Empleos de familias reales cerca de ti",p3:"Tú acuerdas tarifa y horario directamente con la familia",p4:"Más de 10 años conectando familias y profesionales en Brasil",
+name:"Tu nombre",phone:"Teléfono (WhatsApp o SMS)",zip:"Código postal (ZIP)",work:"Trabajo como",email:"Correo (opcional)",
+c1:"Empleada doméstica (housekeeper)",c2:"Limpieza de casas (house cleaner)",c3:"Niñera (nanny)",c4:"Niñera por horas (babysitter)",c5:"Cuidadora de mascotas",c6:"Cocinera (cook)",
+consent:"Acepto que Famyle me contacte por WhatsApp, SMS o correo sobre empleos en Orlando. Puedo responder STOP en cualquier momento.",
+cta:"Registrarme gratis",th:"Estás en la lista ✓",tx:"¡Gracias! Te contactaremos cuando Famyle abra en Orlando.",fam:"Para familias"}};
+var L='en';
+function setL(l){L=l;document.documentElement.lang=l;document.querySelectorAll('[data-t]').forEach(function(e){e.innerHTML=T[l][e.dataset.t];});
+document.querySelectorAll('.lang button').forEach(function(b){b.classList.toggle('on',b.dataset.l===l);});}
+document.querySelectorAll('.lang button').forEach(function(b){b.onclick=function(){setL(b.dataset.l);};});
+var q=new URLSearchParams(location.search).get('lang');setL(T[q]?q:((navigator.language||'').slice(0,2) in T?(navigator.language||'').slice(0,2):'en'));
+var ENDPOINT='https://formsubmit.co/ajax/adm@famyle.com';
+function send(e){e.preventDefault();
+  var body={_subject:'Famyle Orlando - PROFISSIONAL',_template:'table',tipo:'profissional',nome:nm.value,telefone:ph.value,zip:zip.value,categoria:cat.value,email:em.value,idioma:L,origem:location.search,ts:new Date().toISOString()};
+  try{fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(body)});}catch(x){}
+  document.getElementById('f').style.display='none';document.getElementById('t').style.display='block';return false;}
+</script>
+</body>
+</html>

@@ -87,7 +87,7 @@ input,select{width:100%;padding:12px;border:1px solid var(--line);border-radius:
       </div>
 </div></section>
 
-<footer><div class="wrap">© Famyle · Orlando, Florida · <a href="mailto:suporte@famyle.com">suporte@famyle.com</a></div></footer>
+<footer><div class="wrap"><b>Are you a housekeeper, nanny or pet sitter?</b> <a href="/pro.html">Join Famyle for free →</a><br><br>© Famyle · Orlando, Florida · <a href="mailto:suporte@famyle.com">suporte@famyle.com</a></div></footer>
 
 <dialog id="d"><div class="dlg">
   <button class="x" aria-label="Close" onclick="d.close()">×</button>
@@ -116,7 +116,7 @@ function openSub(where){conv('x8mYCIzdrbAdEM6YkMUq');d.showModal();}
 var ENDPOINT='https://formsubmit.co/ajax/adm@famyle.com';
 function send(e){e.preventDefault();
   var body={_subject:'Famyle Orlando - lista de espera',_template:'table',email:em.value,zip:zip.value,cat:cat.value,when:when.value,src:location.search,ts:new Date().toISOString()};
-  try{fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});}catch(x){}
+  try{fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(body)});}catch(x){}
   conv('tPyrCI_drbAdEM6YkMUq');document.getElementById('f').style.display='none';document.getElementById('t').style.display='block';return false;}
 </script>
 </body>
