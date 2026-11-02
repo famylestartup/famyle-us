@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /_gen/
+Sitemap: https://us.famyle.com/sitemap.xml
