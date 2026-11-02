@@ -54,7 +54,7 @@ footer{border-top:1px solid var(--line);padding:22px 0;color:var(--muted);font-s
     <label class="chk"><input type="checkbox" id="ok" required><span data-t="consent"></span></label>
     <button class="btn" data-t="cta"></button>
   </form>
-  <div id="t" class="thanks"><h3 data-t="th"></h3><p data-t="tx"></p></div>
+  <div id="t" class="thanks"><h3 data-t="th"></h3><p data-t="tx"></p><a class="btn" style="display:block;text-align:center;text-decoration:none" data-t="sh" target="_blank" rel="noopener" href="https://wa.me/?text=Famyle%3A%20jobs%20with%20families%20in%20Orlando%2C%20free%20to%20join%20%E2%80%94%20https%3A%2F%2Fus.famyle.com%2Fpro.html"></a></div>
 </div>
 
 <footer><div class="wrap">© Famyle · Orlando, Florida · <a href="mailto:suporte@famyle.com">suporte@famyle.com</a> · <a href="/" data-t="fam"></a></div></footer>
@@ -62,23 +62,23 @@ footer{border-top:1px solid var(--line);padding:22px 0;color:var(--muted);font-s
 <script>
 var T={
 en:{h1:"Work as a housekeeper, nanny or pet sitter in Orlando",lead:"Families in Orlando post jobs and you apply to the ones near you. Free to join.",
-p1:"<span class='free'>Free</span> to join",p2:"Jobs from real families near you",p3:"You set your rate and schedule with the family",p4:"Over 10 years connecting families and professionals in Brazil",
+p1:"<span class='free'>Free</span>: no membership, and we never take a cut of your pay",p2:"Jobs from real families near you",p3:"You set your rate and schedule with the family",p4:"Over 10 years connecting families and professionals in Brazil",
 name:"Your name",phone:"Phone (WhatsApp or text)",zip:"ZIP code",work:"I work as",email:"Email (optional)",
 c1:"Housekeeper",c2:"House cleaner",c3:"Nanny",c4:"Babysitter",c5:"Pet sitter",c6:"Cook",
 consent:"I agree that Famyle may contact me by WhatsApp, text or email about jobs in Orlando. I can reply STOP anytime.",
-cta:"Join for free",th:"You're in ✓",tx:"Thank you! We'll contact you as soon as a family near you posts a job. There are no open jobs in your area yet, so you'll be among the first professionals we contact.",fam:"For families"},
+cta:"Join for free",sh:"Share with a friend on WhatsApp",th:"You're in ✓",tx:"Thank you! We'll contact you as soon as a family near you posts a job. There are no open jobs in your area yet, so you'll be among the first professionals we contact.",fam:"For families"},
 pt:{h1:"Trabalhe como diarista, babá ou pet sitter em Orlando",lead:"As famílias de Orlando publicam vagas e você se candidata às que ficam perto de você. Cadastro grátis.",
-p1:"Cadastro <span class='free'>grátis</span>",p2:"Vagas de famílias reais perto de você",p3:"Você combina valor e horário direto com a família",p4:"Mais de 10 anos ligando famílias e profissionais no Brasil",
+p1:"<span class='free'>Grátis</span>: sem mensalidade e sem desconto no que a família te paga",p2:"Vagas de famílias reais perto de você",p3:"Você combina valor e horário direto com a família",p4:"Mais de 10 anos ligando famílias e profissionais no Brasil",
 name:"Seu nome",phone:"Telefone (WhatsApp ou SMS)",zip:"ZIP code",work:"Eu trabalho como",email:"E-mail (opcional)",
 c1:"Empregada doméstica (housekeeper)",c2:"Diarista (house cleaner)",c3:"Babá (nanny)",c4:"Babá eventual (babysitter)",c5:"Pet sitter",c6:"Cozinheira (cook)",
 consent:"Aceito que a Famyle me contate por WhatsApp, SMS ou e-mail sobre vagas em Orlando. Posso responder STOP a qualquer momento para parar.",
-cta:"Quero me cadastrar grátis",th:"Cadastro feito ✓",tx:"Obrigado! Vamos te chamar assim que uma família perto de você publicar uma vaga. Ainda não temos vagas abertas na sua região, então você estará entre as primeiras profissionais que vamos chamar.",fam:"Para famílias"},
+cta:"Quero me cadastrar grátis",sh:"Compartilhar com uma amiga no WhatsApp",th:"Cadastro feito ✓",tx:"Obrigado! Vamos te chamar assim que uma família perto de você publicar uma vaga. Ainda não temos vagas abertas na sua região, então você estará entre as primeiras profissionais que vamos chamar.",fam:"Para famílias"},
 es:{h1:"Trabaja como limpiadora, niñera o cuidadora de mascotas en Orlando",lead:"Las familias de Orlando publican empleos y tú aplicas a los que están cerca de ti. Registro gratis.",
-p1:"Registro <span class='free'>gratis</span>",p2:"Empleos de familias reales cerca de ti",p3:"Tú acuerdas tarifa y horario directamente con la familia",p4:"Más de 10 años conectando familias y profesionales en Brasil",
+p1:"<span class='free'>Gratis</span>: sin membresía y sin comisión sobre lo que te paga la familia",p2:"Empleos de familias reales cerca de ti",p3:"Tú acuerdas tarifa y horario directamente con la familia",p4:"Más de 10 años conectando familias y profesionales en Brasil",
 name:"Tu nombre",phone:"Teléfono (WhatsApp o SMS)",zip:"Código postal (ZIP)",work:"Trabajo como",email:"Correo (opcional)",
 c1:"Empleada doméstica (housekeeper)",c2:"Limpieza de casas (house cleaner)",c3:"Niñera (nanny)",c4:"Niñera por horas (babysitter)",c5:"Cuidadora de mascotas",c6:"Cocinera (cook)",
 consent:"Acepto que Famyle me contacte por WhatsApp, SMS o correo sobre empleos en Orlando. Puedo responder STOP en cualquier momento.",
-cta:"Registrarme gratis",th:"Registro listo ✓",tx:"¡Gracias! Te contactaremos en cuanto una familia cerca de ti publique un empleo. Todavía no hay empleos abiertos en tu zona, así que estarás entre las primeras profesionales que contactaremos.",fam:"Para familias"}};
+cta:"Registrarme gratis",sh:"Compartir con una amiga por WhatsApp",th:"Registro listo ✓",tx:"¡Gracias! Te contactaremos en cuanto una familia cerca de ti publique un empleo. Todavía no hay empleos abiertos en tu zona, así que estarás entre las primeras profesionales que contactaremos.",fam:"Para familias"}};
 var L='en';
 function setL(l){L=l;document.documentElement.lang=l;document.querySelectorAll('[data-t]').forEach(function(e){e.innerHTML=T[l][e.dataset.t];});
 document.querySelectorAll('.lang button').forEach(function(b){b.classList.toggle('on',b.dataset.l===l);});}

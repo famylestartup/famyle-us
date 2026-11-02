@@ -47,7 +47,9 @@ def form_family(cat_label, city):
 <form onsubmit="return wl(event)"><label for="em">Email</label><input id="em" type="email" required autocomplete="email">
 <div class="row"><div><label for="zip">ZIP code</label><input id="zip" inputmode="numeric" pattern="[0-9]{{5}}" required></div>
 <div><label for="when">When do you need help?</label><select id="when"><option>Right now</option><option>In the next 3 months</option><option>Just looking</option></select></div></div><br>
-<button class="btn">Find a {e(cat_label.lower())}</button></form><div class="ok" id="ok">Got it! ✓ We're looking for {e(cat_label.lower())}s near you and will email you as soon as we have candidates. We don't have enough {e(cat_label.lower())}s in your area yet, so you'll be among the first families we contact.</div></div>
+<button class="btn">Find a {e(cat_label.lower())}</button></form><div class="ok" id="ok"><p>Got it! ✓ We don't have enough {e(cat_label.lower())}s in your area yet — we're looking for them now and will email you as soon as we have candidates. You'll be among the first families we contact.</p>
+<p style="color:var(--ink);font-weight:400">What you'll get on Famyle: it's <b>free</b>, every professional has a <b>video interview</b> and a <b>verified ID</b>, and every job is posted by a real family. Help us get there faster:</p>
+<a class="btn" href="https://wa.me/?text=I%20just%20posted%20on%20Famyle%20to%20find%20trusted%20help%20in%20Orlando%20%E2%80%94%20it%27s%20free%3A%20https%3A%2F%2Fus.famyle.com%2F" target="_blank" rel="noopener">Share with a friend on WhatsApp</a></div></div>
 <script>function wl(ev){{ev.preventDefault();var b={{_subject:'Famyle Orlando - lista de espera',_template:'table',tipo:'familia',categoria:'{e(cat_label)}',cidade:'{e(city)}',email:em.value,zip:zip.value,when:when.value,pagina:location.pathname,origem:location.search,ts:new Date().toISOString()}};
 try{{fetch('{FORM}',{{method:'POST',headers:{{'Content-Type':'application/json',Accept:'application/json'}},body:JSON.stringify(b)}});}}catch(x){{}}
 try{{gtag('event','conversion',{{send_to:'{AW}/{LBL_WAIT}'}});}}catch(x){{}}ev.target.style.display='none';document.getElementById('ok').style.display='block';return false;}}</script>"""
@@ -86,7 +88,8 @@ for c in F["categories"]:
         qas = [(f"How much does a {c['label'].lower()} cost in {cn}, FL?",
                 (f"Families in the Orlando area typically pay ${m['lo']:.2f} to ${m['hi']:.2f} per hour (Care.com, {m['asof']}). " if m else "")
                 + f"The BLS median wage for {w['label'].lower()} in the {w['area']} is ${w['median']:.2f}/hour ({w['period']}), and the Florida minimum wage is ${F['fl_min_wage']['now']:.2f}/hour."),
-               (f"Is Famyle available in {cn}?", f"Yes. Post your job for free. If we don't have enough {c['label'].lower()}s in your area yet, we'll look for them and contact you as soon as we have candidates. You only pay once we have professionals for you."),
+               (f"Is Famyle available in {cn}?", f"Yes. Post your job for free. If we don't have enough {c['label'].lower()}s in your area yet, we'll look for them and contact you as soon as we have candidates."),
+               ("Is Famyle free?", "Yes. Posting a job, receiving applications and contacting professionals is free. No subscription, no fees."),
                ] + [(q.replace("{city}", cn), a.replace("{city}", cn)) for q, a in c["faq"]]
         ld = {"@context": "https://schema.org", "@graph": [ORG,
               {"@type": "Service", "name": f"{c['label']} services in {cn}, FL", "serviceType": c["label"], "provider": {"@type": "Organization", "name": "Famyle"}, "areaServed": {"@type": "City", "name": f"{cn}, FL"}},
@@ -103,7 +106,14 @@ for c in F["categories"]:
 <h2>What a {e(c['label'].lower())} does</h2><ul>{''.join('<li>'+e(x)+'</li>' for x in c['duties'])}</ul>
 <h2>What to ask before you hire</h2><ul>{''.join('<li>'+e(x)+'</li>' for x in c['ask'])}</ul>
 <h2>Hiring legally in Florida</h2><p>{e(c['legal'])} See our guide: <a href="/guides/hire-household-employee-florida/">how to hire a household employee in Florida</a>.</p>
-<h2>How Famyle works</h2><ol><li>Post your job for free.</li><li>Local professionals apply to you; the closest ones show first.</li><li>Watch each professional's short video interview and see their verified ID.</li><li>Hire directly: you agree on pay and schedule with the professional.</li><li>Posting is free. Contacting professionals costs US$29.99/month, and you only pay once we have professionals for you. Cancel anytime online.</li></ol>
+<h2>How Famyle works</h2><ol><li>Post your job for free.</li><li>Local professionals apply to you; the closest ones show first.</li><li>Watch each professional's short video interview and see their verified ID.</li><li>Hire directly: you agree on pay and schedule with the professional.</li><li>It's free: posting, receiving applications and contacting professionals.</li></ol>
+<h2>Why families choose Famyle</h2><ul>
+<li><b>Free.</b> No subscription to see or contact professionals.</li>
+<li><b>Real jobs only.</b> Every job on Famyle is posted by a real family — no filler listings.</li>
+<li><b>Meet them before you call.</b> Every professional records a short video interview.</li>
+<li><b>Verified ID</b> on every profile, and the closest professionals show first.</li>
+<li><b>English, Spanish and Portuguese.</b> Find a bilingual nanny or cleaner.</li>
+<li><b>A small team that listens.</b> Tell us what's missing and we fix it fast — usually the same week.</li></ul>
 {form_family(c['label'], cn)}
 <h2>Frequently asked questions</h2>{''.join('<h3>'+e(q)+'</h3><p>'+e(a)+'</p>' for q,a in qas)}
 {('<h2>Nearby</h2><ul class="links">'+near+'</ul>') if near else ''}
@@ -130,6 +140,7 @@ for c in F["categories"]:
 <div class="wrap"><h2>How much {e(c['label'].lower())}s make in Orlando</h2>{wage_table(c)}
 <h2>What families look for</h2><ul>{''.join('<li>'+e(x)+'</li>' for x in c['families_want'])}</ul>
 <h2>How Famyle works for professionals</h2><ol><li>Create your free profile and verify your ID.</li><li>Record a short video interview so families can meet you.</li><li>Apply to jobs near you; families contact you directly.</li><li>You agree on pay and schedule with the family.</li></ol>
+<h2>Why professionals choose Famyle</h2><ul><li><b>Free.</b> No membership, and we never take a cut of what families pay you.</li><li><b>Real families only.</b> Every job is posted by a real family near you.</li><li><b>Stand out with your video interview</b> — families meet you before they call.</li><li><b>Work in your language:</b> English, Spanish or Portuguese.</li><li><b>Closest jobs first,</b> so you spend less time driving.</li></ul>
 <p><a class="btn" href="/pro.html?cat={e(c['label'])}">Join free</a></p>
 <h2>Frequently asked questions</h2>{''.join('<h3>'+e(q)+'</h3><p>'+e(a)+'</p>' for q,a in qas)}
 <h2>Other jobs in Orlando</h2><ul class="links">{''.join(f'<li><a href="/jobs/{o["slug"]}/fl/orlando/">{e(o["label"])} jobs</a></li>' for o in F["categories"] if o["slug"]!=c["slug"])}</ul>
@@ -162,7 +173,7 @@ all_paths = ["/", "/pro.html"] + [p for p, _ in pages]
 open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"<url><loc>{BASE}{p}</loc><lastmod>{TODAY}</lastmod></url>\n" for p in all_paths) + "</urlset>\n")
 open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8").write(f"User-agent: *\nAllow: /\nDisallow: /_gen/\nSitemap: {BASE}/sitemap.xml\n")
 llms = ["# Famyle (United States)", "", "> Famyle is an online platform where families find and hire housekeepers, house cleaners, nannies, babysitters, pet sitters and cooks directly. Operating in Brazil for over 10 years; now accepting families and professionals in Orlando, Florida. Families post jobs for free; professionals join for free. Famyle is not an employer or staffing agency.", "",
-        "## Key facts", f"- City: Orlando, FL and nearby (Kissimmee, Clermont, Winter Garden). Families pay nothing until there are professionals for them.", f"- Family price: US$29.99/month, cancel anytime online.", "- Professionals: free to join; profiles include a short video interview and ID verification.", "- Languages: English, Portuguese, Spanish.", "", "## Pages"] + [f"- [{t}]({BASE}{p})" for p, t in pages]
+        "## Key facts", f"- City: Orlando, FL and nearby (Kissimmee, Clermont, Winter Garden). Families pay nothing until there are professionals for them.", "- Free for families and professionals: no subscription, no fees.", "- Professionals: free to join; profiles include a short video interview and ID verification.", "- Languages: English, Portuguese, Spanish.", "", "## Pages"] + [f"- [{t}]({BASE}{p})" for p, t in pages]
 open(os.path.join(ROOT, "llms.txt"), "w", encoding="utf-8").write("\n".join(llms) + "\n")
 os.makedirs(os.path.join(ROOT, "assets"), exist_ok=True); open(os.path.join(ROOT, "assets", "site.css"), "w", encoding="utf-8").write(CSS)
 print(len(pages), "paginas geradas")
