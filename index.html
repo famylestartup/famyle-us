@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
 <title>Famyle Orlando — Housekeepers, house cleaners, nannies and pet sitters</title>
 <meta name="description" content="Famyle is coming to Orlando. Post a job for free, get applications from verified local nannies, babysitters, house cleaners and pet sitters, and watch their video interviews before you call.">
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11419257934"></script>
@@ -46,7 +47,7 @@ input,select{width:100%;padding:12px;border:1px solid var(--line);border-radius:
 <header><div class="wrap"><div class="logo">famyle</div><div class="tag">Opening in Orlando · early 2027</div></div></header>
 
 <div class="hero"><div class="wrap">
-  <h1>Find a trusted housekeeper, house cleaner, nanny or pet sitter in Orlando.</h1>
+  <h1 id="h1">Find a trusted housekeeper, house cleaner, nanny or pet sitter in Orlando.</h1>
   <p class="lead">Post your job for free. Local professionals apply to you. Watch each one's short video interview and see their verified ID before you ever pick up the phone.</p>
   <div class="cats"><span>Housekeeper</span><span>House cleaner</span><span>Nanny</span><span>Babysitter</span><span>Pet sitter</span><span>Cook</span></div>
   <button class="btn" onclick="openSub('hero')">Get started — US$29.99/month</button>
@@ -118,6 +119,11 @@ function send(e){e.preventDefault();
   var body={_subject:'Famyle Orlando - lista de espera',_template:'table',email:em.value,zip:zip.value,cat:cat.value,when:when.value,src:location.search,ts:new Date().toISOString()};
   try{fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(body)});}catch(x){}
   conv('tPyrCI_drbAdEM6YkMUq');document.getElementById('f').style.display='none';document.getElementById('t').style.display='block';return false;}
+</script>
+<script>
+// headline por grupo de anuncio (utm_content), mesma pagina: relevancia do anuncio sem criar paginas indexaveis
+(function(){var m={cleaning:["Find a trusted housekeeper or house cleaner in Orlando.","Housekeeper"],childcare:["Find a trusted nanny or babysitter in Orlando.","Nanny"],pet:["Find a trusted pet sitter in Orlando.","Pet sitter"]};
+var k=new URLSearchParams(location.search).get('utm_content');if(m[k]){document.getElementById('h1').textContent=m[k][0];var o=document.querySelector('#cat option[value="'+m[k][1]+'"]')||[].find.call(document.querySelectorAll('#cat option'),function(x){return x.textContent===m[k][1];});if(o)o.selected=true;}})();
 </script>
 </body>
 </html>
