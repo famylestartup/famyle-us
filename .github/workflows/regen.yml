@@ -1,0 +1,18 @@
+name: regen-daily
+# Regera o site 1x/dia: vaga vencida (validThrough <= agora+24h) sai da pagina e do sitemap sozinha.
+on:
+  schedule: [{cron: "17 9 * * *"}]
+  workflow_dispatch: {}
+  push: {paths: ["_gen/jobs.json", "_gen/facts.json", "_gen/gen.py"]}
+permissions: {contents: write}
+jobs:
+  regen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python _gen/gen.py
+      - run: |
+          git config user.name "famyle-bot"; git config user.email "bot@famyle.com"
+          git add -A; git diff --cached --quiet || (git commit -m "regen diario (vagas vencidas saem)" && git push)

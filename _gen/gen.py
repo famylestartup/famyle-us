@@ -9,6 +9,8 @@ TODAY = datetime.date.today().isoformat()
 AW = "AW-11419257934"; LBL_WAIT = "tPyrCI_drbAdEM6YkMUq"
 FORM = "https://formsubmit.co/ajax/adm@famyle.com"
 e = html.escape
+def pl(w):
+    w = w.lower(); return w[:-1] + 'ies' if w.endswith('y') and w[-2:-1] not in 'aeiou' else w + 's'
 pages = []  # (path, title) para sitemap/llms
 
 CSS = """:root{--ink:#1d1d2b;--muted:#5d5f73;--brand:#6b3fd6;--brand-2:#f4efff;--line:#e7e5ef;--ok:#1f8a5b}
@@ -22,7 +24,7 @@ h1{font-size:clamp(28px,5vw,40px);line-height:1.15;margin:10px 0 12px;letter-spa
 table{border-collapse:collapse;width:100%;margin:10px 0;font-size:15px}th,td{border:1px solid var(--line);padding:8px 10px;text-align:left}th{background:#faf9ff}
 .src{font-size:13px;color:var(--muted)}.box{border:1px solid var(--line);border-radius:16px;padding:20px;margin:20px 0}
 .btn{display:inline-block;background:var(--brand);color:#fff;border:0;border-radius:12px;padding:14px 22px;font-size:17px;font-weight:700;cursor:pointer;text-decoration:none}
-label{display:block;font-size:14px;font-weight:600;margin:10px 0 4px}input,select{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;font-size:16px;background:#fff}
+label{display:block;font-size:14px;font-weight:600;margin:10px 0 4px}input,select,textarea{width:100%;font-family:inherit;padding:11px;border:1px solid var(--line);border-radius:10px;font-size:16px;background:#fff}
 .row{display:flex;gap:10px}.row>*{flex:1}.ok{display:none;color:var(--ok);font-weight:700}
 ul.links{columns:2;padding-left:18px}footer{border-top:1px solid var(--line);margin-top:40px;padding:22px 0;color:var(--muted);font-size:14px}
 @media(max-width:600px){ul.links{columns:1}.row{flex-direction:column}}"""
@@ -41,18 +43,53 @@ def head(title, desc, path, jsonld):
 FOOT = """<footer><div class="wrap">Famyle is an online platform in Orlando, Florida: families hire professionals directly; Famyle is not an employer or a staffing agency.<br>
 <a href="/">For families</a> · <a href="/jobs/">For professionals</a> · <a href="/guides/">Guides</a> · <a href="mailto:suporte@famyle.com">suporte@famyle.com</a></div></footer>"""
 
+OFFER = "Founding family offer: the first 100 families in Orlando get 12 months free when Famyle starts charging."
+CC = "guilherme@famyle.com"
+AUTO_FAM = ("Thanks for posting your job on Famyle Orlando!\n\n"
+  "You're one of our founding families: the first 100 families in Orlando get 12 months free when Famyle starts charging.\n\n"
+  "What happens next:\n"
+  "1. We review your job and publish it on Famyle and Google Jobs. We never show your name, email, phone or address, only the area.\n"
+  "2. Local professionals apply. As soon as we have good candidates, we email you their profiles.\n"
+  "3. You talk to the ones you like and hire directly.\n\n"
+  "Need to change something? Just reply to this email.\n\n"
+  "Guilherme, Famyle")
+CATS_FORM = ["Housekeeper", "House Cleaner", "Nanny", "Babysitter", "Pet Sitter", "Private Cook"]
+
+def form_job(cat_label, city, fid="job"):
+    """Formulario 'publique sua vaga gratis' (familia). Mesmo HTML/JS nas LPs e na home (dialog)."""
+    opts = "".join(f'<option{" selected" if x == cat_label else ""}>{e(x)}</option>' for x in CATS_FORM)
+    mw = F["fl_min_wage"]["now"]
+    return f"""<form id="{fid}" onsubmit="return postJob(event,this)">
+<div class="row"><div><label>First name</label><input name="fn" required autocomplete="given-name"></div>
+<div><label>Email</label><input name="em" type="email" required autocomplete="email"></div></div>
+<div class="row"><div><label>I need a</label><select name="cat">{opts}</select></div>
+<div><label>ZIP code</label><input name="zip" inputmode="numeric" pattern="[0-9]{{5}}" required></div></div>
+<div class="row"><div><label>Schedule</label><select name="sch"><option>Part-time</option><option>Full-time</option><option>A few days a week</option><option>Once a week</option><option>Every 2 weeks</option><option>One-time</option></select></div>
+<div><label>Hours per week</label><input name="hrs" type="number" min="1" max="60" placeholder="e.g. 10"></div></div>
+<div class="row"><div><label>Pay you offer (US$/hour)</label><input name="pay" type="number" min="{mw:.0f}" max="80" step="0.5" required placeholder="e.g. 20"></div>
+<div><label>Start</label><select name="start"><option>Right now</option><option>Within a month</option><option>In 1–3 months</option></select></div></div>
+<label>Describe the job (optional)</label><textarea name="desc" maxlength="400" rows="3" placeholder="e.g. Weekly cleaning of a 3-bedroom house in Windermere, Tuesdays."></textarea>
+<label style="font-weight:400;display:flex;gap:8px;align-items:flex-start"><input type="checkbox" name="pub" required style="width:auto;margin-top:5px">Publish my job on Famyle and Google Jobs so local professionals can apply. My name, email and address are never shown.</label>
+<p class="src">{e(OFFER)} Florida minimum wage: ${mw:.2f}/hr.</p>
+<button class="btn" style="width:100%">Post my job — free</button></form>"""
+
+JOB_JS = """<script>function postJob(ev,f){ev.preventDefault();var g=function(n){return (f.elements[n]||{}).value||'';};
+var b={_subject:'Famyle Orlando - VAGA '+g('cat')+' '+g('zip'),_template:'table',_cc:'""" + CC + """',_autoresponse:""" + json.dumps(AUTO_FAM) + """,
+tipo:'familia-vaga',nome:g('fn'),email:g('em'),categoria:g('cat'),zip:g('zip'),horario:g('sch'),horas_semana:g('hrs'),pagamento_hora:g('pay'),inicio:g('start'),descricao:g('desc'),publicar:f.elements['pub'].checked?'sim':'nao',pagina:location.pathname,origem:location.search,ts:new Date().toISOString()};
+try{fetch('""" + FORM + """',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(b)});}catch(x){}
+try{gtag('event','conversion',{send_to:'""" + AW + "/" + LBL_WAIT + """'});}catch(x){}
+f.style.display='none';var ok=document.getElementById(f.id+'-ok');if(ok)ok.style.display='block';return false;}</script>"""
+
+def ok_box(fid):
+    return f"""<div class="ok" id="{fid}-ok"><p>Your job is in ✓ Check your email: we sent you what happens next.</p>
+<p style="color:var(--ink);font-weight:400">You're one of our <b>founding families</b>: the first 100 families in Orlando get <b>12 months free</b> when Famyle starts charging. We'll publish your job (without your name or contact) and email you as soon as local professionals apply.</p>
+<a class="btn" href="https://wa.me/?text=I%20just%20posted%20a%20job%20on%20Famyle%20to%20find%20trusted%20help%20in%20Orlando%20%E2%80%94%20it%27s%20free%3A%20https%3A%2F%2Fus.famyle.com%2F" target="_blank" rel="noopener">Share with a friend on WhatsApp</a></div>"""
+
 def form_family(cat_label, city):
-    return f"""<div class="box" id="join"><h2 style="margin-top:0">Find a {e(cat_label.lower())} in {e(city)}</h2>
-<p>Tell us where and when. Posting is free.</p>
-<form onsubmit="return wl(event)"><label for="em">Email</label><input id="em" type="email" required autocomplete="email">
-<div class="row"><div><label for="zip">ZIP code</label><input id="zip" inputmode="numeric" pattern="[0-9]{{5}}" required></div>
-<div><label for="when">When do you need help?</label><select id="when"><option>Right now</option><option>In the next 3 months</option><option>Just looking</option></select></div></div><br>
-<button class="btn">Find a {e(cat_label.lower())}</button></form><div class="ok" id="ok"><p>Got it! ✓ We don't have enough {e(cat_label.lower())}s in your area yet — we're looking for them now and will email you as soon as we have candidates. You'll be among the first families we contact.</p>
-<p style="color:var(--ink);font-weight:400">What you'll get on Famyle: it's <b>free</b>, every professional has a <b>video interview</b> and a <b>verified ID</b>, and every job is posted by a real family. Help us get there faster:</p>
-<a class="btn" href="https://wa.me/?text=I%20just%20posted%20on%20Famyle%20to%20find%20trusted%20help%20in%20Orlando%20%E2%80%94%20it%27s%20free%3A%20https%3A%2F%2Fus.famyle.com%2F" target="_blank" rel="noopener">Share with a friend on WhatsApp</a></div></div>
-<script>function wl(ev){{ev.preventDefault();var b={{_subject:'Famyle Orlando - lista de espera',_template:'table',tipo:'familia',categoria:'{e(cat_label)}',cidade:'{e(city)}',email:em.value,zip:zip.value,when:when.value,pagina:location.pathname,origem:location.search,ts:new Date().toISOString()}};
-try{{fetch('{FORM}',{{method:'POST',headers:{{'Content-Type':'application/json',Accept:'application/json'}},body:JSON.stringify(b)}});}}catch(x){{}}
-try{{gtag('event','conversion',{{send_to:'{AW}/{LBL_WAIT}'}});}}catch(x){{}}ev.target.style.display='none';document.getElementById('ok').style.display='block';return false;}}</script>"""
+    what = f"{e(cat_label.lower())} job" if cat_label in CATS_FORM else "job"
+    return f"""<div class="box" id="join"><h2 style="margin-top:0">Post your {what} in {e(city)} — free</h2>
+<p>Takes 1 minute. Local professionals apply to you.</p>
+{form_job(cat_label, city)}{ok_box("job")}</div>{JOB_JS}"""
 
 def faq_ld(qas):
     return {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in qas]}
@@ -95,7 +132,7 @@ for c in F["categories"]:
         qas = [(f"How much does a {c['label'].lower()} cost in {cn}, FL?",
                 (f"Families in the Orlando area typically pay ${m['lo']:.2f} to ${m['hi']:.2f} per hour (Care.com, {m['asof']}). " if m else "")
                 + f"The BLS median wage for {w['label'].lower()} in the {w['area']} is ${w['median']:.2f}/hour ({w['period']}), and the Florida minimum wage is ${F['fl_min_wage']['now']:.2f}/hour."),
-               (f"Is Famyle available in {cn}?", f"Yes. Post your job for free. If we don't have enough {c['label'].lower()}s in your area yet, we'll look for them and contact you as soon as we have candidates."),
+               (f"Is Famyle available in {cn}?", f"Yes. Post your job for free. If we don't have enough {pl(c['label'])} in your area yet, we'll look for them and contact you as soon as we have candidates."),
                ("Is Famyle free?", "Yes. Posting a job, receiving applications and contacting professionals is free. No subscription, no fees."),
                ] + [(q.replace("{city}", cn), a.replace("{city}", cn)) for q, a in c["faq"]]
         ld = {"@context": "https://schema.org", "@graph": [ORG,
@@ -129,13 +166,60 @@ for c in F["categories"]:
 </div>{FOOT}</body></html>"""
         write(path, body); pages.append((path, title))
 
+# ---------- VAGAS REAIS (JobPosting -> Google Jobs) ----------
+# Fonte: _gen/jobs.json (1 item por vaga recebida no formulario, so com publicar=sim).
+# Regra D-379 (BR): so emite vaga com validThrough > agora+24h; vencida sai da pagina e do sitemap.
+NOW = datetime.datetime.now(datetime.timezone.utc)
+CAT_BY_LABEL = {c["label"]: c for c in F["categories"]}
+EMP = {"Full-time": "FULL_TIME", "Part-time": "PART_TIME", "A few days a week": "PART_TIME", "Once a week": "PART_TIME", "Every 2 weeks": "PART_TIME", "One-time": "TEMPORARY"}
+try:
+    JOBS = json.load(open(os.path.join(ROOT, "_gen", "jobs.json"), encoding="utf-8"))
+except FileNotFoundError:
+    JOBS = []
+open_jobs = {}
+for j in JOBS:
+    c = CAT_BY_LABEL.get(j["cat"])
+    if not c or j.get("closed"):
+        continue
+    posted = datetime.datetime.fromisoformat(j["posted"]).replace(tzinfo=datetime.timezone.utc)
+    valid = posted + datetime.timedelta(days=j.get("valid_days", 30))
+    if valid <= NOW + datetime.timedelta(hours=24):
+        continue
+    path = f"/jobs/{c['slug']}/fl/orlando/{j['id']}/"
+    area = j.get("area") or "Orlando"
+    title = f"{c['label']} — {j['schedule']} in {area}, FL"
+    hrs = f", about {j['hours']} hours a week" if j.get("hours") else ""
+    desc_txt = (j.get("desc") or "").strip()
+    desc_html = (f"<p>{e(desc_txt)}</p>" if desc_txt else "") + f"<p>A family in {e(area)}, Florida (ZIP {e(j['zip'])}) is looking for a {e(c['label'].lower())}: {e(j['schedule'].lower())}{e(hrs)}. Pay: ${float(j['pay']):.2f} per hour. Start: {e(j['start'].lower())}.</p><p>Apply for free on Famyle: create your profile, verify your ID and record a short video interview. The family will contact you directly. Famyle never charges professionals.</p>"
+    jp = {"@context": "https://schema.org", "@type": "JobPosting", "title": f"{c['label']} ({j['schedule']})", "description": desc_html,
+          "datePosted": posted.date().isoformat(), "validThrough": valid.isoformat(), "employmentType": EMP.get(j["schedule"], "PART_TIME"),
+          "hiringOrganization": {"@type": "Organization", "name": "Private family via Famyle", "sameAs": BASE + "/"},
+          "jobLocation": {"@type": "Place", "address": {"@type": "PostalAddress", "addressLocality": area, "addressRegion": "FL", "postalCode": j["zip"], "addressCountry": "US"}},
+          "baseSalary": {"@type": "MonetaryAmount", "currency": "USD", "value": {"@type": "QuantitativeValue", "value": float(j["pay"]), "unitText": "HOUR"}},
+          "directApply": False, "identifier": {"@type": "PropertyValue", "name": "Famyle", "value": j["id"]}}
+    apply = f"/pro.html?cat={c['label'].replace(' ', '%20')}&job={j['id']}"
+    body = head(title + " | Famyle", f"{c['label']} job in {area}, FL: {j['schedule'].lower()}, ${float(j['pay']):.2f}/hour. Apply free on Famyle.", path, jp) + f"""
+<div class="hero"><div class="wrap"><div class="crumbs"><a href="/">Famyle</a> › <a href="/jobs/">Jobs</a> › <a href="/jobs/{c['slug']}/fl/orlando/">{e(c['label'])}</a> › {e(area)}</div>
+<h1>{e(title)}</h1><p class="lead">${float(j['pay']):.2f}/hour · {e(j['schedule'])}{e(hrs)} · posted {posted.date().isoformat()}</p>
+<a class="btn" href="{apply}">Apply free</a></div></div>
+<div class="wrap">{desc_html}<p><a class="btn" href="{apply}">Apply free</a></p>
+<p class="src">Posted by a real family on Famyle. Famyle is an online platform, not the employer. <a href="/jobs/{c['slug']}/fl/orlando/">More {e(c['label'].lower())} jobs in Orlando</a>.</p></div>{FOOT}</body></html>"""
+    write(path, body); pages.append((path, title))
+    open_jobs.setdefault(c["slug"], []).append((path, title, j))
+
+def jobs_list(slug=None):
+    items = [x for k, v in open_jobs.items() if slug in (None, k) for x in v]
+    if not items:
+        return ""
+    return "<h2>Open jobs now</h2><ul>" + "".join(f'<li><a href="{p}">{e(t)}</a> — ${float(j["pay"]):.2f}/hr</li>' for p, t, j in items) + "</ul>"
+
 # ---------- LPs de vaga (profissional) ----------
 for c in F["categories"]:
     path = f"/jobs/{c['slug']}/fl/orlando/"
     title = f"{c['label']} Jobs in Orlando, FL — Join Free | Famyle"
     desc = f"{c['label']} jobs with local families in Orlando, Florida. Free to join. Pay rates, what families look for, and how Famyle works."
     w = F["wages"][c["bls"]]; m = F["market"].get(c["market"])
-    qas = [(f"How much do {c['label'].lower()}s make in Orlando?", f"The BLS median wage for {w['label'].lower()} in the {w['area']} is ${w['median']:.2f}/hour ({w['period']})." + (f" Families hiring privately typically pay ${m['lo']:.2f} to ${m['hi']:.2f}/hour (Care.com, {m['asof']})." if m else "")),
+    qas = [(f"How much do {pl(c['label'])} make in Orlando?", f"The BLS median wage for {w['label'].lower()} in the {w['area']} is ${w['median']:.2f}/hour ({w['period']})." + (f" Families hiring privately typically pay ${m['lo']:.2f} to ${m['hi']:.2f}/hour (Care.com, {m['asof']})." if m else "")),
            ("Do I pay to join Famyle?", "No. Creating your profile and applying to jobs is free."),
            ("Do I need to speak English?", "Many Orlando families look for bilingual professionals. Famyle works in English, Portuguese and Spanish."),
            ("Are there jobs near me right now?", "Sign up and we'll contact you by WhatsApp, text or email as soon as a family near you posts a job. If there are no open jobs in your area yet, you'll be among the first professionals we contact.")]
@@ -144,8 +228,9 @@ for c in F["categories"]:
 <div class="hero"><div class="wrap"><div class="crumbs"><a href="/">Famyle</a> › <a href="/jobs/">Jobs</a> › {e(c['label'])} · Orlando, FL</div>
 <h1>{e(c['label'])} jobs in Orlando, FL</h1><p class="lead">Work directly with local families. Free to join.</p>
 <a class="btn" href="/pro.html?cat={e(c['label'])}">Join free</a> <a class="btn" style="background:#fff;color:var(--brand);border:1px solid var(--brand)" href="/pro.html?lang=pt">Português</a> <a class="btn" style="background:#fff;color:var(--brand);border:1px solid var(--brand)" href="/pro.html?lang=es">Español</a></div></div>
-<div class="wrap"><h2>How much {e(c['label'].lower())}s make in Orlando</h2>{wage_table(c)}
+<div class="wrap"><h2>How much {e(pl(c['label']))} make in Orlando</h2>{wage_table(c)}
 <h2>What families look for</h2><ul>{''.join('<li>'+e(x)+'</li>' for x in c['families_want'])}</ul>
+{jobs_list(c['slug'])}
 <h2>How Famyle works for professionals</h2><ol><li>Create your free profile and verify your ID.</li><li>Record a short video interview so families can meet you.</li><li>Apply to jobs near you; families contact you directly.</li><li>You agree on pay and schedule with the family.</li></ol>
 <h2>Why professionals choose Famyle</h2><ul><li><b>Free.</b> No membership, and we never take a cut of what families pay you.</li><li><b>Real families only.</b> Every job is posted by a real family near you.</li><li><b>Stand out with your video interview</b> — families meet you before they call.</li><li><b>Work in your language:</b> English, Spanish or Portuguese.</li><li><b>Closest jobs first,</b> so you spend less time driving.</li></ul>
 <p><a class="btn" href="/pro.html?cat={e(c['label'])}">Join free</a></p>
@@ -179,7 +264,7 @@ for nb in F["neighborhoods"]:
 # hub de vagas
 hub = "".join(f'<li><a href="/jobs/{c["slug"]}/fl/orlando/">{e(c["label"])} jobs in Orlando</a></li>' for c in F["categories"])
 write("/jobs/", head("Household Jobs in Orlando, FL — Join Free | Famyle", "Housekeeper, house cleaner, nanny, babysitter, pet sitter and cook jobs with families in Orlando, Florida. Free to join.", "/jobs/", {"@context": "https://schema.org", "@graph": [ORG]})
-      + f'<div class="hero"><div class="wrap"><h1>Household jobs in Orlando, FL</h1><p class="lead">Free for professionals.</p><a class="btn" href="/pro.html">Join free</a></div></div><div class="wrap"><ul class="links">{hub}</ul></div>{FOOT}</body></html>')
+      + f'<div class="hero"><div class="wrap"><h1>Household jobs in Orlando, FL</h1><p class="lead">Free for professionals.</p><a class="btn" href="/pro.html">Join free</a></div></div><div class="wrap">{jobs_list()}<h2>Jobs by category</h2><ul class="links">{hub}</ul></div>{FOOT}</body></html>')
 pages.append(("/jobs/", "Household jobs in Orlando"))
 
 # ---------- guias ----------
@@ -206,3 +291,14 @@ llms = ["# Famyle (United States)", "", "> Famyle is an online platform where fa
 open(os.path.join(ROOT, "llms.txt"), "w", encoding="utf-8").write("\n".join(llms) + "\n")
 os.makedirs(os.path.join(ROOT, "assets"), exist_ok=True); open(os.path.join(ROOT, "assets", "site.css"), "w", encoding="utf-8").write(CSS)
 print(len(pages), "paginas geradas")
+
+# ---------- home (index.html, escrita a mao): troca o formulario da lista de espera pelo de vaga ----------
+import re as _re
+_ix = os.path.join(ROOT, "index.html"); _h = open(_ix, encoding="utf-8").read()
+_new_f = '<div id="f"><h3>Post your job — free</h3><p>Takes 1 minute. Local professionals apply to you.</p>' + form_job("House Cleaner", "Orlando") + '</div>' + ok_box("job")
+_h = _re.sub(r'<div id="f">.*?</div>\s*<div id="t" class="thanks">.*?</div>\n</div></dialog>', lambda m: _new_f + '\n</div></dialog>', _h, count=1, flags=_re.S)
+_h = _h.replace("document.querySelector('#cat option[value=\"'+m[k][1]+'\"]')||[].find.call(document.querySelectorAll('#cat option')", "[].find.call(document.querySelectorAll('select[name=cat] option')")
+_h = _h.replace('pet:["Find a trusted pet sitter in Orlando.","Pet sitter"]', 'pet:["Find a trusted pet sitter in Orlando.","Pet Sitter"]').replace('cleaning:["Find a trusted housekeeper or house cleaner in Orlando.","Housekeeper"]', 'cleaning:["Find a trusted housekeeper or house cleaner in Orlando.","House Cleaner"]')
+if "function postJob" not in _h:
+    _h = _h.replace("</body>", JOB_JS + "\n</body>", 1)
+open(_ix, "w", encoding="utf-8").write(_h)
