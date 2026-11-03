@@ -8,6 +8,7 @@ BASE = "https://us.famyle.com"
 TODAY = datetime.date.today().isoformat()
 AW = "AW-11419257934"; LBL_WAIT = "tPyrCI_drbAdEM6YkMUq"
 FORM = "https://formsubmit.co/ajax/adm@famyle.com"
+API = "https://api.famyle.com/metrics/us/lead/"  # D-444: grava no nosso banco (tabela us_lead)
 e = html.escape
 def pl(w):
     w = w.lower(); return w[:-1] + 'ies' if w.endswith('y') and w[-2:-1] not in 'aeiou' else w + 's'
@@ -76,6 +77,8 @@ def form_job(cat_label, city, fid="job"):
 JOB_JS = """<script>function postJob(ev,f){ev.preventDefault();var g=function(n){return (f.elements[n]||{}).value||'';};
 var b={_subject:'Famyle Orlando - VAGA '+g('cat')+' '+g('zip'),_template:'table',_cc:'""" + CC + """',_autoresponse:""" + json.dumps(AUTO_FAM) + """,
 tipo:'familia-vaga',nome:g('fn'),email:g('em'),categoria:g('cat'),zip:g('zip'),horario:g('sch'),horas_semana:g('hrs'),pagamento_hora:g('pay'),inicio:g('start'),descricao:g('desc'),publicar:f.elements['pub'].checked?'sim':'nao',pagina:location.pathname,origem:location.search,ts:new Date().toISOString()};
+var a={kind:'family_job',name:b.nome,email:b.email,zip:b.zip,category:b.categoria,language:'en',page:b.pagina,origin:b.origem,schedule:b.horario,hours_week:b.horas_semana,pay_hour:b.pagamento_hora,start:b.inicio,description:b.descricao,publish:b.publicar};
+try{fetch('""" + API + """',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(a),keepalive:true});}catch(x){}
 try{fetch('""" + FORM + """',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(b)});}catch(x){}
 try{gtag('event','conversion',{send_to:'""" + AW + "/" + LBL_WAIT + """'});}catch(x){}
 f.style.display='none';var ok=document.getElementById(f.id+'-ok');if(ok)ok.style.display='block';return false;}</script>"""
@@ -299,6 +302,6 @@ _new_f = '<div id="f"><h3>Post your job — free</h3><p>Takes 1 minute. Local pr
 _h = _re.sub(r'<div id="f">.*?</div>\s*<div id="t" class="thanks">.*?</div>\n</div></dialog>', lambda m: _new_f + '\n</div></dialog>', _h, count=1, flags=_re.S)
 _h = _h.replace("document.querySelector('#cat option[value=\"'+m[k][1]+'\"]')||[].find.call(document.querySelectorAll('#cat option')", "[].find.call(document.querySelectorAll('select[name=cat] option')")
 _h = _h.replace('pet:["Find a trusted pet sitter in Orlando.","Pet sitter"]', 'pet:["Find a trusted pet sitter in Orlando.","Pet Sitter"]').replace('cleaning:["Find a trusted housekeeper or house cleaner in Orlando.","Housekeeper"]', 'cleaning:["Find a trusted housekeeper or house cleaner in Orlando.","House Cleaner"]')
-if "function postJob" not in _h:
-    _h = _h.replace("</body>", JOB_JS + "\n</body>", 1)
+_h = _re.sub(r"<script>function postJob\(.*?</script>\n?", "", _h, flags=_re.S)
+_h = _h.replace("</body>", JOB_JS + "\n</body>", 1)
 open(_ix, "w", encoding="utf-8").write(_h)
