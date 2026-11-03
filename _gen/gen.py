@@ -8,7 +8,7 @@ BASE = "https://us.famyle.com"
 TODAY = datetime.date.today().isoformat()
 AW = "AW-11419257934"; LBL_WAIT = "tPyrCI_drbAdEM6YkMUq"
 FORM = "https://formsubmit.co/ajax/adm@famyle.com"
-API = "https://api.famyle.com/metrics/us/lead/"  # D-444: grava no nosso banco (tabela us_lead)
+API = "https://api.famyle.com/nps/us/lead/"  # D-444: grava no nosso banco (tabela us_lead). /nps/ e nao /metrics/: o Cloudflare desvia api.famyle.com/metrics/* para o Google
 e = html.escape
 def pl(w):
     w = w.lower(); return w[:-1] + 'ies' if w.endswith('y') and w[-2:-1] not in 'aeiou' else w + 's'
