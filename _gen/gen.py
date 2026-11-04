@@ -94,6 +94,9 @@ def form_family(cat_label, city):
 <p>Takes 1 minute. Local professionals apply to you.</p>
 {form_job(cat_label, city)}{ok_box("job")}</div>{JOB_JS}"""
 
+def answer_box(txt, label="Quick answer"):
+    return f'<div class="box answer"><p style="margin:0"><b>{e(label)}:</b> {e(txt)}</p></div>' if txt else ""
+
 def faq_ld(qas):
     return {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in qas]}
 
@@ -148,6 +151,7 @@ for c in F["categories"]:
 <h1>{e(c['label'])} in {e(cn)}, FL</h1><p class="lead">{e(c['intro'].replace('{city}', cn))}</p>
 <a class="btn" href="#join">Post your job — free</a></div></div>
 <div class="wrap">
+{answer_box((f"A {c['label'].lower()} in {cn}, FL typically costs ${m['lo']:.2f}–${m['hi']:.2f} per hour in 2026 (Care.com, {m['asof']})" if m else f"Private household cooks in Florida earn a median of ${w['median']:.2f} per hour (BLS, {w['period']})") + f". On Famyle, families post the job for free, local {pl(c['label'])} apply, and we talk to each one before introducing them. You hire directly and agree on pay and schedule.")}
 {('<p>' + e(city['note']) + '</p>') if city.get('note') else ''}
 <h2>How much does a {e(c['label'].lower())} cost in {e(cn)}?</h2>{wage_table(c)}
 <h2>What a {e(c['label'].lower())} does</h2><ul>{''.join('<li>'+e(x)+'</li>' for x in c['duties'])}</ul>
@@ -255,7 +259,7 @@ for nb in F["neighborhoods"]:
     body = head(title, desc, path, ld) + f"""
 <div class="hero"><div class="wrap"><div class="crumbs"><a href="/">Famyle</a> › Orlando › {e(nb['name'])}</div>
 <h1>Household help in {e(nb['name'])}, FL</h1><p class="lead">{e(nb['desc'])}</p><a class="btn" href="#join">Post your job — free</a></div></div>
-<div class="wrap"><p>Famyle serves {e(nb['name'])} (ZIP {e(nb['zips'])}) in {e(nb['area'])}, and nearby {e(', '.join(nb['near']))}. Professionals close to you show first, so they spend less time driving and are more likely to stay.</p>
+<div class="wrap">{answer_box(f"Families in {nb['name']}, FL (ZIP {nb['zips']}) can find nannies, babysitters, housekeepers, house cleaners, pet sitters and private cooks on Famyle for free. Typical Orlando rates in 2026: nanny ${F['market']['nanny']['lo']:.2f}–${F['market']['nanny']['hi']:.2f}/hour and house cleaning ${F['market']['cleaning']['lo']:.2f}–${F['market']['cleaning']['hi']:.2f}/hour (Care.com, {F['market']['nanny']['asof']}).")}<p>Famyle serves {e(nb['name'])} (ZIP {e(nb['zips'])}) in {e(nb['area'])}, and nearby {e(', '.join(nb['near']))}. Professionals close to you show first, so they spend less time driving and are more likely to stay.</p>
 <h2>What you can find in {e(nb['name'])}</h2><ul>{cats}</ul><p class="src">Rates: <a href="https://www.care.com/cost/nannies/orlando-fl">Care.com Orlando cost data, Nov 2026</a> · BLS OEWS May 2025.</p>
 {WHY_HTML}
 {form_family("Professional", nb["name"])}
@@ -276,7 +280,7 @@ for g in F["guides"]:
     ld = {"@context": "https://schema.org", "@graph": [ORG, {"@type": "Article", "headline": g["title"], "dateModified": TODAY, "author": {"@type": "Organization", "name": "Famyle"}}, faq_ld(g["faq"])]}
     body = head(g["title"] + " | Famyle", g["desc"], path, ld) + f"""
 <div class="hero"><div class="wrap"><div class="crumbs"><a href="/">Famyle</a> › <a href="/guides/">Guides</a></div><h1>{e(g['title'])}</h1><p class="lead">{e(g['desc'])}</p></div></div>
-<div class="wrap">{g['html']}
+<div class="wrap">{answer_box(g.get('answer'))}{g['html']}
 <h2>Frequently asked questions</h2>{''.join('<h3>'+e(q)+'</h3><p>'+e(a)+'</p>' for q,a in g['faq'])}
 <p class="src">Last updated {TODAY}. This guide is general information, not legal or tax advice.</p></div>{FOOT}</body></html>"""
     write(path, body); pages.append((path, g["title"]))
@@ -296,7 +300,7 @@ for g in F.get("guides_pt", []):
     ld = {"@context": "https://schema.org", "@graph": [ORG, {"@type": "Article", "headline": g["title"], "inLanguage": "pt-BR", "dateModified": TODAY, "author": {"@type": "Organization", "name": "Famyle"}}, faq_ld(g["faq"])]}
     body = head_pt(g["title"] + " | Famyle", g["desc"], path, ld) + f"""
 <div class="hero"><div class="wrap"><div class="crumbs"><a href="/">Famyle</a> › <a href="/pt/guias/">Guias em português</a></div><h1>{e(g['title'])}</h1><p class="lead">{e(g['desc'])}</p></div></div>
-<div class="wrap">{g['html']}
+<div class="wrap">{answer_box(g.get('answer'), "Resposta rápida")}{g['html']}
 <h2>Perguntas frequentes</h2>{''.join('<h3>'+e(q)+'</h3><p>'+e(a)+'</p>' for q,a in g['faq'])}
 <p class="src">Atualizado em {TODAY}. Este guia é informação geral, não orientação jurídica ou tributária.</p></div>{FOOT_PT}</body></html>"""
     write(path, body); pages.append((path, g["title"]))
