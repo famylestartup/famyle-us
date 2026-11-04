@@ -285,12 +285,33 @@ write("/guides/", head("Guides for Orlando Families | Famyle", "Costs, rules and
       + f'<div class="hero"><div class="wrap"><h1>Guides for Orlando families</h1></div></div><div class="wrap"><ul>{glist}</ul></div>{FOOT}</body></html>')
 pages.append(("/guides/", "Guides"))
 
+# ---------- guias em portugues (comunidade brasileira em Orlando) ----------
+FOOT_PT = """<footer><div class="wrap">A Famyle é uma plataforma online em Orlando, Flórida: a família contrata a profissional direto; a Famyle não é empregadora nem agência.<br>
+<a href="/">Para famílias</a> · <a href="/pro.html?lang=pt">Para profissionais</a> · <a href="/pt/guias/">Guias em português</a> · <a href="mailto:suporte@famyle.com">suporte@famyle.com</a></div></footer>"""
+def head_pt(title, desc, path, jsonld):
+    h = head(title, desc, path, jsonld).replace('<html lang="en">', '<html lang="pt-BR">', 1)
+    return h.replace('<nav><a href="/">Families</a><a href="/jobs/">Jobs</a><a href="/guides/">Guides</a></nav>', '<nav><a href="/">Famílias</a><a href="/pro.html?lang=pt">Profissionais</a><a href="/pt/guias/">Guias</a></nav>', 1)
+for g in F.get("guides_pt", []):
+    path = f"/pt/guias/{g['slug']}/"
+    ld = {"@context": "https://schema.org", "@graph": [ORG, {"@type": "Article", "headline": g["title"], "inLanguage": "pt-BR", "dateModified": TODAY, "author": {"@type": "Organization", "name": "Famyle"}}, faq_ld(g["faq"])]}
+    body = head_pt(g["title"] + " | Famyle", g["desc"], path, ld) + f"""
+<div class="hero"><div class="wrap"><div class="crumbs"><a href="/">Famyle</a> › <a href="/pt/guias/">Guias em português</a></div><h1>{e(g['title'])}</h1><p class="lead">{e(g['desc'])}</p></div></div>
+<div class="wrap">{g['html']}
+<h2>Perguntas frequentes</h2>{''.join('<h3>'+e(q)+'</h3><p>'+e(a)+'</p>' for q,a in g['faq'])}
+<p class="src">Atualizado em {TODAY}. Este guia é informação geral, não orientação jurídica ou tributária.</p></div>{FOOT_PT}</body></html>"""
+    write(path, body); pages.append((path, g["title"]))
+if F.get("guides_pt"):
+    _gl = "".join(f'<li><a href="/pt/guias/{g["slug"]}/">{e(g["title"])}</a></li>' for g in F["guides_pt"])
+    write("/pt/guias/", head_pt("Guias em português para famílias em Orlando | Famyle", "Quanto custa babá e diarista em Orlando, como contratar e o que a lei da Flórida exige, em português.", "/pt/guias/", {"@context": "https://schema.org", "@graph": [ORG]})
+          + f'<div class="hero"><div class="wrap"><h1>Guias em português para famílias em Orlando</h1><p class="lead">Babá, diarista e housekeeper em Orlando: valores, como contratar e o que a lei exige.</p></div></div><div class="wrap"><ul>{_gl}</ul></div>{FOOT_PT}</body></html>')
+    pages.append(("/pt/guias/", "Guias em português para famílias em Orlando"))
+
 # ---------- sitemap, robots, llms ----------
 all_paths = ["/", "/pro.html"] + [p for p, _ in pages]
 open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"<url><loc>{BASE}{p}</loc><lastmod>{TODAY}</lastmod></url>\n" for p in all_paths) + "</urlset>\n")
 open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8").write(f"User-agent: *\nAllow: /\nDisallow: /_gen/\nSitemap: {BASE}/sitemap.xml\n")
 llms = ["# Famyle (United States)", "", "> Famyle is an online platform where families find and hire housekeepers, house cleaners, nannies, babysitters, pet sitters and cooks directly. Operating in Brazil for over 10 years; now accepting families and professionals in Orlando, Florida. Families post jobs for free; professionals join for free. Famyle is not an employer or staffing agency.", "",
-        "## Key facts", f"- City: Orlando, FL and nearby (Kissimmee, Clermont, Winter Garden). Families pay nothing until there are professionals for them.", "- Free for families and professionals: no subscription, no fees.", "- Professionals: free to join; we talk to every professional before introducing them to a family.", "- Languages: English, Portuguese, Spanish.", "", "## Pages"] + [f"- [{t}]({BASE}{p})" for p, t in pages]
+        "## Key facts", f"- City: Orlando, FL and nearby (Kissimmee, Clermont, Winter Garden). Families pay nothing until there are professionals for them.", "- Free for families and professionals: no subscription, no fees.", "- Professionals: free to join; we talk to every professional before introducing them to a family.", "- Languages: English, Portuguese, Spanish. Guides in Portuguese for Brazilian families: https://us.famyle.com/pt/guias/", "", "## Pages"] + [f"- [{t}]({BASE}{p})" for p, t in pages]
 open(os.path.join(ROOT, "llms.txt"), "w", encoding="utf-8").write("\n".join(llms) + "\n")
 os.makedirs(os.path.join(ROOT, "assets"), exist_ok=True); open(os.path.join(ROOT, "assets", "site.css"), "w", encoding="utf-8").write(CSS)
 print(len(pages), "paginas geradas")
