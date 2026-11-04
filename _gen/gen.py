@@ -42,7 +42,7 @@ def head(title, desc, path, jsonld):
 <header><div class="wrap"><a class="logo" href="/">famyle</a><nav><a href="/">Families</a><a href="/jobs/">Jobs</a><a href="/guides/">Guides</a></nav></div></header>"""
 
 FOOT = """<footer><div class="wrap">Famyle is an online platform in Orlando, Florida: families hire professionals directly; Famyle is not an employer or a staffing agency.<br>
-<a href="/">For families</a> · <a href="/jobs/">For professionals</a> · <a href="/guides/">Guides</a> · <a href="mailto:suporte@famyle.com">suporte@famyle.com</a></div></footer>"""
+<a href="/">For families</a> · <a href="/jobs/">For professionals</a> · <a href="/guides/">Guides</a> · <a href="/pt/guias/">Guias em português</a> · <a href="mailto:suporte@famyle.com">suporte@famyle.com</a><br>Areas: <a href="/orlando/winter-garden-horizon-west/">Winter Garden &amp; Horizon West</a> · <a href="/orlando/windermere/">Windermere</a> · <a href="/orlando/dr-phillips/">Dr. Phillips</a> · <a href="/orlando/metrowest/">MetroWest</a></div></footer>"""
 
 OFFER = "Founding family offer: the first 100 families in Orlando get 12 months free when Famyle starts charging."
 CC = "guilherme@famyle.com"
@@ -107,7 +107,7 @@ WHY_HTML = """<h2>Why families choose Famyle</h2><ul>
 <li><b>Closest first.</b> The professionals nearest to you show first.</li>
 <li><b>English, Spanish and Portuguese.</b> Find a bilingual nanny or cleaner.</li>
 <li><b>A small team that listens.</b> Tell us what's missing and we fix it fast — usually the same week.</li></ul>"""
-ORG = {"@type": "Organization", "name": "Famyle", "url": BASE + "/", "description": "Online platform connecting families with housekeepers, house cleaners, nannies, babysitters, pet sitters and cooks. Operating in Brazil for over 10 years; now in Orlando, Florida."}
+ORG = {"@type": "Organization", "name": "Famyle", "url": BASE + "/", "description": "Online platform connecting families with housekeepers, house cleaners, nannies, babysitters, pet sitters and cooks. Operating in Brazil for over 10 years; now in Orlando, Florida.", "sameAs": ["https://famyle.com/"]}
 
 def write(path, body):
     fp = os.path.join(ROOT, path.strip("/"), "index.html") if not path.endswith(".html") else os.path.join(ROOT, path.strip("/"))
