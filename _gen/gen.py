@@ -6,7 +6,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 F = json.load(open(os.path.join(ROOT, "_gen", "facts.json"), encoding="utf-8"))
 BASE = "https://us.famyle.com"
 TODAY = datetime.date.today().isoformat()
-AW = "AW-11419257934"; LBL_WAIT = "tPyrCI_drbAdEM6YkMUq"
+GA = "G-8DPML3JJ6F"; AW = "AW-11419257934"; LBL_WAIT = "tPyrCI_drbAdEM6YkMUq"
 FORM = "https://formsubmit.co/ajax/adm@famyle.com"
 API = "https://api.famyle.com/nps/us/lead/"  # D-444: grava no nosso banco (tabela us_lead). /nps/ e nao /metrics/: o Cloudflare desvia api.famyle.com/metrics/* para o Google
 e = html.escape
@@ -37,7 +37,7 @@ def head(title, desc, path, jsonld):
 <meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:url" content="{url}"><meta property="og:type" content="website">
 <link rel="stylesheet" href="/assets/site.css">
 <script async src="https://www.googletagmanager.com/gtag/js?id={AW}"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','{AW}');</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','{AW}');gtag('config','{GA}');</script>
 <script type="application/ld+json">{json.dumps(jsonld, ensure_ascii=False)}</script></head><body>
 <header><div class="wrap"><a class="logo" href="/">famyle</a><nav><a href="/">Families</a><a href="/jobs/">Jobs</a><a href="/guides/">Guides</a></nav></div></header>"""
 
@@ -80,7 +80,7 @@ tipo:'familia-vaga',nome:g('fn'),email:g('em'),categoria:g('cat'),zip:g('zip'),h
 var a={kind:'family_job',name:b.nome,email:b.email,zip:b.zip,category:b.categoria,language:'en',page:b.pagina,origin:b.origem,schedule:b.horario,hours_week:b.horas_semana,pay_hour:b.pagamento_hora,start:b.inicio,description:b.descricao,publish:b.publicar};
 try{fetch('""" + API + """',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(a),keepalive:true});}catch(x){}
 try{fetch('""" + FORM + """',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(b)});}catch(x){}
-try{gtag('event','conversion',{send_to:'""" + AW + "/" + LBL_WAIT + """'});}catch(x){}
+try{gtag('event','conversion',{send_to:'""" + AW + "/" + LBL_WAIT + """'});}catch(x){}try{gtag('event','generate_lead',{lead_type:'family_job',category:a.category});}catch(x){}
 f.style.display='none';var ok=document.getElementById(f.id+'-ok');if(ok)ok.style.display='block';return false;}</script>"""
 
 def ok_box(fid):
