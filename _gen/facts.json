@@ -85,6 +85,16 @@
     {
      "slug": "orlando",
      "name": "Orlando"
+    },
+    {
+     "slug": "winter-garden",
+     "name": "Winter Garden",
+     "note": "In Winter Garden and Horizon West (ZIP 34787), many families hire a housekeeper a few days a week to keep up with laundry, cleaning and kids' routines. Housekeepers who live nearby can come more often for shorter visits. If your housekeeper works on your schedule, she may be your household employee — see the tax rules below."
+    },
+    {
+     "slug": "windermere",
+     "name": "Windermere",
+     "note": "Windermere (ZIP 34786) has many larger homes, so families often look for a housekeeper several days a week or full-time, sometimes combined with meal prep or help with the kids. Agree in writing on duties, hours and overtime; a full-time housekeeper on your schedule is usually your household employee."
     }
    ],
    "duties": [
@@ -189,6 +199,21 @@
     {
      "slug": "orlando",
      "name": "Orlando"
+    },
+    {
+     "slug": "winter-garden",
+     "name": "Winter Garden",
+     "note": "Winter Garden and the master-planned communities of Horizon West (ZIP 34787) have grown fast with young families, many of them Brazilian and Latin American. Many families here look for a nanny who can do school pick-ups along the SR-429 corridor, and bilingual nannies (English with Portuguese or Spanish) are in high demand. A nanny who lives nearby spends less time in traffic and is more likely to stay."
+    },
+    {
+     "slug": "windermere",
+     "name": "Windermere",
+     "note": "Windermere (ZIP 34786), around the Butler Chain of Lakes in southwest Orange County, has many larger homes and families with full-time schedules. Families here often look for an experienced full-time nanny who drives, and some offer longer weekly hours. Nannies from nearby Winter Garden, Dr. Phillips and MetroWest usually serve the area."
+    },
+    {
+     "slug": "kissimmee",
+     "name": "Kissimmee",
+     "note": "Kissimmee, in Osceola County just south of Orlando, has one of the area's largest Spanish- and Portuguese-speaking communities, which makes it easier to find a bilingual nanny. Many families here work in tourism and hospitality and need nannies for early mornings, evenings or weekends, so agree on the schedule and overtime in writing up front."
     }
    ],
    "duties": [
@@ -235,6 +260,16 @@
     {
      "slug": "orlando",
      "name": "Orlando"
+    },
+    {
+     "slug": "winter-garden",
+     "name": "Winter Garden",
+     "note": "In Winter Garden and Horizon West (ZIP 34787), families book babysitters for after-school hours, date nights and weekends. With so many Brazilian and Latin American families in the area, a babysitter who speaks Portuguese or Spanish with the kids is easy to find. Agree on the end time and the ride home before the first night."
+    },
+    {
+     "slug": "windermere",
+     "name": "Windermere",
+     "note": "Windermere (ZIP 34786) families often book the same babysitter every week for date nights or after-school help. Babysitters from nearby Winter Garden, Dr. Phillips and MetroWest usually serve the area. For late nights, many families pay the ride home."
     }
    ],
    "duties": [
