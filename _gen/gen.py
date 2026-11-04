@@ -103,8 +103,8 @@ def crumbs_ld(items):
 WHY_HTML = """<h2>Why families choose Famyle</h2><ul>
 <li><b>Free.</b> No subscription to see or contact professionals.</li>
 <li><b>Real jobs only.</b> Every job on Famyle is posted by a real family — no filler listings.</li>
-<li><b>Meet them before you call.</b> Every professional records a short video interview.</li>
-<li><b>Verified ID</b> on every profile, and the closest professionals show first.</li>
+<li><b>We talk to them first.</b> We talk to every professional before we introduce them to you.</li>
+<li><b>Closest first.</b> The professionals nearest to you show first.</li>
 <li><b>English, Spanish and Portuguese.</b> Find a bilingual nanny or cleaner.</li>
 <li><b>A small team that listens.</b> Tell us what's missing and we fix it fast — usually the same week.</li></ul>"""
 ORG = {"@type": "Organization", "name": "Famyle", "url": BASE + "/", "description": "Online platform connecting families with housekeepers, house cleaners, nannies, babysitters, pet sitters and cooks. Operating in Brazil for over 10 years; now in Orlando, Florida."}
@@ -153,12 +153,12 @@ for c in F["categories"]:
 <h2>What a {e(c['label'].lower())} does</h2><ul>{''.join('<li>'+e(x)+'</li>' for x in c['duties'])}</ul>
 <h2>What to ask before you hire</h2><ul>{''.join('<li>'+e(x)+'</li>' for x in c['ask'])}</ul>
 <h2>Hiring legally in Florida</h2><p>{e(c['legal'])} See our guide: <a href="/guides/hire-household-employee-florida/">how to hire a household employee in Florida</a>.</p>
-<h2>How Famyle works</h2><ol><li>Post your job for free.</li><li>Local professionals apply to you; the closest ones show first.</li><li>Watch each professional's short video interview and see their verified ID.</li><li>Hire directly: you agree on pay and schedule with the professional.</li><li>It's free: posting, receiving applications and contacting professionals.</li></ol>
+<h2>How Famyle works</h2><ol><li>Post your job for free.</li><li>Local professionals apply to you; the closest ones show first.</li><li>We talk to each professional before we introduce them.</li><li>Hire directly: you agree on pay and schedule with the professional.</li><li>It's free: posting, receiving applications and contacting professionals.</li></ol>
 <h2>Why families choose Famyle</h2><ul>
 <li><b>Free.</b> No subscription to see or contact professionals.</li>
 <li><b>Real jobs only.</b> Every job on Famyle is posted by a real family — no filler listings.</li>
-<li><b>Meet them before you call.</b> Every professional records a short video interview.</li>
-<li><b>Verified ID</b> on every profile, and the closest professionals show first.</li>
+<li><b>We talk to them first.</b> We talk to every professional before we introduce them to you.</li>
+<li><b>Closest first.</b> The professionals nearest to you show first.</li>
 <li><b>English, Spanish and Portuguese.</b> Find a bilingual nanny or cleaner.</li>
 <li><b>A small team that listens.</b> Tell us what's missing and we fix it fast — usually the same week.</li></ul>
 {form_family(c['label'], cn)}
@@ -193,7 +193,7 @@ for j in JOBS:
     title = f"{c['label']} — {j['schedule']} in {area}, FL"
     hrs = f", about {j['hours']} hours a week" if j.get("hours") else ""
     desc_txt = (j.get("desc") or "").strip()
-    desc_html = (f"<p>{e(desc_txt)}</p>" if desc_txt else "") + f"<p>A family in {e(area)}, Florida (ZIP {e(j['zip'])}) is looking for a {e(c['label'].lower())}: {e(j['schedule'].lower())}{e(hrs)}. Pay: ${float(j['pay']):.2f} per hour. Start: {e(j['start'].lower())}.</p><p>Apply for free on Famyle: create your profile, verify your ID and record a short video interview. The family will contact you directly. Famyle never charges professionals.</p>"
+    desc_html = (f"<p>{e(desc_txt)}</p>" if desc_txt else "") + f"<p>A family in {e(area)}, Florida (ZIP {e(j['zip'])}) is looking for a {e(c['label'].lower())}: {e(j['schedule'].lower())}{e(hrs)}. Pay: ${float(j['pay']):.2f} per hour. Start: {e(j['start'].lower())}.</p><p>Apply for free on Famyle: create your free profile and we will get in touch. The family will contact you directly. Famyle never charges professionals.</p>"
     jp = {"@context": "https://schema.org", "@type": "JobPosting", "title": f"{c['label']} ({j['schedule']})", "description": desc_html,
           "datePosted": posted.date().isoformat(), "validThrough": valid.isoformat(), "employmentType": EMP.get(j["schedule"], "PART_TIME"),
           "hiringOrganization": {"@type": "Organization", "name": "Private family via Famyle", "sameAs": BASE + "/"},
@@ -234,8 +234,8 @@ for c in F["categories"]:
 <div class="wrap"><h2>How much {e(pl(c['label']))} make in Orlando</h2>{wage_table(c)}
 <h2>What families look for</h2><ul>{''.join('<li>'+e(x)+'</li>' for x in c['families_want'])}</ul>
 {jobs_list(c['slug'])}
-<h2>How Famyle works for professionals</h2><ol><li>Create your free profile and verify your ID.</li><li>Record a short video interview so families can meet you.</li><li>Apply to jobs near you; families contact you directly.</li><li>You agree on pay and schedule with the family.</li></ol>
-<h2>Why professionals choose Famyle</h2><ul><li><b>Free.</b> No membership, and we never take a cut of what families pay you.</li><li><b>Real families only.</b> Every job is posted by a real family near you.</li><li><b>Stand out with your video interview</b> — families meet you before they call.</li><li><b>Work in your language:</b> English, Spanish or Portuguese.</li><li><b>Closest jobs first,</b> so you spend less time driving.</li></ul>
+<h2>How Famyle works for professionals</h2><ol><li>Create your free profile.</li><li>We get in touch to learn about your experience.</li><li>Apply to jobs near you; families contact you directly.</li><li>You agree on pay and schedule with the family.</li></ol>
+<h2>Why professionals choose Famyle</h2><ul><li><b>Free.</b> No membership, and we never take a cut of what families pay you.</li><li><b>Real families only.</b> Every job is posted by a real family near you.</li><li><b>We introduce you to families</b> looking for someone near you.</li><li><b>Work in your language:</b> English, Spanish or Portuguese.</li><li><b>Closest jobs first,</b> so you spend less time driving.</li></ul>
 <p><a class="btn" href="/pro.html?cat={e(c['label'])}">Join free</a></p>
 <h2>Frequently asked questions</h2>{''.join('<h3>'+e(q)+'</h3><p>'+e(a)+'</p>' for q,a in qas)}
 <h2>Other jobs in Orlando</h2><ul class="links">{''.join(f'<li><a href="/jobs/{o["slug"]}/fl/orlando/">{e(o["label"])} jobs</a></li>' for o in F["categories"] if o["slug"]!=c["slug"])}</ul>
@@ -290,7 +290,7 @@ all_paths = ["/", "/pro.html"] + [p for p, _ in pages]
 open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"<url><loc>{BASE}{p}</loc><lastmod>{TODAY}</lastmod></url>\n" for p in all_paths) + "</urlset>\n")
 open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8").write(f"User-agent: *\nAllow: /\nDisallow: /_gen/\nSitemap: {BASE}/sitemap.xml\n")
 llms = ["# Famyle (United States)", "", "> Famyle is an online platform where families find and hire housekeepers, house cleaners, nannies, babysitters, pet sitters and cooks directly. Operating in Brazil for over 10 years; now accepting families and professionals in Orlando, Florida. Families post jobs for free; professionals join for free. Famyle is not an employer or staffing agency.", "",
-        "## Key facts", f"- City: Orlando, FL and nearby (Kissimmee, Clermont, Winter Garden). Families pay nothing until there are professionals for them.", "- Free for families and professionals: no subscription, no fees.", "- Professionals: free to join; profiles include a short video interview and ID verification.", "- Languages: English, Portuguese, Spanish.", "", "## Pages"] + [f"- [{t}]({BASE}{p})" for p, t in pages]
+        "## Key facts", f"- City: Orlando, FL and nearby (Kissimmee, Clermont, Winter Garden). Families pay nothing until there are professionals for them.", "- Free for families and professionals: no subscription, no fees.", "- Professionals: free to join; we talk to every professional before introducing them to a family.", "- Languages: English, Portuguese, Spanish.", "", "## Pages"] + [f"- [{t}]({BASE}{p})" for p, t in pages]
 open(os.path.join(ROOT, "llms.txt"), "w", encoding="utf-8").write("\n".join(llms) + "\n")
 os.makedirs(os.path.join(ROOT, "assets"), exist_ok=True); open(os.path.join(ROOT, "assets", "site.css"), "w", encoding="utf-8").write(CSS)
 print(len(pages), "paginas geradas")

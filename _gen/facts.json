@@ -184,7 +184,7 @@
    "label": "Nanny",
    "bls": "childcare",
    "market": "nanny",
-   "intro": "Find a trusted nanny in {city} for full-time or part-time childcare in your home. Post your job for free, watch each nanny's video interview and hire directly.",
+   "intro": "Find a trusted nanny in {city} for full-time or part-time childcare in your home. Post your job for free, meet the nannies we introduce and hire directly.",
    "cities": [
     {
      "slug": "orlando",
@@ -258,7 +258,7 @@
     ],
     [
      "Is it safe to hire a babysitter online?",
-     "Meet first, check references, and watch the babysitter's video interview on Famyle. Every professional verifies their ID before applying."
+     "Meet first and check references. On Famyle, we talk to every professional before we introduce them to you."
     ]
    ],
    "families_want": [
