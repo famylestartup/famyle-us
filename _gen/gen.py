@@ -87,7 +87,7 @@ try{gtag('event','conversion',{send_to:'""" + AW + "/" + LBL_WAIT + """'});}catc
 f.style.display='none';var ok=document.getElementById(f.id+'-ok');if(ok)ok.style.display='block';return false;}</script>"""
 
 def ok_box(fid):
-    return f"""<div class="ok" id="{fid}-ok"><p>Your job is in ✓ Check your email: we sent you what happens next.</p>
+    return f"""<div class="ok" id="{fid}-ok"><p>Your job is in ✓ We'll email you within 1 business day with what happens next.</p>
 <p style="color:var(--ink);font-weight:400">You're one of our <b>founding families</b>: the first 100 families in Orlando get <b>12 months free</b> when Famyle starts charging. We'll publish your job (without your name or contact) and email you as soon as local professionals apply.</p>
 <a class="btn" href="https://wa.me/?text=I%20just%20posted%20a%20job%20on%20Famyle%20to%20find%20trusted%20help%20in%20Orlando%20%E2%80%94%20it%27s%20free%3A%20https%3A%2F%2Fus.famyle.com%2F" target="_blank" rel="noopener">Share with a friend on WhatsApp</a></div>"""
 
