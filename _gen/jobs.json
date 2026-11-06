@@ -11,5 +11,18 @@
   "desc": "Family in the Hunter's Creek area is looking for a babysitter a few days a week, about 13 hours per week, starting right away. Experience with children and reliable availability are a plus.",
   "posted": "2026-11-05T08:04:54",
   "valid_days": 30
+ },
+ {
+  "id": "7",
+  "cat": "House Cleaner",
+  "zip": "32839",
+  "area": "Orlando",
+  "schedule": "Full-time",
+  "hours": "40",
+  "pay": 20.0,
+  "start": "Right now",
+  "desc": "Family in the Orlando area is looking for a house cleaner full-time, about 40 hours per week, starting right away.",
+  "posted": "2026-11-06T18:34:24",
+  "valid_days": 30
  }
 ]
