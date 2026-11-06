@@ -200,17 +200,18 @@ for j in JOBS:
     title = f"{c['label']} — {j['schedule']} in {area}, FL"
     hrs = f", about {j['hours']} hours a week" if j.get("hours") else ""
     desc_txt = (j.get("desc") or "").strip()
-    desc_html = (f"<p>{e(desc_txt)}</p>" if desc_txt else "") + f"<p>A family in {e(area)}, Florida (ZIP {e(j['zip'])}) is looking for a {e(c['label'].lower())}: {e(j['schedule'].lower())}{e(hrs)}. Pay: ${float(j['pay']):.2f} per hour. Start: {e(j['start'].lower())}.</p><p>Apply for free on Famyle: create your free profile and we will get in touch. The family will contact you directly. Famyle never charges professionals.</p>"
+    desc_html = (f"<p>{e(desc_txt)}</p>" if desc_txt else "") + f"<p>A family in {e(area)}, Florida (ZIP {e(j['zip'])}) is looking for a {e(c['label'].lower())}: {e(j['schedule'].lower())}{e(hrs)}. {f"Pay: ${float(j['pay']):.2f} per hour. " if j.get('pay') else ''}Start: {e(j['start'].lower())}.</p><p>Apply for free on Famyle: create your free profile and we will get in touch. The family will contact you directly. Famyle never charges professionals.</p>"
     jp = {"@context": "https://schema.org", "@type": "JobPosting", "title": f"{c['label']} ({j['schedule']})", "description": desc_html,
           "datePosted": posted.date().isoformat(), "validThrough": valid.isoformat(), "employmentType": EMP.get(j["schedule"], "PART_TIME"),
           "hiringOrganization": {"@type": "Organization", "name": "Private family via Famyle", "sameAs": BASE + "/"},
           "jobLocation": {"@type": "Place", "address": {"@type": "PostalAddress", "addressLocality": area, "addressRegion": "FL", "postalCode": j["zip"], "addressCountry": "US"}},
-          "baseSalary": {"@type": "MonetaryAmount", "currency": "USD", "value": {"@type": "QuantitativeValue", "value": float(j["pay"]), "unitText": "HOUR"}},
           "directApply": False, "identifier": {"@type": "PropertyValue", "name": "Famyle", "value": j["id"]}}
+    if j.get("pay"): jp["baseSalary"] = {"@type": "MonetaryAmount", "currency": "USD", "value": {"@type": "QuantitativeValue", "value": float(j["pay"]), "unitText": "HOUR"}}
+    payt = f"${float(j['pay']):.2f}/hour" if j.get("pay") else "pay to agree"
     apply = f"/pro.html?cat={c['label'].replace(' ', '%20')}&job={j['id']}"
-    body = head(title + " | Famyle", f"{c['label']} job in {area}, FL: {j['schedule'].lower()}, ${float(j['pay']):.2f}/hour. Apply free on Famyle.", path, jp) + f"""
+    body = head(title + " | Famyle", f"{c['label']} job in {area}, FL: {j['schedule'].lower()}, {payt}. Apply free on Famyle.", path, jp) + f"""
 <div class="hero"><div class="wrap"><div class="crumbs"><a href="/">Famyle</a> › <a href="/jobs/">Jobs</a> › <a href="/jobs/{c['slug']}/fl/orlando/">{e(c['label'])}</a> › {e(area)}</div>
-<h1>{e(title)}</h1><p class="lead">${float(j['pay']):.2f}/hour · {e(j['schedule'])}{e(hrs)} · posted {posted.date().isoformat()}</p>
+<h1>{e(title)}</h1><p class="lead">{payt} · {e(j['schedule'])}{e(hrs)} · posted {posted.date().isoformat()}</p>
 <a class="btn" href="{apply}">Apply free</a></div></div>
 <div class="wrap">{desc_html}<p><a class="btn" href="{apply}">Apply free</a></p>
 <p class="src">Posted by a real family on Famyle. Famyle is an online platform, not the employer. <a href="/jobs/{c['slug']}/fl/orlando/">More {e(c['label'].lower())} jobs in Orlando</a>.</p></div>{FOOT}</body></html>"""
@@ -221,7 +222,7 @@ def jobs_list(slug=None):
     items = [x for k, v in open_jobs.items() if slug in (None, k) for x in v]
     if not items:
         return ""
-    return "<h2>Open jobs now</h2><ul>" + "".join(f'<li><a href="{p}">{e(t)}</a> — ${float(j["pay"]):.2f}/hr</li>' for p, t, j in items) + "</ul>"
+    return "<h2>Open jobs now</h2><ul>" + "".join(f'<li><a href="{p}">{e(t)}</a>' + (f' — ${float(j["pay"]):.2f}/hr' if j.get("pay") else '') + '</li>' for p, t, j in items) + "</ul>"
 
 # ---------- LPs de vaga (profissional) ----------
 for c in F["categories"]:
