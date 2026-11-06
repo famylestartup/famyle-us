@@ -54,7 +54,7 @@ AUTO_FAM = ("Thanks for posting your job on Famyle Orlando!\n\n"
   "3. You talk to the ones you like and hire directly.\n\n"
   "Need to change something? Just reply to this email.\n\n"
   "Guilherme, Famyle")
-CATS_FORM = ["Housekeeper", "House Cleaner", "Nanny", "Babysitter", "Pet Sitter", "Private Cook"]
+CATS_FORM = ["Housekeeper", "House Cleaner", "Nanny", "Babysitter", "Pet Sitter", "Private Cook", "Caregiver"]
 
 def form_job(cat_label, city, fid="job"):
     """Formulario 'publique sua vaga gratis' (familia). Mesmo HTML/JS nas LPs e na home (dialog)."""

@@ -40,6 +40,15 @@
    "emp": null,
    "period": "May 2025",
    "url": "https://www.bls.gov/oes/current/oes352012.htm"
+  },
+  "caregiver": {
+   "label": "Home health and personal care aides",
+   "area": "Orlando-Kissimmee-Sanford metro area",
+   "median": 16.4,
+   "mean": 16.52,
+   "emp": 8260,
+   "period": "May 2025",
+   "url": "https://www.bls.gov/oes/current/oes_36740.htm"
   }
  },
  "market": {
@@ -72,6 +81,12 @@
    "hi": 21.83,
    "asof": "November 2026",
    "url": "https://www.care.com/cost/pet-sitters/orlando-fl"
+  },
+  "senior": {
+   "lo": 19.83,
+   "hi": 25.19,
+   "asof": "November 2026",
+   "url": "https://www.care.com/cost/senior-care/orlando-fl"
   }
  },
  "categories": [
@@ -392,6 +407,53 @@
     "A clean, organized kitchen",
     "References from other families",
     "Cooking the family's home cuisine"
+   ]
+  },
+  {
+   "slug": "caregiver",
+   "label": "Caregiver",
+   "bls": "caregiver",
+   "market": "senior",
+   "intro": "Find a trusted caregiver in {city} to help an older parent at home: companionship, meals, bathing and dressing, errands and rides to appointments. Post your job for free and hire directly, without an agency's markup.",
+   "cities": [
+    {
+     "slug": "orlando",
+     "name": "Orlando"
+    }
+   ],
+   "duties": [
+    "Companionship and conversation through the day",
+    "Help with bathing, dressing and getting around the house",
+    "Meal preparation and reminders to eat and drink",
+    "Medication reminders (not medical care)",
+    "Light housekeeping and laundry",
+    "Rides to appointments, errands and grocery runs"
+   ],
+   "ask": [
+    "Experience with older adults and with conditions like dementia, Parkinson's or limited mobility",
+    "CPR and first-aid training",
+    "Which days and hours they can cover, including nights or weekends",
+    "References from other families they cared for",
+    "Whether they drive and have their own car",
+    "How they would handle an emergency or a fall"
+   ],
+   "legal": "A caregiver who works in your home on a schedule you set is usually your household employee. In 2026, if you pay one household employee $3,000 or more in cash wages in the year, you owe Social Security and Medicare taxes (IRS Publication 926). Florida has no state income tax. Medical tasks such as injections or wound care call for a licensed nurse or home health agency.",
+   "faq": [
+    [
+     "Caregiver or home care agency?",
+     "An agency sends caregivers and handles payroll and replacements, but adds its margin and may send different people. Hiring a caregiver directly usually costs less and your parent sees the same person every time."
+    ],
+    [
+     "Can a caregiver give medication?",
+     "A caregiver can remind your parent to take medication and help organize it. Giving injections or other medical care calls for a licensed nurse or home health agency."
+    ]
+   ],
+   "families_want": [
+    "Patience and kindness with older adults",
+    "Reliability: showing up on time, every time",
+    "Experience with dementia or limited mobility",
+    "References from other families",
+    "Speaking English, Spanish or Portuguese"
    ]
   }
  ],
