@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Apply to this job | Famyle</title>
+<style>
+:root{--brand:#564caf;--ink:#1f1f2e;--muted:#666}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:#fff;line-height:1.5}
+.box{max-width:480px;margin:48px auto;padding:0 16px;text-align:center}
+.logo{color:var(--brand);font-weight:800;font-size:28px;text-decoration:none}
+h1{font-size:24px;margin:24px 0 8px}
+p{color:var(--muted);margin:0 0 20px}
+button{background:var(--brand);color:#fff;border:0;border-radius:10px;font-size:18px;font-weight:700;padding:16px 24px;width:100%;cursor:pointer}
+button[disabled]{opacity:.6}
+.ok{display:none}
+</style>
+</head>
+<body>
+<div class="box">
+  <a class="logo" href="/">famyle</a>
+  <div id="ask">
+    <h1 data-t="h"></h1>
+    <p data-t="p"></p>
+    <button id="b" data-t="b"></button>
+  </div>
+  <div class="ok" id="ok"><h1 data-t="okh"></h1><p data-t="okp"></p></div>
+  <div class="ok" id="bad"><h1 data-t="badh"></h1><p data-t="badp"></p></div>
+</div>
+<script>
+var q=new URLSearchParams(location.search),L=(q.get('l')||'en').slice(0,2);
+var T={
+ en:{h:"Apply to this job?",p:"With one click, the family receives your name, phone and email and can reach out to you by text, WhatsApp or call.",b:"Yes, apply",
+     okh:"Done! ✓",okp:"Your application was sent. The family will receive your contact shortly. Keep an eye on your phone.",
+     badh:"Link not valid",badp:"Please use the link from the email we sent you."},
+ pt:{h:"Quer se candidatar a esta vaga?",p:"Com 1 clique, a família recebe seu nome, telefone e e-mail e pode te chamar por SMS, WhatsApp ou ligação.",b:"Sim, quero me candidatar",
+     okh:"Pronto! ✓",okp:"Sua candidatura foi enviada. A família recebe seu contato em instantes. Fique de olho no celular.",
+     badh:"Link inválido",badp:"Use o link do e-mail que a gente te mandou."},
+ es:{h:"¿Quieres postularte a este empleo?",p:"Con un clic, la familia recibe tu nombre, teléfono y correo y puede contactarte por SMS, WhatsApp o llamada.",b:"Sí, postularme",
+     okh:"¡Listo! ✓",okp:"Tu postulación fue enviada. La familia recibirá tu contacto en breve. Atenta a tu teléfono.",
+     badh:"Enlace no válido",badp:"Usa el enlace del correo que te enviamos."}}[L]||null;
+if(!T){L='en';}
+var t=T||{};
+document.documentElement.lang=L;
+document.querySelectorAll('[data-t]').forEach(function(e){e.textContent=t[e.getAttribute('data-t')]||'';});
+var ok=/^\d+$/.test(q.get('j')||'')&&/^\d+$/.test(q.get('p')||'')&&/^[a-f0-9]{16}$/.test(q.get('k')||'');
+if(!ok){document.getElementById('ask').style.display='none';document.getElementById('bad').style.display='block';}
+document.getElementById('b').onclick=function(){
+  this.disabled=true;
+  fetch('https://api.famyle.com/nps/us/lead/',{method:'POST',headers:{'Content-Type':'application/json'},keepalive:true,
+    body:JSON.stringify({kind:'professional',name:'APPLY',phone:'',email:'candidatura@famyle.com',zip:'32801',category:'',language:L,page:'/apply/',
+      origin:'?job='+q.get('j')+'&prof='+q.get('p')+'&k='+q.get('k')})})
+  .then(function(r){return r.json();}).then(function(d){
+    document.getElementById('ask').style.display='none';
+    document.getElementById(d&&d.status?'ok':'bad').style.display='block';
+    try{gtag('event','apply',{job:q.get('j')});}catch(x){}
+  }).catch(function(){document.getElementById('ask').style.display='none';document.getElementById('bad').style.display='block';});
+};
+</script>
+</body>
+</html>
