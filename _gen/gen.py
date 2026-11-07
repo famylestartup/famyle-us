@@ -130,6 +130,14 @@ def wage_table(c):
     return f"""<table><tr><th>What</th><th>Value</th><th>Source</th></tr>{rows}</table>
 <p class="src">Sources: <a href="{w['url']}">BLS Occupational Employment and Wage Statistics</a>{' · <a href="'+m['url']+'">Care.com cost of care</a>' if m else ''} · <a href="{F['fl_min_wage']['url']}">Florida minimum wage</a>. Wages are what employers report to the BLS; what a family pays a private professional is usually higher.</p>"""
 
+# guia de preco por categoria (o ChatGPT acha a pagina de preco pelo link interno; caregiver sem guia)
+COST_GUIDE = {"nanny": "nanny-cost-orlando", "babysitter": "how-much-to-pay-babysitter-orlando", "housekeeper": "house-cleaning-cost-orlando",
+              "house-cleaner": "house-cleaning-cost-orlando", "pet-sitter": "pet-sitter-pay-orlando", "cook": "private-cook-salary-florida"}
+GUIDE_TITLE = {g["slug"]: g["title"] for g in F["guides"]}
+def cost_link(slug):
+    g = COST_GUIDE.get(slug)
+    return f'<p><b>Full price guide:</b> <a href="/guides/{g}/">{e(GUIDE_TITLE[g])}</a></p>' if g else ""
+
 # ---------- LPs de familia ----------
 for c in F["categories"]:
     for city in c["cities"]:
@@ -157,6 +165,7 @@ for c in F["categories"]:
 {answer_box(((f"A {c['label'].lower()} in {cn}, FL typically costs" if cn == "Orlando" else f"In the Orlando area, including {cn}, a {c['label'].lower()} typically costs") + f" ${m['lo']:.2f}–${m['hi']:.2f} per hour in 2026 (Care.com, {m['asof']})" if m else f"Private household cooks in Florida earn a median of ${w['median']:.2f} per hour (BLS, {w['period']})") + f". On Famyle, families post the job for free, local {pl(c['label'])} apply,, and you get each applicant's phone and WhatsApp right away. You hire directly and agree on pay and schedule.")}
 {('<p>' + e(city['note']) + '</p>') if city.get('note') else ''}
 <h2>How much does a {e(c['label'].lower())} cost in {e(cn)}?</h2>{wage_table(c)}
+{cost_link(c['slug'])}
 <h2>What a {e(c['label'].lower())} does</h2><ul>{''.join('<li>'+e(x)+'</li>' for x in c['duties'])}</ul>
 <h2>What to ask before you hire</h2><ul>{''.join('<li>'+e(x)+'</li>' for x in c['ask'])}</ul>
 <h2>Hiring legally in Florida</h2><p>{e(c['legal'])} See our guide: <a href="/guides/hire-household-employee-florida/">how to hire a household employee in Florida</a>.</p>
@@ -258,7 +267,7 @@ for nb in F["neighborhoods"]:
     qas = [(f"Does Famyle serve {nb['name']}?", f"Yes. Famyle serves {nb['name']} (ZIP {nb['zips']}) and nearby {', '.join(nb['near'])}. Post your job for free; if we don't have enough professionals near you yet, we'll find them and contact you first."),
            ("Is Famyle free?", "Yes. Posting a job, receiving applications and contacting professionals is free. No subscription, no fees.")]
     ld = {"@context": "https://schema.org", "@graph": [ORG, {"@type": "Service", "name": f"Household help in {nb['name']}, FL", "provider": {"@type": "Organization", "name": "Famyle"}, "areaServed": {"@type": "Place", "name": f"{nb['name']}, FL"}}, faq_ld(qas), crumbs_ld([("Famyle", "/"), ("Orlando", "/"), (nb["name"], path)])]}
-    cats = "".join(f'<li><a href="/{c["slug"]}/fl/orlando/">{e(c["label"])}</a> — typical Orlando rate ' + (f'${F["market"][c["market"]]["lo"]:.0f}–${F["market"][c["market"]]["hi"]:.0f}/hr' if c["market"] else f'BLS median ${F["wages"][c["bls"]]["median"]:.2f}/hr (Florida)') + '</li>' for c in F["categories"])
+    cats = "".join(f'<li><a href="/{c["slug"]}/fl/orlando/">{e(c["label"])}</a> — typical Orlando rate ' + (f'${F["market"][c["market"]]["lo"]:.0f}–${F["market"][c["market"]]["hi"]:.0f}/hr' if c["market"] else f'BLS median ${F["wages"][c["bls"]]["median"]:.2f}/hr (Florida)') + (f' · <a href="/guides/{COST_GUIDE[c["slug"]]}/">price guide</a>' if c["slug"] in COST_GUIDE else '') + '</li>' for c in F["categories"])
     nears = "".join(f'<li><a href="/orlando/{x["slug"]}/">{e(x["name"])}</a></li>' for x in F["neighborhoods"] if x["slug"] != nb["slug"])
     body = head(title, desc, path, ld) + f"""
 <div class="hero"><div class="wrap"><div class="crumbs"><a href="/">Famyle</a> › Orlando › {e(nb['name'])}</div>
