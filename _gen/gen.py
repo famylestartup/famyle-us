@@ -109,7 +109,7 @@ def crumbs_ld(items):
 WHY_HTML = """<h2>Why families choose Famyle</h2><ul>
 <li><b>Free.</b> No subscription to see or contact professionals.</li>
 <li><b>Real jobs only.</b> Every job on Famyle is posted by a real family — no filler listings.</li>
-<li><b>We talk to them first.</b> We talk to every professional before we introduce them to you.</li>
+<li><b>You talk directly.</b> When a professional applies, you get her phone and WhatsApp right away. Ask for references, as with anyone you hire.</li>
 <li><b>Closest first.</b> The professionals nearest to you show first.</li>
 <li><b>English, Spanish and Portuguese.</b> Find a bilingual nanny or cleaner.</li>
 <li><b>A small team that listens.</b> Tell us what's missing and we fix it fast — usually the same week.</li></ul>"""
@@ -160,11 +160,11 @@ for c in F["categories"]:
 <h2>What a {e(c['label'].lower())} does</h2><ul>{''.join('<li>'+e(x)+'</li>' for x in c['duties'])}</ul>
 <h2>What to ask before you hire</h2><ul>{''.join('<li>'+e(x)+'</li>' for x in c['ask'])}</ul>
 <h2>Hiring legally in Florida</h2><p>{e(c['legal'])} See our guide: <a href="/guides/hire-household-employee-florida/">how to hire a household employee in Florida</a>.</p>
-<h2>How Famyle works</h2><ol><li>Post your job for free.</li><li>Local professionals apply to you; the closest ones show first.</li><li>We talk to each professional before we introduce them.</li><li>Hire directly: you agree on pay and schedule with the professional.</li><li>It's free: posting, receiving applications and contacting professionals.</li></ol>
+<h2>How Famyle works</h2><ol><li>Post your job for free.</li><li>Local professionals apply to you; the closest ones show first.</li><li>You get each applicant's phone and WhatsApp and talk directly.</li><li>Hire directly: you agree on pay and schedule with the professional.</li><li>It's free: posting, receiving applications and contacting professionals.</li></ol>
 <h2>Why families choose Famyle</h2><ul>
 <li><b>Free.</b> No subscription to see or contact professionals.</li>
 <li><b>Real jobs only.</b> Every job on Famyle is posted by a real family — no filler listings.</li>
-<li><b>We talk to them first.</b> We talk to every professional before we introduce them to you.</li>
+<li><b>You talk directly.</b> When a professional applies, you get her phone and WhatsApp right away. Ask for references, as with anyone you hire.</li>
 <li><b>Closest first.</b> The professionals nearest to you show first.</li>
 <li><b>English, Spanish and Portuguese.</b> Find a bilingual nanny or cleaner.</li>
 <li><b>A small team that listens.</b> Tell us what's missing and we fix it fast — usually the same week.</li></ul>
@@ -319,7 +319,7 @@ all_paths = ["/", "/pro.html"] + [p for p, _ in pages]
 open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"<url><loc>{BASE}{p}</loc><lastmod>{TODAY}</lastmod></url>\n" for p in all_paths) + "</urlset>\n")
 open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8").write(f"User-agent: *\nAllow: /\nDisallow: /_gen/\nSitemap: {BASE}/sitemap.xml\n")
 llms = ["# Famyle (United States)", "", "> Famyle is an online platform where families find and hire housekeepers, house cleaners, nannies, babysitters, pet sitters and cooks directly. Operating in Brazil for over 10 years; now accepting families and professionals in Orlando, Florida. Families post jobs for free; professionals join for free. Famyle is not an employer or staffing agency.", "",
-        "## Key facts", f"- City: Orlando, FL and nearby (Kissimmee, Clermont, Winter Garden). Families pay nothing until there are professionals for them.", "- Free for families and professionals: no subscription, no fees.", "- Professionals: free to join; we talk to every professional before introducing them to a family.", "- Languages: English, Portuguese, Spanish. Guides in Portuguese for Brazilian families: https://us.famyle.com/pt/guias/", "", "## Pages"] + [f"- [{t}]({BASE}{p})" for p, t in pages]
+        "## Key facts", f"- City: Orlando, FL and nearby (Kissimmee, Clermont, Winter Garden). Families pay nothing until there are professionals for them.", "- Free for families and professionals: no subscription, no fees.", "- Professionals: free to join; when a professional applies, the family gets her contact and they talk directly.", "- Languages: English, Portuguese, Spanish. Guides in Portuguese for Brazilian families: https://us.famyle.com/pt/guias/", "", "## Pages"] + [f"- [{t}]({BASE}{p})" for p, t in pages]
 open(os.path.join(ROOT, "llms.txt"), "w", encoding="utf-8").write("\n".join(llms) + "\n")
 os.makedirs(os.path.join(ROOT, "assets"), exist_ok=True); open(os.path.join(ROOT, "assets", "site.css"), "w", encoding="utf-8").write(CSS)
 print(len(pages), "paginas geradas")
