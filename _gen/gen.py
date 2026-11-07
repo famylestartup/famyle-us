@@ -154,7 +154,7 @@ for c in F["categories"]:
 <h1>{e(c['label'])} in {e(cn)}, FL</h1><p class="lead">{e(c['intro'].replace('{city}', cn))}</p>
 <a class="btn" href="#join">Post your job — free</a></div></div>
 <div class="wrap">
-{answer_box(((f"A {c['label'].lower()} in {cn}, FL typically costs" if cn == "Orlando" else f"In the Orlando area, including {cn}, a {c['label'].lower()} typically costs") + f" ${m['lo']:.2f}–${m['hi']:.2f} per hour in 2026 (Care.com, {m['asof']})" if m else f"Private household cooks in Florida earn a median of ${w['median']:.2f} per hour (BLS, {w['period']})") + f". On Famyle, families post the job for free, local {pl(c['label'])} apply, and we talk to each one before introducing them. You hire directly and agree on pay and schedule.")}
+{answer_box(((f"A {c['label'].lower()} in {cn}, FL typically costs" if cn == "Orlando" else f"In the Orlando area, including {cn}, a {c['label'].lower()} typically costs") + f" ${m['lo']:.2f}–${m['hi']:.2f} per hour in 2026 (Care.com, {m['asof']})" if m else f"Private household cooks in Florida earn a median of ${w['median']:.2f} per hour (BLS, {w['period']})") + f". On Famyle, families post the job for free, local {pl(c['label'])} apply,, and you get each applicant's phone and WhatsApp right away. You hire directly and agree on pay and schedule.")}
 {('<p>' + e(city['note']) + '</p>') if city.get('note') else ''}
 <h2>How much does a {e(c['label'].lower())} cost in {e(cn)}?</h2>{wage_table(c)}
 <h2>What a {e(c['label'].lower())} does</h2><ul>{''.join('<li>'+e(x)+'</li>' for x in c['duties'])}</ul>
