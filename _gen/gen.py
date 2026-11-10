@@ -7,7 +7,6 @@ F = json.load(open(os.path.join(ROOT, "_gen", "facts.json"), encoding="utf-8"))
 BASE = "https://us.famyle.com"
 TODAY = datetime.date.today().isoformat()
 GA = "G-8DPML3JJ6F"; AW = "AW-11419287486"; LBL_WAIT = "tPyrCI_drbAdEM6YkMUq"
-FORM = "https://formsubmit.co/ajax/adm@famyle.com"
 API = "https://api.famyle.com/nps/us/lead/"  # D-444: grava no nosso banco (tabela us_lead). /nps/ e nao /metrics/: o Cloudflare desvia api.famyle.com/metrics/* para o Google
 e = html.escape
 def pl(w):
@@ -45,15 +44,6 @@ FOOT = """<footer><div class="wrap">Famyle is an online platform in Orlando, Flo
 <a href="/">For families</a> · <a href="/jobs/">For professionals</a> · <a href="/guides/">Guides</a> · <a href="/pt/guias/">Guias em português</a> · <a href="mailto:suporte@famyle.com">suporte@famyle.com</a><br>Areas: <a href="/orlando/winter-garden-horizon-west/">Winter Garden &amp; Horizon West</a> · <a href="/orlando/windermere/">Windermere</a> · <a href="/orlando/dr-phillips/">Dr. Phillips</a> · <a href="/orlando/metrowest/">MetroWest</a></div></footer>"""
 
 OFFER = "Founding family offer: the first 100 families in Orlando get 12 months free when Famyle starts charging."
-CC = "guilherme@famyle.com"
-AUTO_FAM = ("Thanks for posting your job on Famyle Orlando!\n\n"
-  "You're one of our founding families: the first 100 families in Orlando get 12 months free when Famyle starts charging.\n\n"
-  "What happens next:\n"
-  "1. We review your job and publish it on Famyle and Google Jobs. We never show your name, email, phone or address, only the area.\n"
-  "2. Local professionals apply. As soon as we have good candidates, we email you their profiles.\n"
-  "3. You talk to the ones you like and hire directly.\n\n"
-  "Need to change something? Just reply to this email.\n\n"
-  "Guilherme, Famyle")
 CATS_FORM = ["Housekeeper", "House Cleaner", "Nanny", "Babysitter", "Pet Sitter", "Private Cook", "Caregiver"]
 
 def form_job(cat_label, city, fid="job"):
@@ -78,11 +68,9 @@ def form_job(cat_label, city, fid="job"):
 
 JOB_JS = """<script>function postJob(ev,f){ev.preventDefault();var g=function(n){return (f.elements[n]||{}).value||'';};
 var wa=f.elements['wa'].checked;if(g('ph')&&!wa){alert('Please check the box so we can text you, or leave the mobile number blank.');return false;}
-var b={_subject:'Famyle Orlando - VAGA '+g('cat')+' '+g('zip'),_template:'table',_cc:'""" + CC + """',_autoresponse:""" + json.dumps(AUTO_FAM) + """,
-tipo:'familia-vaga',nome:g('fn'),email:g('em'),categoria:g('cat'),zip:g('zip'),horario:g('sch'),horas_semana:g('hrs'),pagamento_hora:g('pay'),inicio:g('start'),descricao:g('desc'),publicar:f.elements['pub'].checked?'sim':'nao',telefone:g('ph'),consentimento_contato:wa?'sim (texto: I agree that Famyle may contact me by WhatsApp, text or email about my job. Msg & data rates may apply. I can reply STOP anytime.)':'nao',pagina:location.pathname,origem:(location.search+(document.referrer&&document.referrer.indexOf(location.host)<0?'|ref='+document.referrer.split('/')[2]:'')),ts:new Date().toISOString()};
+var b={tipo:'familia-vaga',nome:g('fn'),email:g('em'),categoria:g('cat'),zip:g('zip'),horario:g('sch'),horas_semana:g('hrs'),pagamento_hora:g('pay'),inicio:g('start'),descricao:g('desc'),publicar:f.elements['pub'].checked?'sim':'nao',telefone:g('ph'),consentimento_contato:wa?'sim (texto: I agree that Famyle may contact me by WhatsApp, text or email about my job. Msg & data rates may apply. I can reply STOP anytime.)':'nao',pagina:location.pathname,origem:(location.search+(document.referrer&&document.referrer.indexOf(location.host)<0?'|ref='+document.referrer.split('/')[2]:'')),ts:new Date().toISOString()};
 var a={kind:'family_job',name:b.nome,email:b.email,phone:wa?b.telefone:'',zip:b.zip,category:b.categoria,language:'en',page:b.pagina,origin:b.origem,schedule:b.horario,hours_week:b.horas_semana,pay_hour:b.pagamento_hora,start:b.inicio,description:b.descricao,publish:b.publicar};
 try{fetch('""" + API + """',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(a),keepalive:true});}catch(x){}
-try{fetch('""" + FORM + """',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(b)});}catch(x){}
 try{gtag('event','generate_lead',{lead_type:'family_job',category:a.category});}catch(x){}
 f.style.display='none';var ok=document.getElementById(f.id+'-ok');if(ok)ok.style.display='block';return false;}</script>"""
 
