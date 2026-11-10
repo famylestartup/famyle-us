@@ -24,5 +24,18 @@
   "desc": "Family in the Orlando area is looking for a house cleaner full-time, about 40 hours per week, starting right away.",
   "posted": "2026-11-06T18:34:24",
   "valid_days": 30
+ },
+ {
+  "id": "10",
+  "cat": "House Cleaner",
+  "zip": "32836",
+  "area": "Dr. Phillips",
+  "schedule": "Part-time",
+  "hours": "5",
+  "pay": 20.0,
+  "start": "Right now",
+  "desc": "Family in the Dr. Phillips area is looking for a house cleaner part-time, about 5 hours per week, starting right away.",
+  "posted": "2026-11-10T16:21:42",
+  "valid_days": 30
  }
 ]
