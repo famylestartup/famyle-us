@@ -209,7 +209,7 @@
    "label": "Nanny",
    "bls": "childcare",
    "market": "nanny",
-   "intro": "Find a trusted nanny in {city} for full-time or part-time childcare in your home. Post your job for free, meet the nannies we introduce and hire directly.",
+   "intro": "Find a nanny in {city} for full-time or part-time childcare in your home. Post your job for free, meet the nannies we introduce and hire directly.",
    "cities": [
     {
      "slug": "orlando",
@@ -414,7 +414,7 @@
    "label": "Caregiver",
    "bls": "caregiver",
    "market": "senior",
-   "intro": "Find a trusted caregiver in {city} to help an older parent at home: companionship, meals, bathing and dressing, errands and rides to appointments. Post your job for free and hire directly, without an agency's markup.",
+   "intro": "Find a caregiver in {city} to help an older parent at home: companionship, meals, bathing and dressing, errands and rides to appointments. Post your job for free and hire directly, without an agency's markup.",
    "cities": [
     {
      "slug": "orlando",

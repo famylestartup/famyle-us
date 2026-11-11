@@ -78,7 +78,7 @@ f.style.display='none';var ok=document.getElementById(f.id+'-ok');if(ok)ok.style
 def ok_box(fid):
     return f"""<div class="ok" id="{fid}-ok"><p>Your job is in ✓ We'll email you within 1 business day with what happens next.</p>
 <p style="color:var(--ink);font-weight:400">You're one of our <b>founding families</b>: the first 100 families in Orlando get <b>12 months free</b> when Famyle starts charging. We'll publish your job (without your name or contact) and email you as soon as local professionals apply.</p>
-<a class="btn" href="https://wa.me/?text=I%20just%20posted%20a%20job%20on%20Famyle%20to%20find%20trusted%20help%20in%20Orlando%20%E2%80%94%20it%27s%20free%3A%20https%3A%2F%2Fus.famyle.com%2F" target="_blank" rel="noopener">Share with a friend on WhatsApp</a></div>"""
+<a class="btn" href="https://wa.me/?text=I%20just%20posted%20a%20job%20on%20Famyle%20to%20find%20help%20at%20home%20in%20Orlando%20%E2%80%94%20it%27s%20free%3A%20https%3A%2F%2Fus.famyle.com%2F" target="_blank" rel="noopener">Share with a friend on WhatsApp</a></div>"""
 
 def form_family(cat_label, city):
     what = f"{e(cat_label.lower())} job" if cat_label in CATS_FORM else "job"
@@ -132,8 +132,8 @@ for c in F["categories"]:
     for city in c["cities"]:
         cs = city["slug"]; cn = city["name"]
         path = f"/{c['slug']}/fl/{cs}/"
-        title = f"{c['label']} in {cn}, FL — Find a Trusted {c['label']} | Famyle"
-        desc = f"Find a trusted {c['label'].lower()} in {cn}, Florida. Local rates, what to ask and how to hire legally. Post your job for free on Famyle."
+        title = f"{c['label']} in {cn}, FL — Find a {c['label']} Near You | Famyle"
+        desc = f"Find a {c['label'].lower()} in {cn}, Florida. Local rates, what to ask and how to hire legally. Post your job for free on Famyle."
         w = F["wages"][c["bls"]]; m = F["market"].get(c["market"])
         qas = [(f"How much does a {c['label'].lower()} cost in {cn}, FL?",
                 (f"Families in the Orlando area typically pay ${m['lo']:.2f} to ${m['hi']:.2f} per hour (Care.com, {m['asof']}). " if m else "")
@@ -328,7 +328,7 @@ _ix = os.path.join(ROOT, "index.html"); _h = open(_ix, encoding="utf-8").read()
 _new_f = '<div id="f"><h3>Post your job — free</h3><p>Takes 1 minute. Local professionals apply to you.</p>' + form_job("House Cleaner", "Orlando") + '</div>' + ok_box("job")
 _h = _re.sub(r'<div id="f">.*?</div>\s*<div id="t" class="thanks">.*?</div>\n</div></dialog>', lambda m: _new_f + '\n</div></dialog>', _h, count=1, flags=_re.S)
 _h = _h.replace("document.querySelector('#cat option[value=\"'+m[k][1]+'\"]')||[].find.call(document.querySelectorAll('#cat option')", "[].find.call(document.querySelectorAll('select[name=cat] option')")
-_h = _h.replace('pet:["Find a trusted pet sitter in Orlando.","Pet sitter"]', 'pet:["Find a trusted pet sitter in Orlando.","Pet Sitter"]').replace('cleaning:["Find a trusted housekeeper or house cleaner in Orlando.","Housekeeper"]', 'cleaning:["Find a trusted housekeeper or house cleaner in Orlando.","House Cleaner"]')
+_h = _h.replace('pet:["Find a pet sitter in Orlando.","Pet sitter"]', 'pet:["Find a pet sitter in Orlando.","Pet Sitter"]').replace('cleaning:["Find a housekeeper or house cleaner in Orlando.","Housekeeper"]', 'cleaning:["Find a housekeeper or house cleaner in Orlando.","House Cleaner"]')
 _h = _re.sub(r"<script>function postJob\(.*?</script>\n?", "", _h, flags=_re.S)
 _h = _h.replace("</body>", JOB_JS + "\n</body>", 1)
 open(_ix, "w", encoding="utf-8").write(_h)
