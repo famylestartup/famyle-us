@@ -209,7 +209,7 @@
    "label": "Nanny",
    "bls": "childcare",
    "market": "nanny",
-   "intro": "Find a nanny in {city} for full-time or part-time childcare in your home. Post your job for free, meet the nannies we introduce and hire directly.",
+   "intro": "Find a nanny in {city} for full-time or part-time childcare in your home. Post your job for free, talk to the nannies who apply and hire directly.",
    "cities": [
     {
      "slug": "orlando",
@@ -414,7 +414,7 @@
    "label": "Caregiver",
    "bls": "caregiver",
    "market": "senior",
-   "intro": "Find a caregiver in {city} to help an older parent at home: companionship, meals, bathing and dressing, errands and rides to appointments. Post your job for free and hire directly, without an agency's markup.",
+   "intro": "Find a caregiver in {city} to help an older parent at home: companionship, meals, light housekeeping, errands and rides to appointments. Famyle is a job board: you post the job for free and hire the caregiver directly, as your own household employee.",
    "cities": [
     {
      "slug": "orlando",
@@ -423,9 +423,9 @@
    ],
    "duties": [
     "Companionship and conversation through the day",
-    "Help with bathing, dressing and getting around the house",
+    "Company on walks and help getting around the house",
     "Meal preparation and reminders to eat and drink",
-    "Medication reminders (not medical care)",
+    "Keeping the family updated on how the day went",
     "Light housekeeping and laundry",
     "Rides to appointments, errands and grocery runs"
    ],
@@ -441,11 +441,11 @@
    "faq": [
     [
      "Caregiver or home care agency?",
-     "An agency sends caregivers and handles payroll and replacements, but adds its margin and may send different people. Hiring a caregiver directly usually costs less and your parent sees the same person every time."
+     "A licensed agency sends caregivers, handles payroll and replacements, and can provide hands-on personal care. Hiring a companion caregiver directly usually costs less and your parent sees the same person every time."
     ],
     [
-     "Can a caregiver give medication?",
-     "A caregiver can remind your parent to take medication and help organize it. Giving injections or other medical care calls for a licensed nurse or home health agency."
+     "Can a caregiver from Famyle give medication or help with bathing?",
+     "No. Caregiver jobs on Famyle are for companionship and help around the house. Medication, bathing, dressing and any medical or hands-on personal care call for a licensed home health agency or nurse registry. Famyle is a job board and does not refer, select or place caregivers."
     ]
    ],
    "families_want": [

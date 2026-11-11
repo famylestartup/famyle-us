@@ -43,7 +43,7 @@ def head(title, desc, path, jsonld):
 FOOT = """<footer><div class="wrap">Famyle is an online platform in Orlando, Florida: families hire professionals directly; Famyle is not an employer or a staffing agency.<br>
 <a href="/">For families</a> · <a href="/jobs/">For professionals</a> · <a href="/guides/">Guides</a> · <a href="/pt/guias/">Guias em português</a> · <a href="mailto:suporte@famyle.com">suporte@famyle.com</a><br>Areas: <a href="/orlando/winter-garden-horizon-west/">Winter Garden &amp; Horizon West</a> · <a href="/orlando/windermere/">Windermere</a> · <a href="/orlando/dr-phillips/">Dr. Phillips</a> · <a href="/orlando/metrowest/">MetroWest</a></div></footer>"""
 
-OFFER = "Founding family offer: the first 100 families in Orlando get 12 months free when Famyle starts charging."
+OFFER = "Founding family offer: if you are among the first 100 Orlando families to post a job, you get 12 months free from the day Famyle starts charging. We confirm by email."
 CATS_FORM = ["Housekeeper", "House Cleaner", "Nanny", "Babysitter", "Pet Sitter", "Private Cook", "Caregiver"]
 
 def form_job(cat_label, city, fid="job"):
@@ -64,12 +64,12 @@ def form_job(cat_label, city, fid="job"):
 <label>Describe the job (optional)</label><textarea name="desc" maxlength="400" rows="3" placeholder="e.g. Weekly cleaning of a 3-bedroom house in Windermere, Tuesdays."></textarea>
 <label style="font-weight:400;display:flex;gap:8px;align-items:flex-start"><input type="checkbox" name="pub" required style="width:auto;margin-top:5px">Publish my job on Famyle and Google Jobs so local professionals can apply. My name, email and address are never shown.</label>
 <p class="src">{e(OFFER)} Florida minimum wage: ${mw:.2f}/hr.</p>
-<p style="font-size:13px;color:#666;margin:8px 0">By posting, you agree to the <a href="/terms/">Terms of Use</a> and <a href="/privacy/">Privacy Policy</a>.</p>
+<label style="font-weight:400;display:flex;gap:8px;align-items:flex-start;color:#222;font-size:15px"><input type="checkbox" name="tos" required style="width:auto;margin-top:5px"><span>I agree to the <a href="/terms/" style="color:#0645ad;text-decoration:underline" target="_blank">Terms of Use</a> and <a href="/privacy/" style="color:#0645ad;text-decoration:underline" target="_blank">Privacy Policy</a>. The Terms require individual arbitration and waive class actions and jury trials (30-day opt-out).</span></label>
 <button class="btn" style="width:100%">Post my job — free</button></form>"""
 
 JOB_JS = """<script>function postJob(ev,f){ev.preventDefault();var g=function(n){return (f.elements[n]||{}).value||'';};
 var wa=f.elements['wa'].checked;if(g('ph')&&!wa){alert('Please check the box so we can text you, or leave the mobile number blank.');return false;}
-var b={tipo:'familia-vaga',nome:g('fn'),email:g('em'),categoria:g('cat'),zip:g('zip'),horario:g('sch'),horas_semana:g('hrs'),pagamento_hora:g('pay'),inicio:g('start'),descricao:g('desc'),publicar:f.elements['pub'].checked?'sim':'nao',telefone:g('ph'),consentimento_contato:wa?'sim (texto: I agree that Famyle may contact me by WhatsApp, text or email about my job. Msg & data rates may apply. I can reply STOP anytime.)':'nao',pagina:location.pathname,origem:(location.search+(document.referrer&&document.referrer.indexOf(location.host)<0?'|ref='+document.referrer.split('/')[2]:'')),ts:new Date().toISOString()};
+var b={tipo:'familia-vaga',nome:g('fn'),email:g('em'),categoria:g('cat'),zip:g('zip'),horario:g('sch'),horas_semana:g('hrs'),pagamento_hora:g('pay'),inicio:g('start'),descricao:g('desc'),publicar:f.elements['pub'].checked?'sim':'nao',telefone:g('ph'),consentimento_contato:wa?'sim (texto: I agree that Famyle may contact me by WhatsApp, text or email about my job. Msg & data rates may apply. I can reply STOP anytime.)':'nao',pagina:location.pathname,origem:('tos=2026-11-11|'+location.search+(document.referrer&&document.referrer.indexOf(location.host)<0?'|ref='+document.referrer.split('/')[2]:'')),ts:new Date().toISOString()};
 var a={kind:'family_job',name:b.nome,email:b.email,phone:wa?b.telefone:'',zip:b.zip,category:b.categoria,language:'en',page:b.pagina,origin:b.origem,schedule:b.horario,hours_week:b.horas_semana,pay_hour:b.pagamento_hora,start:b.inicio,description:b.descricao,publish:b.publicar};
 try{fetch('""" + API + """',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(a),keepalive:true});}catch(x){}
 try{gtag('event','generate_lead',{lead_type:'family_job',category:a.category});}catch(x){}
@@ -77,7 +77,7 @@ f.style.display='none';var ok=document.getElementById(f.id+'-ok');if(ok)ok.style
 
 def ok_box(fid):
     return f"""<div class="ok" id="{fid}-ok"><p>Your job is in ✓ We'll email you within 1 business day with what happens next.</p>
-<p style="color:var(--ink);font-weight:400">You're one of our <b>founding families</b>: the first 100 families in Orlando get <b>12 months free</b> when Famyle starts charging. We'll publish your job (without your name or contact) and email you as soon as local professionals apply.</p>
+<p style="color:var(--ink);font-weight:400">If you are among the <b>first 100 Orlando families</b> to post a job, you get <b>12 months free</b> from the day Famyle starts charging; we confirm by email. We'll publish your job (without your name or contact) and email you as soon as local professionals apply.</p>
 <a class="btn" href="https://wa.me/?text=I%20just%20posted%20a%20job%20on%20Famyle%20to%20find%20help%20at%20home%20in%20Orlando%20%E2%80%94%20it%27s%20free%3A%20https%3A%2F%2Fus.famyle.com%2F" target="_blank" rel="noopener">Share with a friend on WhatsApp</a></div>"""
 
 def form_family(cat_label, city):
@@ -98,8 +98,8 @@ def crumbs_ld(items):
 WHY_HTML = """<h2>Why families choose Famyle</h2><ul>
 <li><b>Free.</b> No subscription to see or contact professionals.</li>
 <li><b>Real jobs only.</b> Every job on Famyle is posted by a real family — no filler listings.</li>
-<li><b>You talk directly.</b> When a professional applies, you get her phone and WhatsApp right away. Ask for references, as with anyone you hire.</li>
-<li><b>Closest first.</b> The professionals nearest to you show first.</li>
+<li><b>You talk directly.</b> When a professional applies, you get their phone and WhatsApp right away. Ask for references, as with anyone you hire.</li>
+<li><b>Near you.</b> Applications are listed by distance from your address.</li>
 <li><b>English, Spanish and Portuguese.</b> Find a bilingual nanny or cleaner.</li>
 <li><b>A small team that listens.</b> Tell us what's missing and we fix it fast — usually the same week.</li></ul>"""
 ORG = {"@type": "Organization", "name": "Famyle", "url": BASE + "/", "description": "Online platform connecting families with housekeepers, house cleaners, nannies, babysitters, pet sitters and cooks. Operating in Brazil for over 10 years; now in Orlando, Florida.", "sameAs": ["https://famyle.com/"]}
@@ -117,7 +117,7 @@ def wage_table(c):
     if m: rows += f"<tr><td>Typical rate families pay (market average range)</td><td><b>${m['lo']:.2f}–${m['hi']:.2f}/hr</b></td><td>Care.com cost data, {m['asof']}</td></tr>"
     rows += f"<tr><td>Florida minimum wage</td><td>${F['fl_min_wage']['now']:.2f}/hr</td><td>Since {F['fl_min_wage']['since']}</td></tr>"
     return f"""<table><tr><th>What</th><th>Value</th><th>Source</th></tr>{rows}</table>
-<p class="src">Sources: <a href="{w['url']}">BLS Occupational Employment and Wage Statistics</a>{' · <a href="'+m['url']+'">Care.com cost of care</a>' if m else ''} · <a href="{F['fl_min_wage']['url']}">Florida minimum wage</a>. Wages are what employers report to the BLS; what a family pays a private professional is usually higher.</p>"""
+<p class="src">Sources: <a href="{w['url']}">BLS Occupational Employment and Wage Statistics</a>{' · <a href="'+m['url']+'">Care.com cost of care</a>' if m else ''} · <a href="{F['fl_min_wage']['url']}">Florida minimum wage</a>. Wages are what employers report to the BLS.</p>"""
 
 # guia de preco por categoria (o ChatGPT acha a pagina de preco pelo link interno; caregiver sem guia)
 COST_GUIDE = {"nanny": "nanny-cost-orlando", "babysitter": "how-much-to-pay-babysitter-orlando", "housekeeper": "house-cleaning-cost-orlando",
@@ -158,12 +158,12 @@ for c in F["categories"]:
 <h2>What a {e(c['label'].lower())} does</h2><ul>{''.join('<li>'+e(x)+'</li>' for x in c['duties'])}</ul>
 <h2>What to ask before you hire</h2><ul>{''.join('<li>'+e(x)+'</li>' for x in c['ask'])}</ul>
 <h2>Hiring legally in Florida</h2><p>{e(c['legal'])} See our guide: <a href="/guides/hire-household-employee-florida/">how to hire a household employee in Florida</a>.</p>
-<h2>How Famyle works</h2><ol><li>Post your job for free.</li><li>Local professionals apply to you; the closest ones show first.</li><li>You get each applicant's phone and WhatsApp and talk directly.</li><li>Hire directly: you agree on pay and schedule with the professional.</li><li>It's free: posting, receiving applications and contacting professionals.</li></ol>
+<h2>How Famyle works</h2><ol><li>Post your job for free.</li><li>Local professionals apply to you; they are listed by distance from your address (an order, not a recommendation).</li><li>You get each applicant's phone and WhatsApp and talk directly.</li><li>Hire directly: you agree on pay and schedule with the professional.</li><li>It's free: posting, receiving applications and contacting professionals.</li></ol>
 <h2>Why families choose Famyle</h2><ul>
 <li><b>Free.</b> No subscription to see or contact professionals.</li>
 <li><b>Real jobs only.</b> Every job on Famyle is posted by a real family — no filler listings.</li>
-<li><b>You talk directly.</b> When a professional applies, you get her phone and WhatsApp right away. Ask for references, as with anyone you hire.</li>
-<li><b>Closest first.</b> The professionals nearest to you show first.</li>
+<li><b>You talk directly.</b> When a professional applies, you get their phone and WhatsApp right away. Ask for references, as with anyone you hire.</li>
+<li><b>Near you.</b> Applications are listed by distance from your address.</li>
 <li><b>English, Spanish and Portuguese.</b> Find a bilingual nanny or cleaner.</li>
 <li><b>A small team that listens.</b> Tell us what's missing and we fix it fast — usually the same week.</li></ul>
 {form_family(c['label'], cn)}
@@ -241,7 +241,7 @@ for c in F["categories"]:
 <h2>What families look for</h2><ul>{''.join('<li>'+e(x)+'</li>' for x in c['families_want'])}</ul>
 {jobs_list(c['slug'])}
 <h2>How Famyle works for professionals</h2><ol><li>Create your free profile.</li><li>We get in touch to learn about your experience.</li><li>Apply to jobs near you; families contact you directly.</li><li>You agree on pay and schedule with the family.</li></ol>
-<h2>Why professionals choose Famyle</h2><ul><li><b>Free.</b> No membership, and we never take a cut of what families pay you.</li><li><b>Real families only.</b> Every job is posted by a real family near you.</li><li><b>We introduce you to families</b> looking for someone near you.</li><li><b>Work in your language:</b> English, Spanish or Portuguese.</li><li><b>Closest jobs first,</b> so you spend less time driving.</li></ul>
+<h2>Why professionals choose Famyle</h2><ul><li><b>Free.</b> No membership, and we never take a cut of what families pay you.</li><li><b>Real families only.</b> Every job is posted by a real family near you.</li><li><b>You choose</b> which jobs near you to apply to.</li><li><b>Work in your language:</b> English, Spanish or Portuguese.</li><li><b>Closest jobs first,</b> so you spend less time driving.</li></ul>
 <p><a class="btn" href="/pro.html?cat={e(c['label'])}">Join free</a></p>
 <h2>Frequently asked questions</h2>{''.join('<h3>'+e(q)+'</h3><p>'+e(a)+'</p>' for q,a in qas)}
 <h2>Other jobs in Orlando</h2><ul class="links">{''.join(f'<li><a href="/jobs/{o["slug"]}/fl/orlando/">{e(o["label"])} jobs</a></li>' for o in F["categories"] if o["slug"]!=c["slug"])}</ul>
@@ -317,7 +317,7 @@ all_paths = ["/", "/pro.html"] + [p for p, _ in pages]
 open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"<url><loc>{BASE}{p}</loc><lastmod>{TODAY}</lastmod></url>\n" for p in all_paths) + "</urlset>\n")
 open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8").write(f"User-agent: *\nAllow: /\nDisallow: /_gen/\nSitemap: {BASE}/sitemap.xml\n")
 llms = ["# Famyle (United States)", "", "> Famyle is an online platform where families find and hire housekeepers, house cleaners, nannies, babysitters, pet sitters and cooks directly. Operating in Brazil for over 10 years; now accepting families and professionals in Orlando, Florida. Families post jobs for free; professionals join for free. Famyle is not an employer or staffing agency.", "",
-        "## Key facts", f"- City: Orlando, FL and nearby (Kissimmee, Clermont, Winter Garden). Families pay nothing until there are professionals for them.", "- Free for families and professionals: no subscription, no fees.", "- Professionals: free to join; when a professional applies, the family gets her contact and they talk directly.", "- Languages: English, Portuguese, Spanish. Guides in Portuguese for Brazilian families: https://us.famyle.com/pt/guias/", "", "## Pages"] + [f"- [{t}]({BASE}{p})" for p, t in pages]
+        "## Key facts", f"- City: Orlando, FL and nearby (Kissimmee, Clermont, Winter Garden). Families pay nothing until there are professionals for them.", "- Free for families and professionals: no subscription, no fees.", "- Professionals: free to join; when a professional applies, the family gets their contact and they talk directly.", "- Languages: English, Portuguese, Spanish. Guides in Portuguese for Brazilian families: https://us.famyle.com/pt/guias/", "", "## Pages"] + [f"- [{t}]({BASE}{p})" for p, t in pages]
 open(os.path.join(ROOT, "llms.txt"), "w", encoding="utf-8").write("\n".join(llms) + "\n")
 os.makedirs(os.path.join(ROOT, "assets"), exist_ok=True); open(os.path.join(ROOT, "assets", "site.css"), "w", encoding="utf-8").write(CSS)
 print(len(pages), "paginas geradas")
