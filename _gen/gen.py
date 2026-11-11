@@ -64,6 +64,7 @@ def form_job(cat_label, city, fid="job"):
 <label>Describe the job (optional)</label><textarea name="desc" maxlength="400" rows="3" placeholder="e.g. Weekly cleaning of a 3-bedroom house in Windermere, Tuesdays."></textarea>
 <label style="font-weight:400;display:flex;gap:8px;align-items:flex-start"><input type="checkbox" name="pub" required style="width:auto;margin-top:5px">Publish my job on Famyle and Google Jobs so local professionals can apply. My name, email and address are never shown.</label>
 <p class="src">{e(OFFER)} Florida minimum wage: ${mw:.2f}/hr.</p>
+<p style="font-size:13px;color:#666;margin:8px 0">By posting, you agree to the <a href="/terms/">Terms of Use</a> and <a href="/privacy/">Privacy Policy</a>.</p>
 <button class="btn" style="width:100%">Post my job — free</button></form>"""
 
 JOB_JS = """<script>function postJob(ev,f){ev.preventDefault();var g=function(n){return (f.elements[n]||{}).value||'';};
