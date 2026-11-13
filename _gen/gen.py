@@ -37,6 +37,7 @@ def head(title, desc, path, jsonld):
 <link rel="stylesheet" href="/assets/site.css">
 <script async src="https://www.googletagmanager.com/gtag/js?id={AW}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','{AW}');gtag('config','{GA}');</script>
+<script>!function(f,b,e,v,n,t,s){{if(f.fbq)return;n=f.fbq=function(){{n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)}};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','4463535717289887');fbq('track','PageView');</script>
 <script type="application/ld+json">{json.dumps(jsonld, ensure_ascii=False)}</script></head><body>
 <header><div class="wrap"><a class="logo" href="/">famyle</a><nav><a href="/">Families</a><a href="/jobs/">Jobs</a><a href="/guides/">Guides</a></nav></div></header>"""
 
@@ -73,6 +74,7 @@ var b={tipo:'familia-vaga',nome:g('fn'),email:g('em'),categoria:g('cat'),zip:g('
 var a={kind:'family_job',name:b.nome,email:b.email,phone:wa?b.telefone:'',zip:b.zip,category:b.categoria,language:'en',page:b.pagina,origin:b.origem,schedule:b.horario,hours_week:b.horas_semana,pay_hour:b.pagamento_hora,start:b.inicio,description:b.descricao,publish:b.publicar};
 try{fetch('""" + API + """',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(a),keepalive:true});}catch(x){}
 try{gtag('event','generate_lead',{lead_type:'family_job',category:a.category});}catch(x){}
+try{fbq('track','Lead',{content_category:a.category});}catch(x){}
 f.style.display='none';var ok=document.getElementById(f.id+'-ok');if(ok)ok.style.display='block';return false;}</script>"""
 
 def ok_box(fid):
