@@ -312,6 +312,18 @@ if F.get("guides_pt"):
           + f'<div class="hero"><div class="wrap"><h1>Guias em português para famílias em Orlando</h1><p class="lead">Babá, diarista e housekeeper em Orlando: valores, como contratar e o que a lei exige.</p></div></div><div class="wrap"><ul>{_gl}</ul></div>{FOOT_PT}</body></html>')
     pages.append(("/pt/guias/", "Guias em português para famílias em Orlando"))
 
+# ---------- links curtos por grupo de Facebook (Gui 13/11/2026): us.famyle.com/m1 -> formulario da familia com UTM ----------
+# Fora do sitemap (noindex). utm_content = codigo do grupo, para medir qual grupo traz familia.
+for _g in json.load(open(os.path.join(ROOT, "_gen", "grupos.json"), encoding="utf-8")):
+    _u = f"/?utm_source=facebook&utm_medium=grupo&utm_campaign=orlando_grupos&utm_content={_g['code']}"
+    _d = os.path.join(ROOT, _g["code"]); os.makedirs(_d, exist_ok=True)
+    open(os.path.join(_d, "index.html"), "w", encoding="utf-8").write(
+        f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex">'
+        f'<title>Famyle Orlando</title><meta property="og:title" content="Famyle Orlando: find a nanny, housekeeper or caregiver">'
+        f'<meta property="og:description" content="Post your job for free and meet professionals near you.">'
+        f'<meta http-equiv="refresh" content="0; url={_u.replace("&", "&amp;")}"><script>location.replace("{_u}");</script>'
+        f'</head><body><a href="{_u.replace("&", "&amp;")}">Famyle Orlando</a></body></html>')
+
 # ---------- sitemap, robots, llms ----------
 all_paths = ["/", "/pro.html"] + [p for p, _ in pages]
 open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"<url><loc>{BASE}{p}</loc><lastmod>{TODAY}</lastmod></url>\n" for p in all_paths) + "</urlset>\n")
