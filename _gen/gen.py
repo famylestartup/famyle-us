@@ -6,7 +6,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 F = json.load(open(os.path.join(ROOT, "_gen", "facts.json"), encoding="utf-8"))
 BASE = "https://us.famyle.com"
 TODAY = datetime.date.today().isoformat()
-GA = "G-8DPML3JJ6F"; AW = "AW-11419287486"; CLARITY = ""  # id do projeto Clarity "Famyle US" (vazio = desligado)
+GA = "G-8DPML3JJ6F"; AW = "AW-11419287486"; CLARITY = "zepa9ly3b4"  # id do projeto Clarity "Famyle US" (vazio = desligado)
 CLARITY_SRC = (',"https://www.clarity.ms/tag/' + CLARITY + '"') if CLARITY else ""
 CLARITY_STUB = ("<script>window.clarity=window.clarity||function(){(clarity.q=clarity.q||[]).push(arguments)};</script>") if CLARITY else ""
 LBL_WAIT = "tPyrCI_drbAdEM6YkMUq"
@@ -353,5 +353,7 @@ open(_ix, "w", encoding="utf-8").write(_h)
 FUNNEL_JS = FOOT[FOOT.index("<script>(function(){try{document.querySelectorAll('form')"):]
 for _hp in ("index.html", "pro.html"):
     _fp = os.path.join(ROOT, _hp); _x = open(_fp, encoding="utf-8").read()
+    if CLARITY and "clarity.ms/tag" not in _x:
+        _x = _x.replace("</head>", '<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","' + CLARITY + '");</script></head>', 1); open(_fp, "w", encoding="utf-8").write(_x)
     if "cadastro_step" not in _x:
         _x = _x.replace("</body>", FUNNEL_JS + chr(10) + "</body>", 1); open(_fp, "w", encoding="utf-8").write(_x)
