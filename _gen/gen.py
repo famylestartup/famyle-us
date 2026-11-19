@@ -109,7 +109,18 @@ WHY_HTML = """<h2>Why families choose Famyle</h2><ul>
 <li><b>A small team that listens.</b> Tell us what's missing and we fix it fast — usually the same week.</li></ul>"""
 ORG = {"@type": "Organization", "name": "Famyle", "url": BASE + "/", "description": "Online platform connecting families with housekeepers, house cleaners, nannies, babysitters, pet sitters and cooks. Operating in Brazil for over 10 years; now in Orlando, Florida.", "sameAs": ["https://famyle.com/"]}
 
+import hashlib, re
+_LM_FILE = os.path.join(ROOT, "_gen", "lastmod.json")
+_LM = json.load(open(_LM_FILE, encoding="utf-8")) if os.path.exists(_LM_FILE) else {}
+def _lastmod(path, body):
+    """lastmod do sitemap so muda quando o conteudo muda (ignora a data do dia impressa na pagina).
+    Antes todo URL ia com a data de hoje todo dia; o Google passa a ignorar lastmod que nao e confiavel."""
+    h = hashlib.sha1(re.sub(r"\d{4}-\d{2}-\d{2}", "", body).encode("utf-8")).hexdigest()[:16]  # datas ISO fora: so texto conta
+    old = _LM.get(path)
+    if not old or old[0] != h:
+        _LM[path] = [h, TODAY]
 def write(path, body):
+    _lastmod(path, body)
     fp = os.path.join(ROOT, path.strip("/"), "index.html") if not path.endswith(".html") else os.path.join(ROOT, path.strip("/"))
     os.makedirs(os.path.dirname(fp), exist_ok=True)
     open(fp, "w", encoding="utf-8").write(body)
@@ -124,13 +135,66 @@ def wage_table(c):
     return f"""<table><tr><th>What</th><th>Value</th><th>Source</th></tr>{rows}</table>
 <p class="src">Sources: <a href="{w['url']}">BLS Occupational Employment and Wage Statistics</a>{' · <a href="'+m['url']+'">Care.com cost of care</a>' if m else ''} · <a href="{F['fl_min_wage']['url']}">Florida minimum wage</a>. Wages are what employers report to the BLS.</p>"""
 
+# ---------- calculadoras (lote 2 dos guias, 19/11/2026): so no navegador, numeros do facts.json ----------
+def _mid(k):
+    m = F["market"][k]; return round((m["lo"] + m["hi"]) / 2, 2)
+CALC_JS = """<script>(function(){function $(f,n){return f.querySelector('[name='+n+']')}function money(x){return '$'+x.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0})}
+document.querySelectorAll('form.calc').forEach(function(f){var k=f.dataset.kind,mw=+f.dataset.mw,o=f.querySelector('.calc-out'),used=false;function run(){var r=+$(f,'rate').value||0,h=+$(f,'hours').value||0,t='';var low=r>0&&r<mw?'<p class="src"><b>Note:</b> below the Florida minimum wage ($'+mw.toFixed(2)+'/hr) that applies to an employee.</p>':'';
+if(k=='cleaning'){var v=+$(f,'freq').value,pv=r*h;t='<table><tr><td>Per visit</td><td><b>'+money(pv)+'</b></td></tr>'+(v>1?'<tr><td>Per month (average)</td><td><b>'+money(pv*v/12)+'</b></td></tr><tr><td>Per year</td><td>'+money(pv*v)+'</td></tr>':'')+'</table>'}
+else if(k=='babysitter'){var x=(+$(f,'kids').value||0)*(+$(f,'extra').value||0),s=+$(f,'per').value||0,ps=(r+x)*h;t='<table><tr><td>Per session</td><td><b>'+money(ps)+'</b></td></tr><tr><td>Per week</td><td>'+money(ps*s)+'</td></tr><tr><td>Per month (average)</td><td><b>'+money(ps*s*52/12)+'</b></td></tr></table>'}
+else if(k=='nanny'){var li=$(f,'livein').checked,ot=Math.max(h-40,0),w=r*Math.min(h,40)+(li?r:r*1.5)*ot,y=w*52,q=y/4>=1000,fica=y>=3000?y*.0765:0,futa=q?Math.min(y,7000)*.006:0,rt=q?Math.min(y,7000)*.027:0;
+t='<table><tr><td>Weekly pay (gross)'+(ot&&!li?', incl. '+ot+' h overtime at 1.5x':'')+'</td><td><b>'+money(w)+'</b></td></tr><tr><td>Monthly pay (average)</td><td>'+money(y/12)+'</td></tr><tr><td>Yearly pay (52 weeks)</td><td>'+money(y)+'</td></tr><tr><td>Your Social Security + Medicare (7.65%)</td><td>'+money(fica)+'</td></tr><tr><td>Federal unemployment (FUTA, 0.6% of first $7,000)</td><td>'+money(futa)+'</td></tr><tr><td>Florida reemployment tax (2.7% of first $7,000, new employer)</td><td>'+money(rt)+'</td></tr><tr><td><b>Your total yearly cost</b></td><td><b>'+money(y+fica+futa+rt)+'</b></td></tr></table><p class="src">You also withhold the nanny\\'s own 7.65% from their pay; that is not an extra cost to you.</p>'}
+o.innerHTML=t+low;if(used){try{gtag('event','calc_use',{calc_kind:k})}catch(e){}}}f.addEventListener('input',function(){if(!used){used=true}run()});f.addEventListener('submit',function(ev){ev.preventDefault();run()});run()})})();</script>"""
+def calc_html(kind):
+    mw = F["fl_min_wage"]["now"]
+    num = lambda n, l, v, st="0.5": f'<div><label>{l}</label><input name="{n}" type="number" min="0" step="{st}" value="{v}" inputmode="decimal"></div>'
+    if kind == "cleaning":
+        m = F["market"]["cleaning"]
+        rows = '<div class="row">' + num("rate", "Hourly rate ($)", _mid("cleaning"), "0.01") + num("hours", "Hours per visit", 3.5) + '</div><label>How often</label><select name="freq"><option value="52">Every week</option><option value="26">Every two weeks</option><option value="12">Once a month</option><option value="1">One time</option></select>'
+        src = f'Default rate = middle of the Orlando house cleaning range, ${m["lo"]:.2f}–${m["hi"]:.2f}/hr (<a href="{m["url"]}">Care.com, {m["asof"]}</a>).'
+        title = "House cleaning cost calculator"
+    elif kind == "babysitter":
+        m = F["market"]["babysitter"]
+        rows = '<div class="row">' + num("rate", "Hourly rate ($)", _mid("babysitter"), "0.01") + num("hours", "Hours per session", 4) + '</div><div class="row">' + num("per", "Sessions per week", 1, "1") + num("kids", "Extra children (beyond the first)", 0, "1") + num("extra", "Extra per child per hour ($)", 0) + '</div>'
+        src = f'Default rate = middle of the Orlando babysitting range, ${m["lo"]:.2f}–${m["hi"]:.2f}/hr (<a href="{m["url"]}">Care.com, {m["asof"]}</a>). Set the extra per child to what you agree with the sitter.'
+        title = "Babysitter cost calculator"
+    else:
+        m = F["market"]["nanny"]
+        rows = '<div class="row">' + num("rate", "Hourly rate ($)", _mid("nanny"), "0.01") + num("hours", "Hours per week", 40, "1") + '</div><label style="font-weight:400"><input name="livein" type="checkbox" style="width:auto"> Live-in nanny (no federal overtime)</label>'
+        src = (f'Default rate = middle of the Orlando nanny range, ${m["lo"]:.2f}–${m["hi"]:.2f}/hr (<a href="{m["url"]}">Care.com, {m["asof"]}</a>). '
+               'Overtime: a household employee who does not live in your home gets 1.5x pay for hours over 40 in a workweek; live-in workers are exempt from overtime but not from minimum wage (<a href="https://www.dol.gov/agencies/whd/direct-care/faq">U.S. Department of Labor</a>). '
+               'Taxes: 2026 thresholds and rates from <a href="https://www.irs.gov/publications/p926">IRS Publication 926</a>; Florida reemployment tax at the 2.7% initial rate for new employers. Unemployment taxes are counted when pay reaches $1,000 in a quarter. Estimate only, not tax advice.')
+        title = "Nanny cost calculator"
+    return (f'<form class="calc box" data-kind="{kind}" data-mw="{mw}"><h2 style="margin-top:0">{title}</h2>{rows}'
+            f'<div class="calc-out" aria-live="polite"></div><p class="src">{src} Your numbers stay in your browser.</p></form>')
+
+GUIDE_GROUPS = [
+    ["house-cleaning-cost-calculator-orlando", "house-cleaning-cost-orlando", "maid-service-orlando", "hire-housekeeper-orlando-checklist", "house-cleaner-salary-orlando"],
+    ["nanny-cost-calculator-orlando", "nanny-cost-orlando", "how-much-to-pay-babysitter-orlando", "nanny-vs-babysitter", "nanny-salary-orlando", "nanny-tax-florida", "nanny-background-check-florida"],
+    ["hire-household-employee-florida", "nanny-tax-florida", "nanny-cost-calculator-orlando", "hire-housekeeper-orlando-checklist"],
+    ["pet-sitter-pay-orlando", "private-cook-salary-florida", "how-famyle-works"],
+]
+def related(slug):
+    """Links internos entre guias (descoberta: 22 de 55 URLs nunca rastreadas em 19/11/2026)."""
+    out = []
+    for grp in GUIDE_GROUPS:
+        if slug in grp:
+            out += [x for x in grp if x != slug and x not in out]
+    out += [x for x in ("how-famyle-works", "hire-household-employee-florida") if x != slug and x not in out]
+    return [x for x in out if x in GUIDE_TITLE][:6]
+def fmt_date(d):
+    x = datetime.date.fromisoformat(d); return f"{x.strftime('%B')} {x.day}, {x.year}"
+
 # guia de preco por categoria (o ChatGPT acha a pagina de preco pelo link interno; caregiver sem guia)
 COST_GUIDE = {"nanny": "nanny-cost-orlando", "babysitter": "how-much-to-pay-babysitter-orlando", "housekeeper": "house-cleaning-cost-orlando",
               "house-cleaner": "house-cleaning-cost-orlando", "pet-sitter": "pet-sitter-pay-orlando", "cook": "private-cook-salary-florida"}
 GUIDE_TITLE = {g["slug"]: g["title"] for g in F["guides"]}
+GUIDE_UPDATED_DEFAULT = "2026-11-05"  # lote 1 dos guias (05/11/2026)
 def cost_link(slug):
     g = COST_GUIDE.get(slug)
-    return f'<p><b>Full price guide:</b> <a href="/guides/{g}/">{e(GUIDE_TITLE[g])}</a></p>' if g else ""
+    c = CALC_GUIDE.get(slug)
+    return (f'<p><b>Full price guide:</b> <a href="/guides/{g}/">{e(GUIDE_TITLE[g])}</a></p>' if g else "") + (f'<p><b>Calculator:</b> <a href="/guides/{c}/">{e(GUIDE_TITLE[c])}</a></p>' if c in GUIDE_TITLE else "")
+CALC_GUIDE = {"nanny": "nanny-cost-calculator-orlando", "housekeeper": "house-cleaning-cost-calculator-orlando", "house-cleaner": "house-cleaning-cost-calculator-orlando"}
 
 # ---------- LPs de familia ----------
 for c in F["categories"]:
@@ -284,14 +348,17 @@ pages.append(("/jobs/", "Household jobs in Orlando"))
 # ---------- guias ----------
 for g in F["guides"]:
     path = f"/guides/{g['slug']}/"
-    ld = {"@context": "https://schema.org", "@graph": [ORG, {"@type": "Article", "headline": g["title"], "dateModified": TODAY, "author": {"@type": "Organization", "name": "Famyle"}}, faq_ld(g["faq"])]}
+    upd = g.get("updated") or GUIDE_UPDATED_DEFAULT  # data fixa: so muda quando o texto do guia muda
+    ld = {"@context": "https://schema.org", "@graph": [ORG, {"@type": "Article", "headline": g["title"], "dateModified": upd, "author": {"@type": "Organization", "name": "Famyle"}}, faq_ld(g["faq"]), crumbs_ld([("Famyle", "/"), ("Guides", "/guides/"), (g["title"], path)])]}
+    rel = "".join(f'<li><a href="/guides/{x}/">{e(GUIDE_TITLE[x])}</a></li>' for x in related(g["slug"]))
     body = head(g["title"] + " | Famyle", g["desc"], path, ld) + f"""
-<div class="hero"><div class="wrap"><div class="crumbs"><a href="/">Famyle</a> › <a href="/guides/">Guides</a></div><h1>{e(g['title'])}</h1><p class="lead">{e(g['desc'])}</p></div></div>
-<div class="wrap">{answer_box(g.get('answer'))}{g['html']}
+<div class="hero"><div class="wrap"><div class="crumbs"><a href="/">Famyle</a> › <a href="/guides/">Guides</a></div><h1>{e(g['title'])}</h1><p class="lead">{e(g['desc'])}</p><span class="badge">Updated {fmt_date(upd)}</span></div></div>
+<div class="wrap">{answer_box(g.get('answer'))}{calc_html(g['calc']) if g.get('calc') else ''}{g['html']}
 <h2>Frequently asked questions</h2>{''.join('<h3>'+e(q)+'</h3><p>'+e(a)+'</p>' for q,a in g['faq'])}
-<p class="src">Last updated {TODAY}. This guide is general information, not legal or tax advice.</p></div>{FOOT}</body></html>"""
+{('<h2>Related guides</h2><ul>' + rel + '</ul>') if rel else ''}
+<p class="src">Updated {fmt_date(upd)}. This guide is general information, not legal or tax advice.</p></div>{CALC_JS if g.get('calc') else ''}{FOOT}</body></html>"""
     write(path, body); pages.append((path, g["title"]))
-glist = "".join(f'<li><a href="/guides/{g["slug"]}/">{e(g["title"])}</a></li>' for g in F["guides"])
+glist = "".join(f'<li><a href="/guides/{g["slug"]}/">{e(g["title"])}</a>{" <b>(calculator)</b>" if g.get("calc") else ""}</li>' for g in F["guides"])
 write("/guides/", head("Guides for Orlando Families | Famyle", "Costs, rules and tips for hiring household help in Orlando, Florida.", "/guides/", {"@context": "https://schema.org", "@graph": [ORG]})
       + f'<div class="hero"><div class="wrap"><h1>Guides for Orlando families</h1></div></div><div class="wrap"><ul>{glist}</ul></div>{FOOT}</body></html>')
 pages.append(("/guides/", "Guides"))
@@ -304,12 +371,12 @@ def head_pt(title, desc, path, jsonld):
     return h.replace('<nav><a href="/">Families</a><a href="/jobs/">Jobs</a><a href="/guides/">Guides</a></nav>', '<nav><a href="/">Famílias</a><a href="/pro.html?lang=pt">Profissionais</a><a href="/pt/guias/">Guias</a></nav>', 1)
 for g in F.get("guides_pt", []):
     path = f"/pt/guias/{g['slug']}/"
-    ld = {"@context": "https://schema.org", "@graph": [ORG, {"@type": "Article", "headline": g["title"], "inLanguage": "pt-BR", "dateModified": TODAY, "author": {"@type": "Organization", "name": "Famyle"}}, faq_ld(g["faq"])]}
+    ld = {"@context": "https://schema.org", "@graph": [ORG, {"@type": "Article", "headline": g["title"], "inLanguage": "pt-BR", "dateModified": g.get("updated") or GUIDE_UPDATED_DEFAULT, "author": {"@type": "Organization", "name": "Famyle"}}, faq_ld(g["faq"])]}
     body = head_pt(g["title"] + " | Famyle", g["desc"], path, ld) + f"""
 <div class="hero"><div class="wrap"><div class="crumbs"><a href="/">Famyle</a> › <a href="/pt/guias/">Guias em português</a></div><h1>{e(g['title'])}</h1><p class="lead">{e(g['desc'])}</p></div></div>
 <div class="wrap">{answer_box(g.get('answer'), "Resposta rápida")}{g['html']}
 <h2>Perguntas frequentes</h2>{''.join('<h3>'+e(q)+'</h3><p>'+e(a)+'</p>' for q,a in g['faq'])}
-<p class="src">Atualizado em {TODAY}. Este guia é informação geral, não orientação jurídica ou tributária.</p></div>{FOOT_PT}</body></html>"""
+<p class="src">Atualizado em {datetime.date.fromisoformat(g.get("updated") or GUIDE_UPDATED_DEFAULT).strftime("%d/%m/%Y")}. Este guia é informação geral, não orientação jurídica ou tributária.</p></div>{FOOT_PT}</body></html>"""
     write(path, body); pages.append((path, g["title"]))
 if F.get("guides_pt"):
     _gl = "".join(f'<li><a href="/pt/guias/{g["slug"]}/">{e(g["title"])}</a></li>' for g in F["guides_pt"])
@@ -331,7 +398,12 @@ for _g in json.load(open(os.path.join(ROOT, "_gen", "grupos.json"), encoding="ut
 
 # ---------- sitemap, robots, llms ----------
 all_paths = ["/", "/pro.html"] + [p for p, _ in pages]
-open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"<url><loc>{BASE}{p}</loc><lastmod>{TODAY}</lastmod></url>\n" for p in all_paths) + "</urlset>\n")
+for _hp, _fn in (("/", "index.html"), ("/pro.html", "pro.html")):
+    _lastmod(_hp, open(os.path.join(ROOT, _fn), encoding="utf-8").read())
+def _LM_PAGE(p):
+    return (_LM.get(p) or [None, TODAY])[1]
+json.dump({k: _LM[k] for k in sorted(_LM)}, open(_LM_FILE, "w", encoding="utf-8"), indent=0)
+open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"<url><loc>{BASE}{p}</loc><lastmod>{_LM_PAGE(p)}</lastmod></url>\n" for p in all_paths) + "</urlset>\n")
 open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8").write(f"User-agent: *\nAllow: /\nDisallow: /_gen/\nSitemap: {BASE}/sitemap.xml\n")
 llms = ["# Famyle (United States)", "", "> Famyle is an online platform where families find and hire housekeepers, house cleaners, nannies, babysitters, pet sitters and cooks directly. Operating in Brazil for over 10 years; now accepting families and professionals in Orlando, Florida. Families post jobs for free; professionals join for free. Famyle is not an employer or staffing agency.", "",
         "## Key facts", f"- City: Orlando, FL and nearby (Kissimmee, Clermont, Winter Garden). Families pay nothing until there are professionals for them.", "- Free for families and professionals: no subscription, no fees.", "- Professionals: free to join; when a professional applies, the family gets their contact and they talk directly.", "- Languages: English, Portuguese, Spanish. Guides in Portuguese for Brazilian families: https://us.famyle.com/pt/guias/", "", "## Pages"] + [f"- [{t}]({BASE}{p})" for p, t in pages]
