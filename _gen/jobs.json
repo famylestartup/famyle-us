@@ -37,5 +37,18 @@
   "desc": "Family in the Dr. Phillips area is looking for a house cleaner part-time, about 5 hours per week, starting right away.",
   "posted": "2026-11-10T16:21:42",
   "valid_days": 30
+ },
+ {
+  "id": "13",
+  "cat": "Caregiver",
+  "zip": "32808",
+  "area": "Orlando",
+  "schedule": "Full-time",
+  "hours": "40",
+  "pay": 20.0,
+  "start": "Right now",
+  "desc": "Family in the Orlando area is looking for a caregiver full-time, about 40 hours per week, starting right away.",
+  "posted": "2026-11-18T15:37:08",
+  "valid_days": 30
  }
 ]
