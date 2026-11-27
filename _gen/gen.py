@@ -404,6 +404,27 @@ def _LM_PAGE(p):
     return (_LM.get(p) or [None, TODAY])[1]
 json.dump({k: _LM[k] for k in sorted(_LM)}, open(_LM_FILE, "w", encoding="utf-8"), indent=0)
 open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"<url><loc>{BASE}{p}</loc><lastmod>{_LM_PAGE(p)}</lastmod></url>\n" for p in all_paths) + "</urlset>\n")
+# ---------- feed XML de vagas (formato Indeed; aceito tambem por Talent.com e Jooble), 26/11 ----------
+def _cd(t):
+    return "<![CDATA[" + str(t).replace("]]>", "]]]]><![CDATA[>") + "]]>"
+_fx = ['<?xml version="1.0" encoding="utf-8"?>', "<source>", "<publisher>Famyle</publisher>", f"<publisherurl>{BASE}/</publisherurl>",
+       f"<lastBuildDate>{NOW.strftime('%a, %d %b %Y %H:%M:%S GMT')}</lastBuildDate>"]
+for _slug, _items in sorted(open_jobs.items()):
+    for _path, _title, _j in _items:
+        _c = CAT_BY_LABEL[_j["cat"]]
+        _posted = datetime.datetime.fromisoformat(_j["posted"]).replace(tzinfo=datetime.timezone.utc)
+        _area = _j.get("area") or "Orlando"
+        _d = (_j.get("desc") or "").strip() + " Apply for free on Famyle; the family contacts you directly. Famyle never charges professionals."
+        _fx += ["<job>", f"<title>{_cd(_c['label'] + ' (' + _j['schedule'] + ')')}</title>", f"<date>{_cd(_posted.strftime('%a, %d %b %Y %H:%M:%S GMT'))}</date>",
+                f"<referencenumber>{_cd('famyle-us-' + str(_j['id']))}</referencenumber>", f"<url>{_cd(BASE + _path)}</url>",
+                f"<company>{_cd('Private family via Famyle')}</company>", f"<city>{_cd(_area)}</city>", f"<state>{_cd('FL')}</state>",
+                f"<country>{_cd('US')}</country>", f"<postalcode>{_cd(_j['zip'])}</postalcode>", f"<description>{_cd(_d)}</description>",
+                f"<jobtype>{_cd(EMP.get(_j['schedule'], 'PART_TIME').replace('_', '-').lower())}</jobtype>", f"<category>{_cd(_c['label'])}</category>"]
+        if _j.get("pay"):
+            _fx.append(f"<salary>{_cd('$%.2f per hour' % float(_j['pay']))}</salary>")
+        _fx.append("</job>")
+_fx.append("</source>")
+open(os.path.join(ROOT, "jobs.xml"), "w", encoding="utf-8").write("\n".join(_fx) + "\n")
 open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8").write(f"User-agent: *\nAllow: /\nDisallow: /_gen/\nSitemap: {BASE}/sitemap.xml\n")
 llms = ["# Famyle (United States)", "", "> Famyle is an online platform where families find and hire housekeepers, house cleaners, nannies, babysitters, pet sitters and cooks directly. Operating in Brazil for over 10 years; now accepting families and professionals in Orlando, Florida. Families post jobs for free; professionals join for free. Famyle is not an employer or staffing agency.", "",
         "## Key facts", f"- City: Orlando, FL and nearby (Kissimmee, Clermont, Winter Garden). Families pay nothing until there are professionals for them.", "- Free for families and professionals: no subscription, no fees.", "- Professionals: free to join; when a professional applies, the family gets their contact and they talk directly.", "- Languages: English, Portuguese, Spanish. Guides in Portuguese for Brazilian families: https://us.famyle.com/pt/guias/", "", "## Pages"] + [f"- [{t}]({BASE}{p})" for p, t in pages]
